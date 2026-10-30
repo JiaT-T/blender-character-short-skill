@@ -1,0 +1,639 @@
+{
+  "scope": "Scalar CPU oracle directly transcribed from pinned ug/dg/fg/pg/lf/xs. No Blender/GPU execution.",
+  "source_sha256": "172188ea0193106745299323b5b2e2ac9cc8b7d33535e6d538798b1685dd8d9e",
+  "color_inputs": {
+    "bands_already_linear": [
+      [
+        0.1,
+        0.2,
+        0.3
+      ],
+      [
+        0.9,
+        0.4,
+        0.1
+      ],
+      [
+        0.2,
+        0.3,
+        0.4
+      ],
+      [
+        0.5,
+        0.6,
+        0.7
+      ],
+      [
+        0.8,
+        0.9,
+        1
+      ]
+    ],
+    "brightness": 2,
+    "global_tint_linear": [
+      0.5,
+      0.25,
+      1
+    ],
+    "bloom": 0.37
+  },
+  "color_boundary_cases": [
+    {
+      "g": 0,
+      "discard": false,
+      "linear_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.000999,
+      "discard": false,
+      "linear_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.001,
+      "discard": false,
+      "linear_rgba": [
+        0.1008,
+        0.10010000000000001,
+        0.5995999999999999,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.499999,
+      "discard": false,
+      "linear_rgba": [
+        0.49999920000000003,
+        0.14999990000000002,
+        0.4000004,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.5,
+      "discard": false,
+      "linear_rgba": [
+        0.7,
+        0.30000000000000004,
+        1.2000000000000002,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.500001,
+      "discard": false,
+      "linear_rgba": [
+        0.2,
+        0.15,
+        0.8,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.699999,
+      "discard": false,
+      "linear_rgba": [
+        0.2,
+        0.15,
+        0.8,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.7,
+      "discard": false,
+      "linear_rgba": [
+        0.7,
+        0.44999999999999996,
+        2.2,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.700001,
+      "discard": false,
+      "linear_rgba": [
+        0.5,
+        0.3,
+        1.4,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.899999,
+      "discard": false,
+      "linear_rgba": [
+        0.5,
+        0.3,
+        1.4,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.9,
+      "discard": false,
+      "linear_rgba": [
+        1.3,
+        0.75,
+        3.4,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.900001,
+      "discard": false,
+      "linear_rgba": [
+        0.8,
+        0.45,
+        2.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 1,
+      "discard": false,
+      "linear_rgba": [
+        0.8,
+        0.45,
+        2.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 1.000001,
+      "discard": false,
+      "linear_rgba": [
+        0.0,
+        0.0,
+        0.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "b_discard_cases": [
+    {
+      "g": 0.5,
+      "b": 0.099999,
+      "discard": true,
+      "color_attachment": null,
+      "weight_attachment": null
+    },
+    {
+      "g": 0.5,
+      "b": 0.1,
+      "discard": false,
+      "linear_rgba": [
+        0.7,
+        0.30000000000000004,
+        1.2000000000000002,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "g": 0.5,
+      "b": 0.100001,
+      "discard": false,
+      "linear_rgba": [
+        0.7,
+        0.30000000000000004,
+        1.2000000000000002,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "variants": [
+    {
+      "keywords": [],
+      "attribute_gb": [
+        0.5,
+        0
+      ],
+      "effective_control": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "discard": false,
+      "linear_rgba": [
+        0.1,
+        0.1,
+        0.6,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "keywords": [
+        "_OUTLINE_VERTEX_COLOR"
+      ],
+      "attribute_gb": [
+        0.5,
+        0
+      ],
+      "discard": true,
+      "color_attachment": null,
+      "weight_attachment": null
+    },
+    {
+      "keywords": [
+        "_MULTI_OUTLINE_COLOR"
+      ],
+      "attribute_present": false,
+      "effective_control": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "discard": false,
+      "linear_rgba": [
+        0.8,
+        0.45,
+        2.0,
+        1
+      ],
+      "weight_attachment": [
+        0.37,
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "srgb_to_linear": [
+    {
+      "srgb": 0,
+      "source_lf": 0.0
+    },
+    {
+      "srgb": 0.040449,
+      "source_lf": 0.0031307275539792
+    },
+    {
+      "srgb": 0.04045,
+      "source_lf": 0.0031308072813303342
+    },
+    {
+      "srgb": 0.5,
+      "source_lf": 0.2140411404715882
+    },
+    {
+      "srgb": 1,
+      "source_lf": 1.0
+    }
+  ],
+  "vertex_cases": {
+    "d4_fov60": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.0033501774927675583,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        0.003350175817680068,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.7833610886189156
+    },
+    "d16_fov60": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.006700354985535117,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        0.006700351635360136,
+        0.0,
+        -16.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.3916805443094578
+    },
+    "d4_fov90": {
+      "projection_y": 1.0000000000000002,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.004409081537009719,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        0.004409079332470604,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.5952257098835317
+    },
+    "b_at_discard_threshold": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.00033501774927675583,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        0.0003350175817680068,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.07833610886189156
+    },
+    "offaxis_push_plus_zoffset": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0009000000000000001,
+        0.0,
+        -0.0012000000000000001
+      ],
+      "width": 0.0033501774927675583,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        3.0042501758176803,
+        0.0,
+        -3.9812
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.7870602718968308
+    },
+    "camera_facing_normal": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.0033501774927675583,
+      "dir_xy": [
+        0.0,
+        0.0
+      ],
+      "q": [
+        0.0,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.0
+    },
+    "small_xy_normal": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.0033501774927675583,
+      "dir_xy": [
+        0.7071067811865476,
+        0.0
+      ],
+      "q": [
+        0.0023689332233144864,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 0.553920214840011
+    },
+    "distance_scale_times4": {
+      "projection_y": 1.7320508075688774,
+      "push": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "width": 0.006700354985535117,
+      "dir_xy": [
+        0.999999500000375,
+        0.0
+      ],
+      "q": [
+        0.006700351635360136,
+        0.0,
+        -4.0
+      ],
+      "extrusion_screen_pixels_for_square_pixels": 1.5667221772378312
+    }
+  },
+  "normal_basis_counterexample": {
+    "rest_position": [
+      0,
+      0,
+      0
+    ],
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "tangent": [
+      1,
+      0,
+      0,
+      1
+    ],
+    "smooth_attribute": [
+      1,
+      0.5,
+      0.5
+    ],
+    "skin": "single bone Rz(+90deg), pivot at origin",
+    "position_error": 0,
+    "expected_skinned_sn": [
+      0,
+      1,
+      0
+    ],
+    "expected_dir_xy": [
+      0,
+      0.999999500000375
+    ],
+    "wrong_if_skin_is_gated_on_position_error": [
+      0.999999500000375,
+      0
+    ]
+  },
+  "basis_normalization_counterexample": {
+    "normal": [
+      0,
+      0,
+      1
+    ],
+    "tangent": [
+      1,
+      0,
+      0,
+      1
+    ],
+    "skin_linear_matrix_diagonal": [
+      2,
+      1,
+      1
+    ],
+    "decoded_smooth": [
+      1,
+      1,
+      0
+    ],
+    "N_after_skin": [
+      0,
+      0,
+      1
+    ],
+    "T_after_skin": [
+      2,
+      0,
+      0
+    ],
+    "B_cross_after_skin": [
+      0,
+      2,
+      0
+    ],
+    "sn_expected": [
+      2,
+      2,
+      0
+    ],
+    "dir_xy_expected": [
+      0.7071067369923779,
+      0.7071067369923779
+    ],
+    "incorrect_if_original_bitangent_is_skinned": [
+      0.8944271015572102,
+      0.4472135507786051
+    ]
+  }
+}

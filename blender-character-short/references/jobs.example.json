@@ -1,0 +1,11 @@
+[
+  {
+    "blend": "outputs/character-a/frozen.blend",
+    "output": "work/frames/character-a",
+    "start": 1,
+    "end": 192,
+    "width": 960,
+    "height": 540,
+    "samples": 32
+  }
+]

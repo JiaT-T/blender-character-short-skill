@@ -1,0 +1,2105 @@
+{
+  "schema_version": 2,
+  "created_local": "2026-10-27T12:34:34.533757+08:00",
+  "primary_case_count": 4,
+  "evidence": {
+    "source_bundle_sha256": "172188ea0193106745299323b5b2e2ac9cc8b7d33535e6d538798b1685dd8d9e",
+    "source_anchors": {
+      "parameters": "C69G59uD2.js Wp/Up/Hp/Lp L4868 offsets564334/563810/563605/562462",
+      "skin": "L5406-5422",
+      "specular": "L5426-5442",
+      "rim": "L5446-5452",
+      "matcap": "L5455-5468",
+      "finalRGB": "L5494"
+    },
+    "kind": "Source-derived CPU mathematical fixtures; no Blender render performed for these four",
+    "independent_review": "an independent reviewer independently recomputed source equations; not generated from builder output"
+  },
+  "coordinate_contract": {
+    "source": "Y-up; source vector H computations use identity view for convenience. Simultaneously rotating N/V/L to camera coordinates preserves ordinary dot products. Face uses world XZ projection.",
+    "blender_transform": "C(x,y,z)=(x,-z,y); source world XZ plane becomes Blender world XY.",
+    "blender_camera": "For fixture plane use normal_world and view_direction_world from each case; compare full-coverage flat interior, not silhouettes. Source identity-view bookkeeping is not a required Blender camera orientation."
+  },
+  "fixture_rules": [
+    "Use float32 linear/data images or direct float32 constants. Do not write these fixture values through PNG/JPEG, sRGB encoding, or half-float image storage before shading.",
+    "Main is deliberately linear/data for this fixture. The raw material shadow colors are source-inverse-sRGB encoded so character_material.C recovers the stated linear colors; do not decode them a second time.",
+    "Mask alpha must remain an independent channel; use CHANNEL_PACKED/Non-Color. A=.8/.7 is direction data, not material coverage. Main alpha is1.",
+    "Face texture is 2x1, sampled LINEAR at u=.25/.75 and v=.5, exact texel centers; no horizontal interpolation is intended. With height1, vertical-origin conventions do not affect the fixture.",
+    "Set UVMap constant at (.25,.5) in sampled region or sample only central pixel with that UV. If UV varies, expected H/band vary with bilinear mask filtering.",
+    "Output raw linear float32 EXR or direct node/AOV values; do not compare displayed screenshot, PNG, postprocessed RGB, or tonemapped results against finalRGB.",
+    "Use emission formula output strength1, geometry facing camera, full coverage, no unrelated occluders or shadow maps. Coverage expected1, BloomWeight0.",
+    "AOV names for current graph: HalfLambert scalar, ShadowBand color, plus rendered linear RGB. firstWeight/secondAllowed are analytical intermediate expectations if additional diagnostic taps are added by main.",
+    "All shadow colors are white to separate the non-shadow term; this does not disable the existing shadow arithmetic.",
+    "Raw material color values are inverse-sRGB representations of documented linear colors. Float texture data is linear/Non-Color; do not encode it.",
+    "Only normal/view are pinned as in existing probe. Rim case geometry must remain front-facing.",
+    "Skin 2x1 ramp tests one exact texel center, not bilinear filtering or vertical row orientation. Matcap 1x1 constant tests its mask/attenuation, not camera-space UV/YScale.",
+    "Use --skip-second-gate-on for this document: it has no second_gate_off primary fixture."
+  ],
+  "precision": {
+    "reference": "float64 CPU algebra from source, independently checked; no bit-exact GPU promise",
+    "pure_math_absolute_tolerance": 2e-06,
+    "render_output_absolute_tolerance": 0.001,
+    "input_float32_roundtrip_absolute_tolerance": 2e-06,
+    "existing_probe_observation": "Previous seven cases exhibited internal AOV quantization up to .00048828125 even with float32 EXR output and input half disabled. This is historical precision guidance, not this document being rendered."
+  },
+  "required_probe_adaptations": [
+    {
+      "function": "assert_isolated_fixture",
+      "change": "Allow only case.enabled_modules and their exact texture/keyword/flag sets; preserve all other zero/opaque restrictions. Existing function rejects all four by design."
+    },
+    {
+      "function": "cpu_reference",
+      "change": "Extend with the independent source equations listed in each case, producing skin-modified albedo, style specular, rim and matcap before finalRGB. Do not use the production builder outputs to compute expectations."
+    },
+    {
+      "function": "run_case comparisons",
+      "change": "Use expected_aovs for SkinRate/StyleSpecular/RimTerm/MatcapTerm instead of current hard-coded zero assertions; preserve BaseAlbedo as unmodified Main. Compare Image/ProbeFinalLinear to extended CPU final."
+    },
+    {
+      "function": "selected_cases / CLI",
+      "change": "Pass --skip-second-gate-on or only add that control when second_gate_off exists; do not change the original seven-case document."
+    },
+    {
+      "function": "make_textures / build_character / pin_vectors",
+      "change": "Existing float32 texture loader, runtime and vector pins are sufficient. New texture index2 supplies SkinRamp/Matcap; attributes=() and fixed-front plane are sufficient."
+    }
+  ],
+  "cases": [
+    {
+      "id": "spec_power_mask_attenuation",
+      "title": "Spec: nonunit NoH power, R threshold, B gate and attenuation",
+      "purpose": "NoH=.8使shininess=5可被检验；R=.97232将lobe设为1.3；B=.25/intensity2与atten=.5产生独立可见高光。",
+      "parameters": {
+        "_AlbedoColorIntensity": 1.0,
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+        "IF_SKIN": 0.0,
+        "IF_GI_SKIN": 0.0,
+        "IF_RIM": 0.0,
+        "_SpecularIntensity": 2.0,
+        "_SpecularShiness": 5.0,
+        "_SpecularSmoothFactor": 0.2,
+        "IF_SPEC_ATTENUATION": 1.0,
+        "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+        "IF_INVERT_SPECULAR": 0.0,
+        "_EmissionIntensity": 0.0,
+        "_EmissionBloomFactor": 0.0,
+        "_BloomFactor": 0.0,
+        "IF_USE_MATCAP_ALPHA": 0.0,
+        "_SpecAttenuationPow": 2.0,
+        "_SpecAttenuationSmoothness": 0.5
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0.8660254037844386,
+          0.5,
+          0
+        ],
+        "L_view": [
+          0.2375128869403572,
+          0.9713843876330611,
+          0
+        ],
+        "L_world": [
+          0.2375128869403572,
+          0.9713843876330611,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0.97232,
+          0.4,
+          0.25,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0.97232,
+          0.4,
+          0.25,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "SecondShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "front_facing": true,
+        "skin_vertex_gate": 1,
+        "rim_vertex_gate": 1,
+        "specular_color_linear_rgb": [
+          0.6,
+          0.8,
+          1.0
+        ],
+        "rim_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_ramp_selected_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "matcap_selected_linear_rgba": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0.8660254037844386,
+          0,
+          0.5
+        ],
+        "runtime": {
+          "light_direction": [
+            0.2375128869403572,
+            0,
+            0.9713843876330611
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.97232,
+              0.4,
+              0.25,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_spec_power_mask_attenuation",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 2.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.2,
+              "IF_SPEC_ATTENUATION": 1.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0,
+              "_SpecAttenuationPow": 2.0,
+              "_SpecAttenuationSmoothness": 0.5
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SecondShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SpecularColor": [
+                0.7977377330312598,
+                0.9063317533440594,
+                0.9999999999999999,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.9856921938165306,
+        "NoV": 0.5,
+        "NoH": 0.8,
+        "faceMirror": false,
+        "shadowMaskG": 0.4,
+        "firstWeight": 0.0,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "skinRate": 0.0,
+        "skinTarget": null,
+        "skinModifiedAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "specFalloff": 0.5,
+        "specAttenuation": 0.5,
+        "specularGate": 0.5,
+        "specularLobe": 1.3,
+        "specularHighlight": 0.2500000000000002,
+        "StyleSpecular": [
+          0.015000000000000013,
+          0.04000000000000004,
+          0.07500000000000007
+        ],
+        "rimEdgeRaw": 0.0,
+        "rimEdgeCubic": 0.0,
+        "rimAllowed": 0.0,
+        "rimFacing": 0.0,
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "matcapMask": 0.0,
+        "matcapShadow": 0.0,
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finalRGB": [
+          0.21500000000000002,
+          0.44000000000000006,
+          0.675
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "enabled_modules": [
+        "style_specular",
+        "spec_attenuation"
+      ],
+      "required_attributes": [],
+      "source_equations": [
+        "NoH=dot(N,normalize(V+L))=.8",
+        "lobe=NoH**5+Mask.R=.32768+.97232=1.3",
+        "falloff=clamp(NoV**2/.5)=.5; atten=falloff**2*(3-2*falloff)=.5",
+        "highlight=clamp((lobe-.2-1)/.2)*atten=.25",
+        "styleSpec=Main*linear(SpecularColor)*Mask.B*2*highlight"
+      ],
+      "expected_aovs": {
+        "Image": [
+          0.21500000000000002,
+          0.44000000000000006,
+          0.675
+        ],
+        "ProbeFinalLinear": [
+          0.21500000000000002,
+          0.44000000000000006,
+          0.675
+        ],
+        "HalfLambert": 0.9856921938165306,
+        "ShadowBand": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "SourceNormal": [
+          0.5,
+          0.5,
+          1.0
+        ],
+        "SkinRate": 0.0,
+        "StyleSpecular": [
+          0.015000000000000013,
+          0.04000000000000004,
+          0.07500000000000007
+        ],
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "HX_BloomWeight": 0.0,
+        "ProbeFirstWeight": 0.0,
+        "ProbeSecondWeight": 0.0,
+        "ProbeSecondAllowed": 0.0,
+        "ProbeOriginalMaskG": 0.4,
+        "ImageAlpha": 1.0
+      },
+      "scope_exclusions": [
+        "No website GPU comparison",
+        "No actual character appearance acceptance",
+        "No external cubemap or PBR",
+        "Pinned Normal/View exclude geometry adapter verification",
+        "No transparent coverage/stencil/MRT/SMAA"
+      ]
+    },
+    {
+      "id": "rim_cubic_direction_gate",
+      "title": "Rim: non-midpoint cubic window and directional gate",
+      "purpose": "edgeRaw=.25使cubic .15625不同于线性值；方向门控dot(N,RimDir)=.5、front=true、vertexGate=1。",
+      "parameters": {
+        "_AlbedoColorIntensity": 1.0,
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+        "IF_SKIN": 0.0,
+        "IF_GI_SKIN": 0.0,
+        "IF_RIM": 1.0,
+        "_SpecularIntensity": 0.0,
+        "_SpecularShiness": 5.0,
+        "_SpecularSmoothFactor": 0.0001,
+        "IF_SPEC_ATTENUATION": 0.0,
+        "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+        "IF_INVERT_SPECULAR": 0.0,
+        "_EmissionIntensity": 0.0,
+        "_EmissionBloomFactor": 0.0,
+        "_BloomFactor": 0.0,
+        "IF_USE_MATCAP_ALPHA": 0.0,
+        "_RimMin": 0.2,
+        "_RimMax": 1.0,
+        "_RimIntensity": 0.8,
+        "_RimThreshold": 0.1
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0.8,
+          0.6,
+          0
+        ],
+        "L_view": [
+          0,
+          1,
+          0
+        ],
+        "L_world": [
+          0,
+          1,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "SecondShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "front_facing": true,
+        "skin_vertex_gate": 1,
+        "rim_vertex_gate": 1,
+        "specular_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "rim_color_linear_rgb": [
+          0.3,
+          0.6,
+          1.0
+        ],
+        "skin_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_ramp_selected_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "matcap_selected_linear_rgba": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "rim_direction_view": [
+          0.8660254037844386,
+          0.5,
+          0
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0.8,
+          0,
+          0.6
+        ],
+        "runtime": {
+          "light_direction": [
+            0,
+            0,
+            1
+          ],
+          "rim_direction": [
+            0.8660254037844386,
+            0,
+            0.5
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_rim_cubic_direction_gate",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 1.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0,
+              "_RimMin": 0.2,
+              "_RimMax": 1.0,
+              "_RimIntensity": 0.8,
+              "_RimThreshold": 0.1
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SecondShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                0.5838314900602575,
+                0.7977377330312598,
+                0.9999999999999999,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 1.0,
+        "NoV": 0.6,
+        "NoH": 0.8944271909999159,
+        "faceMirror": false,
+        "shadowMaskG": 0.4,
+        "firstWeight": 0.0,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "skinRate": 0.0,
+        "skinTarget": null,
+        "skinModifiedAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "specFalloff": null,
+        "specAttenuation": 1.0,
+        "specularGate": 0.0,
+        "specularLobe": 0.0,
+        "specularHighlight": 0.0,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rimEdgeRaw": 0.25,
+        "rimEdgeCubic": 0.15625,
+        "rimAllowed": 1.0,
+        "rimFacing": 0.5,
+        "RimTerm": [
+          0.01875,
+          0.0375,
+          0.0625
+        ],
+        "matcapMask": 0.0,
+        "matcapShadow": 0.0,
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finalRGB": [
+          0.21875,
+          0.4375,
+          0.6625
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "enabled_modules": [
+        "rim"
+      ],
+      "required_attributes": [],
+      "source_equations": [
+        "NoV=.6; edgeRaw=(1-.6-.2)/(1-.2)=.25",
+        "edge=.25**2*(3-2*.25)=.15625",
+        "rim=edge*.8*linear(RimColor)*allowed1*vertexGate1*clamp(dot(N,RimDir)=.5)",
+        "Rim is added, not multiplied by Main"
+      ],
+      "expected_aovs": {
+        "Image": [
+          0.21875,
+          0.4375,
+          0.6625
+        ],
+        "ProbeFinalLinear": [
+          0.21875,
+          0.4375,
+          0.6625
+        ],
+        "HalfLambert": 1.0,
+        "ShadowBand": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "SourceNormal": [
+          0.5,
+          0.5,
+          1.0
+        ],
+        "SkinRate": 0.0,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "RimTerm": [
+          0.01875,
+          0.0375,
+          0.0625
+        ],
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "HX_BloomWeight": 0.0,
+        "ProbeFirstWeight": 0.0,
+        "ProbeSecondWeight": 0.0,
+        "ProbeSecondAllowed": 0.0,
+        "ProbeOriginalMaskG": 0.4,
+        "ImageAlpha": 1.0
+      },
+      "scope_exclusions": [
+        "No website GPU comparison",
+        "No actual character appearance acceptance",
+        "No external cubemap or PBR",
+        "Pinned Normal/View exclude geometry adapter verification",
+        "No transparent coverage/stencil/MRT/SMAA"
+      ]
+    },
+    {
+      "id": "skin_ramp_rate_intensity",
+      "title": "Skin: H-addressed float ramp and intensity inside interpolation",
+      "purpose": "H=.25准确选2x1左texel；rate=.4、intensity2和非白skinColor检验混合目标中的乘法，不测试zone/vertex gate。",
+      "parameters": {
+        "_AlbedoColorIntensity": 1.0,
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+        "IF_SKIN": 1.0,
+        "IF_GI_SKIN": 0.0,
+        "IF_RIM": 0.0,
+        "_SpecularIntensity": 0.0,
+        "_SpecularShiness": 5.0,
+        "_SpecularSmoothFactor": 0.0001,
+        "IF_SPEC_ATTENUATION": 0.0,
+        "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+        "IF_INVERT_SPECULAR": 0.0,
+        "_EmissionIntensity": 0.0,
+        "_EmissionBloomFactor": 0.0,
+        "_BloomFactor": 0.0,
+        "IF_USE_MATCAP_ALPHA": 0.0,
+        "_SkinRate": 0.4,
+        "_SkinIntensity": 2.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0.8660254037844386,
+          -0.5,
+          0
+        ],
+        "L_world": [
+          0.8660254037844386,
+          -0.5,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "SecondShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "front_facing": true,
+        "skin_vertex_gate": 1,
+        "rim_vertex_gate": 1,
+        "specular_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "rim_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_color_linear_rgb": [
+          0.8,
+          0.6,
+          0.5
+        ],
+        "skin_ramp_selected_linear_rgb": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "matcap_selected_linear_rgba": [
+          0,
+          0,
+          0,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0.8660254037844386,
+            0,
+            -0.5
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 2,
+          "name": "FixtureSkinRampLinear",
+          "width": 2,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.25,
+              0.5,
+              0.75,
+              1
+            ],
+            [
+              1,
+              0.25,
+              0.125,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_skin_ramp_rate_intensity",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_SkinRamp": {
+                "index": 2,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 1.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0,
+              "_SkinRate": 0.4,
+              "_SkinIntensity": 2.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SecondShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                0.9063317533440594,
+                0.7977377330312598,
+                0.7353569830524495,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.25,
+        "NoV": 1.0,
+        "NoH": 0.5000000000000001,
+        "faceMirror": false,
+        "shadowMaskG": 0.4,
+        "firstWeight": 1.0,
+        "secondWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "skinRate": 0.4,
+        "skinTarget": [
+          0.08000000000000002,
+          0.24,
+          0.44999999999999996
+        ],
+        "skinModifiedAlbedo": [
+          0.152,
+          0.33599999999999997,
+          0.54
+        ],
+        "specFalloff": null,
+        "specAttenuation": 1.0,
+        "specularGate": 0.0,
+        "specularLobe": 0.0,
+        "specularHighlight": 0.0,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rimEdgeRaw": 0.0,
+        "rimEdgeCubic": 0.0,
+        "rimAllowed": 0.0,
+        "rimFacing": 0.0,
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "matcapMask": 0.0,
+        "matcapShadow": 0.0,
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "finalRGB": [
+          0.152,
+          0.33599999999999997,
+          0.54
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "enabled_modules": [
+        "skin"
+      ],
+      "required_attributes": [],
+      "source_equations": [
+        "H=.25; ordinary skin row=.5; exact left texel center=(.25,.5)",
+        "target=Main*(.25,.5,.75)*(.8,.6,.5)*2=(.08,.24,.45)",
+        "skinAlbedo=mix(Main,target,.4)=(.152,.336,.54)",
+        "SkinRate AOV=.4; BaseAlbedo AOV is still Main, not skinAlbedo"
+      ],
+      "expected_aovs": {
+        "Image": [
+          0.152,
+          0.33599999999999997,
+          0.54
+        ],
+        "ProbeFinalLinear": [
+          0.152,
+          0.33599999999999997,
+          0.54
+        ],
+        "HalfLambert": 0.25,
+        "ShadowBand": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "SourceNormal": [
+          0.5,
+          0.5,
+          1.0
+        ],
+        "SkinRate": 0.4,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "MatcapTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "HX_BloomWeight": 0.0,
+        "ProbeFirstWeight": 1.0,
+        "ProbeSecondWeight": 1.0,
+        "ProbeSecondAllowed": 0.0,
+        "ProbeOriginalMaskG": 0.4,
+        "ImageAlpha": 1.0
+      },
+      "scope_exclusions": [
+        "No website GPU comparison",
+        "No actual character appearance acceptance",
+        "No external cubemap or PBR",
+        "Pinned Normal/View exclude geometry adapter verification",
+        "No transparent coverage/stencil/MRT/SMAA"
+      ]
+    },
+    {
+      "id": "matcap_attenuation_without_spec",
+      "title": "Matcap: attenuation survives disabled style specular",
+      "purpose": "SpecularIntensity=0仍必须独立计算atten=.5供Matcap使用；常量1x1图排除UV差异，Mask.R*.atten经.75混合。",
+      "parameters": {
+        "_AlbedoColorIntensity": 1.0,
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+        "IF_SKIN": 0.0,
+        "IF_GI_SKIN": 0.0,
+        "IF_RIM": 0.0,
+        "_SpecularIntensity": 0.0,
+        "_SpecularShiness": 5.0,
+        "_SpecularSmoothFactor": 0.0001,
+        "IF_SPEC_ATTENUATION": 1.0,
+        "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+        "IF_INVERT_SPECULAR": 0.0,
+        "_EmissionIntensity": 0.0,
+        "_EmissionBloomFactor": 0.0,
+        "_BloomFactor": 0.0,
+        "IF_USE_MATCAP_ALPHA": 0.0,
+        "_SpecAttenuationPow": 2.0,
+        "_SpecAttenuationSmoothness": 0.5,
+        "_MatCapYScale": 0.0,
+        "_MatcapMask": 0.75,
+        "_MapCapShadowStrength": 0.0,
+        "_MapCapAlphaUseMask": 0.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0.8660254037844386,
+          0.5,
+          0
+        ],
+        "L_view": [
+          0,
+          1,
+          0
+        ],
+        "L_world": [
+          0,
+          1,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0.4,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0.4,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "SecondShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "front_facing": true,
+        "skin_vertex_gate": 1,
+        "rim_vertex_gate": 1,
+        "specular_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "rim_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_color_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "skin_ramp_selected_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "matcap_selected_linear_rgba": [
+          0.8,
+          0.3,
+          0.1,
+          0.6
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0.8660254037844386,
+          0,
+          0.5
+        ],
+        "runtime": {
+          "light_direction": [
+            0,
+            0,
+            1
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.4,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 2,
+          "name": "FixtureMatcapConstantLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.8,
+              0.3,
+              0.1,
+              0.6
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_matcap_attenuation_without_spec",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [
+              "_USE_MATCAP"
+            ],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MatCapTex": {
+                "index": 2,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 1.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0,
+              "_SpecAttenuationPow": 2.0,
+              "_SpecAttenuationSmoothness": 0.5,
+              "_MatCapYScale": 0.0,
+              "_MatcapMask": 0.75,
+              "_MapCapShadowStrength": 0.0,
+              "_MapCapAlphaUseMask": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SecondShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 1.0,
+        "NoV": 0.5,
+        "NoH": 0.8660254037844387,
+        "faceMirror": false,
+        "shadowMaskG": 0.4,
+        "firstWeight": 0.0,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "skinRate": 0.0,
+        "skinTarget": null,
+        "skinModifiedAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "specFalloff": 0.5,
+        "specAttenuation": 0.5,
+        "specularGate": 0.0,
+        "specularLobe": 0.0,
+        "specularHighlight": 0.0,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rimEdgeRaw": 0.0,
+        "rimEdgeCubic": 0.0,
+        "rimAllowed": 0.0,
+        "rimFacing": 0.0,
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "matcapMask": 0.4,
+        "matcapShadow": 1.0,
+        "MatcapTerm": [
+          0.32000000000000006,
+          0.12,
+          0.04000000000000001
+        ],
+        "finalRGB": [
+          0.52,
+          0.52,
+          0.64
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "enabled_modules": [
+        "matcap",
+        "spec_attenuation"
+      ],
+      "required_attributes": [],
+      "source_equations": [
+        "SpecularGate=0 but specAttenuation is evaluated before that gate",
+        "atten=smooth(clamp(.5**2/.5))=.5",
+        "capMask=mix(1,.4*.5,.75)=.4; capShadow=1",
+        "matcap=(.8,.3,.1)*.4=(.32,.12,.04); alpha ignored by disabled flag"
+      ],
+      "expected_aovs": {
+        "Image": [
+          0.52,
+          0.52,
+          0.64
+        ],
+        "ProbeFinalLinear": [
+          0.52,
+          0.52,
+          0.64
+        ],
+        "HalfLambert": 1.0,
+        "ShadowBand": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "BaseAlbedo": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "SourceNormal": [
+          0.5,
+          0.5,
+          1.0
+        ],
+        "SkinRate": 0.0,
+        "StyleSpecular": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "RimTerm": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "MatcapTerm": [
+          0.32000000000000006,
+          0.12,
+          0.04000000000000001
+        ],
+        "HX_BloomWeight": 0.0,
+        "ProbeFirstWeight": 0.0,
+        "ProbeSecondWeight": 0.0,
+        "ProbeSecondAllowed": 0.0,
+        "ProbeOriginalMaskG": 0.4,
+        "ImageAlpha": 1.0
+      },
+      "scope_exclusions": [
+        "No website GPU comparison",
+        "No actual character appearance acceptance",
+        "No external cubemap or PBR",
+        "Pinned Normal/View exclude geometry adapter verification",
+        "No transparent coverage/stencil/MRT/SMAA"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2484 @@
+{
+  "schema_version": 1,
+  "created_local": "2026-10-27T12:07:34.400334+08:00",
+  "primary_case_count": 6,
+  "evidence": {
+    "type": "Independent source-derived mathematical expectations; not Blender/GPU validation",
+    "source_bundle_sha256": "172188ea0193106745299323b5b2e2ac9cc8b7d33535e6d538798b1685dd8d9e",
+    "source_anchors": {
+      "faceLambert": "C69G59uD2.js L5270-5278",
+      "mask_and_shadow": "L5346-5399",
+      "finalRGB": "L5494",
+      "parameters": "Wp L4868 offset564334"
+    },
+    "review": "Six primary analytical cases independently recomputed by an independent reviewer. Synthetic colors isolate formulas; they do not claim Ni appearance."
+  },
+  "coordinate_contract": {
+    "source": "Y-up; source vector H computations use identity view for convenience. Simultaneously rotating N/V/L to camera coordinates preserves ordinary dot products. Face uses world XZ projection.",
+    "blender_transform": "C(x,y,z)=(x,-z,y); source world XZ plane becomes Blender world XY.",
+    "blender_camera": "For fixture plane use normal_world and view_direction_world from each case; compare full-coverage flat interior, not silhouettes. Source identity-view bookkeeping is not a required Blender camera orientation."
+  },
+  "disabled": [
+    "PBR and simple PBR",
+    "normal map",
+    "Skin and vertex Skin gate",
+    "style specular intensity",
+    "Rim",
+    "Matcap",
+    "Emission",
+    "source shadow maps (lit=1)",
+    "Bloom/curve/LUT/compositor/display transforms",
+    "alpha blend/clip/stencil/extra passes"
+  ],
+  "fixture_rules": [
+    "Use float32 linear/data images or direct float32 constants. Do not write these fixture values through PNG/JPEG, sRGB encoding, or half-float image storage before shading.",
+    "Main is deliberately linear/data for this fixture. The raw material shadow colors are source-inverse-sRGB encoded so character_material.C recovers the stated linear colors; do not decode them a second time.",
+    "Mask alpha must remain an independent channel; use CHANNEL_PACKED/Non-Color. A=.8/.7 is direction data, not material coverage. Main alpha is1.",
+    "Face texture is 2x1, sampled LINEAR at u=.25/.75 and v=.5, exact texel centers; no horizontal interpolation is intended. With height1, vertical-origin conventions do not affect the fixture.",
+    "Set UVMap constant at (.25,.5) in sampled region or sample only central pixel with that UV. If UV varies, expected H/band vary with bilinear mask filtering.",
+    "Output raw linear float32 EXR or direct node/AOV values; do not compare displayed screenshot, PNG, postprocessed RGB, or tonemapped results against finalRGB.",
+    "Use emission formula output strength1, geometry facing camera, full coverage, no unrelated occluders or shadow maps. Coverage expected1, BloomWeight0.",
+    "AOV names for current graph: HalfLambert scalar, ShadowBand color, plus rendered linear RGB. firstWeight/secondAllowed are analytical intermediate expectations if additional diagnostic taps are added by main."
+  ],
+  "precision": {
+    "reference": "expected_float64 is high precision algebra; expected_float32 emulates scalar/texture-value float32 arithmetic but is not a bit-exact GPU promise.",
+    "pure_math_absolute_tolerance": 2e-06,
+    "float32_flat_render_absolute_tolerance": 0.0002,
+    "half_float_storage_absolute_tolerance": 0.001,
+    "comparison": "Compare central full-coverage pixels or uniform ROI mean. H/band/finalRGB must all agree; a finalRGB match alone cannot verify mirror direction.",
+    "boundary_note": "At first-band endpoints float32 operation ordering can produce weights within ~1e-6 of0/1; tolerate stated error, but not wrong direction or width. Inputs stored as half/8bit are different cases and require recomputed expectations."
+  },
+  "cases": [
+    {
+      "id": "soft_left_boundary",
+      "title": "第一阴影软带左边界",
+      "purpose": "firstValue=1-Smooth，预期w1=1；选择g=.4使第二阴影门控关闭。",
+      "parameters": {
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0.9797958971132712,
+          0.19999999999999996,
+          0
+        ],
+        "L_world": [
+          0.9797958971132712,
+          0.19999999999999996,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0.9797958971132712,
+            0,
+            0.19999999999999996
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_soft_left_boundary",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.6,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4,
+        "maskBranch": 0.0,
+        "maskEdge": 0.38,
+        "firstValue": 0.98,
+        "firstHard": 1.0,
+        "firstSoft": 1.0,
+        "firstWeight": 1.0,
+        "secondValue": 0.99,
+        "secondWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "finalRGB": [
+          0.08000000000000002,
+          0.2,
+          0.36
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.6000000238418579,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4000000059604645,
+        "maskBranch": 0.0,
+        "maskEdge": 0.3799999952316284,
+        "firstValue": 0.9800000190734863,
+        "firstHard": 1.0,
+        "firstSoft": 0.9999995231628418,
+        "firstWeight": 0.9999995231628418,
+        "secondValue": 0.9900000095367432,
+        "secondWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.40000030398368835,
+          0.5000002384185791,
+          0.6000002026557922
+        ],
+        "finalRGB": [
+          0.08000006526708603,
+          0.2000000923871994,
+          0.3600001335144043
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.60009765625,
+        "firstWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.39990234375,
+          0.5,
+          0.60009765625
+        ],
+        "finalRGB": [
+          0.08001708984375,
+          0.199951171875,
+          0.360107421875
+        ]
+      }
+    },
+    {
+      "id": "soft_midpoint",
+      "title": "第一阴影软带中点",
+      "purpose": "firstValue=1，预期w1=.5；可区分硬floor与软clamp。",
+      "parameters": {
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0.96,
+          0.28,
+          0
+        ],
+        "L_world": [
+          0.96,
+          0.28,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0.96,
+            0,
+            0.28
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_soft_midpoint",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.64,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4,
+        "maskBranch": 0.0,
+        "maskEdge": 0.38,
+        "firstValue": 1.0,
+        "firstHard": 0.0,
+        "firstSoft": 0.5,
+        "firstWeight": 0.5,
+        "secondValue": 1.01,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.7,
+          0.75,
+          0.8
+        ],
+        "finalRGB": [
+          0.13999999999999999,
+          0.30000000000000004,
+          0.48
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.6399999856948853,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4000000059604645,
+        "maskBranch": 0.0,
+        "maskEdge": 0.3799999952316284,
+        "firstValue": 1.0,
+        "firstHard": 0.0,
+        "firstSoft": 0.5,
+        "firstWeight": 0.5,
+        "secondValue": 1.0099999904632568,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.699999988079071,
+          0.75,
+          0.800000011920929
+        ],
+        "finalRGB": [
+          0.14000000059604645,
+          0.30000001192092896,
+          0.48000001907348633
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.64013671875,
+        "firstWeight": 0.5,
+        "secondAllowed": 0.0,
+        "band": [
+          0.7001953125,
+          0.75,
+          0.7998046875
+        ],
+        "finalRGB": [
+          0.1400146484375,
+          0.300048828125,
+          0.47998046875
+        ]
+      }
+    },
+    {
+      "id": "soft_right_boundary",
+      "title": "第一阴影软带右边界",
+      "purpose": "firstValue=1+Smooth，预期w1=0；与左/中共同核验方向和宽度。",
+      "parameters": {
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0.932952303175248,
+          0.3600000000000001,
+          0
+        ],
+        "L_world": [
+          0.932952303175248,
+          0.3600000000000001,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.4,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0.932952303175248,
+            0,
+            0.3600000000000001
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.4,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_soft_right_boundary",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.68,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4,
+        "maskBranch": 0.0,
+        "maskEdge": 0.38,
+        "firstValue": 1.02,
+        "firstHard": 0.0,
+        "firstSoft": 0.0,
+        "firstWeight": 0.0,
+        "secondValue": 1.03,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "finalRGB": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.6800000071525574,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.4000000059604645,
+        "maskBranch": 0.0,
+        "maskEdge": 0.3799999952316284,
+        "firstValue": 1.0199999809265137,
+        "firstHard": 0.0,
+        "firstSoft": 4.76837158203125e-07,
+        "firstWeight": 4.76837158203125e-07,
+        "secondValue": 1.0299999713897705,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.9999997019767761,
+          0.9999997615814209,
+          0.9999998211860657
+        ],
+        "finalRGB": [
+          0.19999994337558746,
+          0.3999999165534973,
+          0.5999999046325684
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.68017578125,
+        "firstWeight": 4.76837158203125e-07,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "finalRGB": [
+          0.199951171875,
+          0.39990234375,
+          0.60009765625
+        ]
+      }
+    },
+    {
+      "id": "second_gate_off",
+      "title": "第二阴影有权重但门控关闭",
+      "purpose": "w2=1而Mask.G=.125>=.1使allowed2=0，必须保留OneShadow。",
+      "parameters": {
+        "_FirstShadow": 0.51,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          1.0,
+          0.0,
+          0
+        ],
+        "L_world": [
+          1.0,
+          0.0,
+          0
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.125,
+          0,
+          1
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.125,
+          0,
+          1
+        ],
+        "face_shadow_enabled": false,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            1.0,
+            0,
+            0.0
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.125,
+              0,
+              1
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_second_gate_off",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.51,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 0.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.5,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.125,
+        "maskBranch": 0.0,
+        "maskEdge": 0.036250000000000004,
+        "firstValue": 0.7581249999999999,
+        "firstHard": 1.0,
+        "firstSoft": 1.0,
+        "firstWeight": 1.0,
+        "secondValue": 0.8025,
+        "secondWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "finalRGB": [
+          0.08000000000000002,
+          0.2,
+          0.36
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.5,
+        "faceMirror": false,
+        "faceMaskSampleUV": null,
+        "faceMaskSampleRGBA": null,
+        "shadowMaskG": 0.125,
+        "maskBranch": 0.0,
+        "maskEdge": 0.036250002682209015,
+        "firstValue": 0.7581250667572021,
+        "firstHard": 1.0,
+        "firstSoft": 1.0,
+        "firstWeight": 1.0,
+        "secondValue": 0.8025000095367432,
+        "secondWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.4000000059604645,
+          0.5,
+          0.6000000238418579
+        ],
+        "finalRGB": [
+          0.08000000566244125,
+          0.20000000298023224,
+          0.36000001430511475
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.5,
+        "firstWeight": 1.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.39990234375,
+          0.5,
+          0.60009765625
+        ],
+        "finalRGB": [
+          0.08001708984375,
+          0.199951171875,
+          0.360107421875
+        ]
+      },
+      "optional_sensitivity_check_not_seventh_primary_case": {
+        "change_only": {
+          "mask_original_sample_rgba": [
+            0,
+            0.0625,
+            0,
+            1
+          ]
+        },
+        "expected": {
+          "H": 0.5,
+          "firstWeight": 1,
+          "secondWeight": 1,
+          "secondAllowed": 1,
+          "band": [
+            0.1,
+            0.15,
+            0.2
+          ],
+          "finalRGB": [
+            0.020000000000000004,
+            0.06,
+            0.12
+          ]
+        },
+        "note": "可选补测门控开启；.0625/.125可被二进制浮点精确表示。不要把Mask.G=.1写入half或8bit再用.1的理想数值验收。"
+      }
+    },
+    {
+      "id": "face_alpha_unmirrored",
+      "title": "Face正向：真实alpha参与",
+      "purpose": "L·ObjectZ>0不镜像；左texel A=.8必须参与ny，不能补1。",
+      "parameters": {
+        "_FirstShadow": 0.47,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 1.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0,
+          0,
+          1
+        ],
+        "L_world": [
+          0,
+          0,
+          1
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.2,
+          0.75,
+          0.8
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.05,
+          0.25,
+          0.7
+        ],
+        "face_shadow_enabled": true,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0,
+            -1,
+            0
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 2,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.2,
+              0.75,
+              0.8
+            ],
+            [
+              0,
+              0.05,
+              0.25,
+              0.7
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_face_alpha_unmirrored",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [
+              "_SHADOW_OBJECT_SPACE_NORMAL_MAP"
+            ],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.47,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 1.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.8200921998322399,
+        "faceMirror": false,
+        "faceMaskSampleUV": [
+          0.25,
+          0.5
+        ],
+        "faceMaskSampleRGBA": [
+          0.0,
+          0.2,
+          0.75,
+          0.8
+        ],
+        "shadowMaskG": 0.2,
+        "maskBranch": 0.0,
+        "maskEdge": 0.13,
+        "firstValue": 1.00504609991612,
+        "firstHard": 0.0,
+        "firstSoft": 0.3738475020970018,
+        "firstWeight": 0.3738475020970018,
+        "secondValue": 1.0000460999161198,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.7756914987417989,
+          0.8130762489514991,
+          0.8504609991611993
+        ],
+        "finalRGB": [
+          0.1551382997483598,
+          0.3252304995805997,
+          0.5102765994967196
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.8200922012329102,
+        "faceMirror": false,
+        "faceMaskSampleUV": [
+          0.25,
+          0.5
+        ],
+        "faceMaskSampleRGBA": [
+          0.0,
+          0.20000000298023224,
+          0.75,
+          0.800000011920929
+        ],
+        "shadowMaskG": 0.20000000298023224,
+        "maskBranch": 0.0,
+        "maskEdge": 0.12999999523162842,
+        "firstValue": 1.0050461292266846,
+        "firstHard": 0.0,
+        "firstSoft": 0.37384676933288574,
+        "firstWeight": 0.37384676933288574,
+        "secondValue": 1.0000461339950562,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          0.7756919264793396,
+          0.8130766153335571,
+          0.8504613041877747
+        ],
+        "finalRGB": [
+          0.15513838827610016,
+          0.3252306580543518,
+          0.5102767944335938
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.8203125,
+        "firstWeight": 0.373779296875,
+        "secondAllowed": 0.0,
+        "band": [
+          0.77587890625,
+          0.81298828125,
+          0.8505859375
+        ],
+        "finalRGB": [
+          0.1551513671875,
+          0.3251953125,
+          0.51025390625
+        ]
+      },
+      "diagnostic_wrong_implementations": {
+        "replace_face_alpha_with_1": {
+          "expected_wrong_H": 0.7236067977499789,
+          "expected_wrong_band": [
+            0.4,
+            0.5,
+            0.6
+          ],
+          "expected_wrong_finalRGB": [
+            0.08,
+            0.2,
+            0.36
+          ]
+        },
+        "note": "旧错误_FaceShadowSmoothFactor=0也会把当前部分阴影强行变成边界外全亮。"
+      }
+    },
+    {
+      "id": "face_mirror_negative",
+      "title": "Face反向：只镜像方向贴图采样",
+      "purpose": "L·ObjectZ<0镜像到右texel读取B/A，但阴影G仍从原UV左texel取.2。",
+      "parameters": {
+        "_FirstShadow": 0.47,
+        "_SecondShadow": 0.51,
+        "_SmoothFactor": 0.02,
+        "_FaceShadowSmoothFactor": 0.0,
+        "IF_SMOOTH_SHADOW": 1.0,
+        "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+        "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 1.0
+      },
+      "source_inputs": {
+        "N_view": [
+          0,
+          1,
+          0
+        ],
+        "V_view": [
+          0,
+          1,
+          0
+        ],
+        "L_view": [
+          0,
+          0,
+          -1
+        ],
+        "L_world": [
+          0,
+          0,
+          -1
+        ],
+        "object_y_world": [
+          0,
+          1,
+          0
+        ],
+        "object_z_world": [
+          0,
+          0,
+          1
+        ],
+        "viewMatrix": "identity for source mathematical fixture",
+        "uv": [
+          0.25,
+          0.5
+        ],
+        "mask_original_sample_rgba": [
+          0,
+          0.2,
+          0.75,
+          0.8
+        ],
+        "mask_mirrored_sample_rgba": [
+          0,
+          0.05,
+          0.25,
+          0.7
+        ],
+        "face_shadow_enabled": true,
+        "main_linear_rgba": [
+          0.2,
+          0.4,
+          0.6,
+          1.0
+        ],
+        "shadowMapLit": 1.0,
+        "shadowIntensity": 1.0,
+        "NoShadow_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "FirstShadow_linear_rgb": [
+          0.4,
+          0.5,
+          0.6
+        ],
+        "SecondShadow_linear_rgb": [
+          0.1,
+          0.15,
+          0.2
+        ],
+        "LightColor_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "Ambient_linear_rgb": [
+          1,
+          1,
+          1
+        ],
+        "GlobalTint_linear_rgb": [
+          1,
+          1,
+          1
+        ]
+      },
+      "blender_adapter": {
+        "normal_world": [
+          0,
+          0,
+          1
+        ],
+        "view_direction_world": [
+          0,
+          0,
+          1
+        ],
+        "runtime": {
+          "light_direction": [
+            0,
+            1,
+            0
+          ],
+          "rim_direction": [
+            0,
+            0,
+            1
+          ],
+          "light_color": [
+            1,
+            1,
+            1
+          ],
+          "ambient": [
+            1,
+            1,
+            1
+          ],
+          "shadow_intensity": 1,
+          "face_object_y": [
+            0,
+            0,
+            1
+          ],
+          "face_object_z": [
+            0,
+            -1,
+            0
+          ]
+        }
+      },
+      "texture_fixtures": [
+        {
+          "index": 0,
+          "name": "FixtureMainLinear",
+          "width": 1,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0.2,
+              0.4,
+              0.6,
+              1.0
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        },
+        {
+          "index": 1,
+          "name": "FixtureMaskData",
+          "width": 2,
+          "height": 1,
+          "storage": "FLOAT32_RGBA",
+          "pixels_top_to_bottom": [
+            [
+              0,
+              0.2,
+              0.75,
+              0.8
+            ],
+            [
+              0,
+              0.05,
+              0.25,
+              0.7
+            ]
+          ],
+          "extras": {
+            "colorSpace": "linear"
+          }
+        }
+      ],
+      "raw_material": {
+        "name": "FORMULA_face_mirror_negative",
+        "alphaMode": "OPAQUE",
+        "doubleSided": true,
+        "extras": {
+          "family": "character",
+          "render": {
+            "blend": null,
+            "colorMask": "rgba",
+            "depthWrite": true,
+            "zTest": "lequal",
+            "alphaTest": 0.0,
+            "cull": "none",
+            "renderOrder": 2000
+          },
+          "shader": {
+            "base": "Variant/XCharacter/Character",
+            "keywords": [
+              "_SHADOW_OBJECT_SPACE_NORMAL_MAP"
+            ],
+            "textures": {
+              "_MainTex": {
+                "index": 0,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              },
+              "_MaskTex": {
+                "index": 1,
+                "texCoord": 0,
+                "scale": [
+                  1,
+                  1
+                ],
+                "offset": [
+                  0,
+                  0
+                ]
+              }
+            },
+            "floats": {
+              "_AlbedoColorIntensity": 1.0,
+              "_FirstShadow": 0.47,
+              "_SecondShadow": 0.51,
+              "_SmoothFactor": 0.02,
+              "_FaceShadowSmoothFactor": 0.0,
+              "IF_SMOOTH_SHADOW": 1.0,
+              "IF_MAIN_ALPHA_FOR_SHADOWMASK": 0.0,
+              "IF_SHADOW_OBJECT_SPACE_NORMAL_MAP_Y": 1.0,
+              "IF_SKIN": 0.0,
+              "IF_GI_SKIN": 0.0,
+              "IF_RIM": 0.0,
+              "_SpecularIntensity": 0.0,
+              "_SpecularShiness": 5.0,
+              "_SpecularSmoothFactor": 0.0001,
+              "IF_SPEC_ATTENUATION": 0.0,
+              "IF_SPECULAR_SHADOW_INTENSITY": 0.0,
+              "IF_INVERT_SPECULAR": 0.0,
+              "_EmissionIntensity": 0.0,
+              "_EmissionBloomFactor": 0.0,
+              "_BloomFactor": 0.0,
+              "IF_USE_MATCAP_ALPHA": 0.0
+            },
+            "colors": {
+              "_AlbedoColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_GlobalTint": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_NoShadowColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_FirstShadowColor": [
+                0.6651850846385371,
+                0.7353569830585363,
+                0.797737733035912,
+                1
+              ],
+              "_SecondShadowColor": [
+                0.3491902126432625,
+                0.42358287125773725,
+                0.4845292044935628,
+                1
+              ],
+              "_SpecularColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_SkinColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_RimColor": [
+                1,
+                1,
+                1,
+                1
+              ],
+              "_EmissionColor": [
+                1,
+                1,
+                1,
+                1
+              ]
+            },
+            "vectors": {}
+          }
+        }
+      },
+      "expected_float64": {
+        "H": 0.8904344047215151,
+        "faceMirror": true,
+        "faceMaskSampleUV": [
+          0.75,
+          0.5
+        ],
+        "faceMaskSampleRGBA": [
+          0.0,
+          0.05,
+          0.25,
+          0.7
+        ],
+        "shadowMaskG": 0.2,
+        "maskBranch": 0.0,
+        "maskEdge": 0.13,
+        "firstValue": 1.0402172023607577,
+        "firstHard": 0.0,
+        "firstSoft": 0.0,
+        "firstWeight": 0.0,
+        "secondValue": 1.0352172023607575,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "finalRGB": [
+          0.2,
+          0.4,
+          0.6
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_float32": {
+        "H": 0.8904344439506531,
+        "faceMirror": true,
+        "faceMaskSampleUV": [
+          0.75,
+          0.5
+        ],
+        "faceMaskSampleRGBA": [
+          0.0,
+          0.05000000074505806,
+          0.25,
+          0.699999988079071
+        ],
+        "shadowMaskG": 0.20000000298023224,
+        "maskBranch": 0.0,
+        "maskEdge": 0.12999999523162842,
+        "firstValue": 1.0402171611785889,
+        "firstHard": 0.0,
+        "firstSoft": 0.0,
+        "firstWeight": 0.0,
+        "secondValue": 1.03521728515625,
+        "secondWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "finalRGB": [
+          0.20000000298023224,
+          0.4000000059604645,
+          0.6000000238418579
+        ],
+        "coverage": 1.0,
+        "BloomWeight": 0.0
+      },
+      "expected_half_storage_from_float32": {
+        "H": 0.890625,
+        "firstWeight": 0.0,
+        "secondAllowed": 0.0,
+        "band": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "finalRGB": [
+          0.199951171875,
+          0.39990234375,
+          0.60009765625
+        ]
+      },
+      "diagnostic_wrong_implementations": {
+        "never_mirror": {
+          "expected_wrong_H": 0.17990780016776006,
+          "expected_wrong_band": [
+            0.4,
+            0.5,
+            0.6
+          ],
+          "expected_wrong_finalRGB": [
+            0.08,
+            0.2,
+            0.36
+          ]
+        },
+        "mirror_shadow_G_as_well": {
+          "expected_wrong_shadowMaskG": 0.05,
+          "expected_wrong_secondAllowed": 1,
+          "expected_wrong_band": [
+            0.1,
+            0.15,
+            0.2
+          ],
+          "expected_wrong_finalRGB": [
+            0.02,
+            0.06,
+            0.12
+          ]
+        },
+        "replace_face_alpha_with_1": {
+          "expected_wrong_H": 0.7236067977499789,
+          "expected_wrong_band": [
+            0.4,
+            0.5,
+            0.6
+          ],
+          "expected_wrong_finalRGB": [
+            0.08,
+            0.2,
+            0.36
+          ]
+        }
+      }
+    }
+  ]
+}

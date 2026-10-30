@@ -1,0 +1,155 @@
+{
+  "distribution_version": "v07",
+  "source_archive": "blender-character-short-v07-portable.zip",
+  "source_archive_sha256": "f73770b0086eb7281a5ef873db28e3a25017dab3620cb18d05901eaf99ea0f90",
+  "source_file_count": 42,
+  "source_live_matches_recorded_v07": true,
+  "portable_manifest_hashes_verified": true,
+  "script_count": 31,
+  "scripts_byte_identical_to_live_v07": true,
+  "original_to_portable_documentation_files": [
+    "references/jobs.example.json",
+    "references/production.md",
+    "references/outline.md",
+    "references/execution.md",
+    "references/validation.md",
+    "references/character-formula-cases.json",
+    "references/character-formula-additional-cases.json"
+  ],
+  "repository_packaging_changes": [
+    {
+      "file": "blender-character-short/SKILL.md",
+      "portable_sha256": "ded76efb9302f90798af910b4516209423dc675b6531c66692994db0138ad7f9",
+      "repository_sha256": "76e3e5e3c3642ef07bb9f9ecfe6fe273ca89b5d585bfcd40b5eb978ac7985b28",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/character-formula-additional-cases.json",
+      "portable_sha256": "22ddb534841331fe2a00a7e50c626956ef6ab61640f28f14beb9930960775b0d",
+      "repository_sha256": "d32905821ba3cbfad99b85ae121afb1977782d4bf3489303ca6938ba0b714239",
+      "changes": [
+        "UTF-8 LF line endings",
+        "replace internal review label with a descriptive role"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/character-formula-cases.json",
+      "portable_sha256": "4251098dc60ba20003a3711c59a3deea8ea7554c4b8b948de2e7c16a5ef00fce",
+      "repository_sha256": "c08d4060210ac6c6693f5c1cc906a4ee39aef3efba30e39a582af755d13e29e4",
+      "changes": [
+        "UTF-8 LF line endings",
+        "replace internal review label with a descriptive role"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/execution.md",
+      "portable_sha256": "74c7425fa28be3256a72ef7029d956f5a140663bb7fc98f078bf8e3322018066",
+      "repository_sha256": "2bd27e6de1efb29e5f7a7464414b65d9ad9b0d00c8ca7a3e77f2833e05905115",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/fixtures/source-outline-known-inputs.json",
+      "portable_sha256": "25d6c298bc4adf193004e2d1a2dbe438e43a49d13556b5472ea8678fed0e9518",
+      "repository_sha256": "a10578b9b5a3a2d6c376410bb7ffb0889c58e90df3ba71ff965fde26d317def4",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/jobs.example.json",
+      "portable_sha256": "be701c1a3431b9415626a828a5070dcefaf7349380a26f88acaaf7d2e89e07f9",
+      "repository_sha256": "f248465acbb1f227a18ba44e7de4d233284fdc257c46513d5a2eef4ab7fcb420",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/outline.md",
+      "portable_sha256": "59a4ff406c0a04db4dd9415750309fa8037870ed0078cf1575429530135b8321",
+      "repository_sha256": "5c34a19c84e6c80cdeaaa42160c03c884a93815ef92a27e00c7a41aca4c9f5ef",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/production.md",
+      "portable_sha256": "7359588ba6142050fef3dbf31f2bffd0a1d391537bb3c5e6b096e973812cb8f6",
+      "repository_sha256": "ece075380acc75abfa52793484ba383123288085f5f5782e3fb97380f97d5185",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/rendering.md",
+      "portable_sha256": "c0a9e62ce67816a39c23136ace0298f8b4e8829896d9efae9fceaa99fca4aa5e",
+      "repository_sha256": "429e2e6645c3a9077a719785e983c51dbedcc5e1b30af72939a8c1121006d164",
+      "changes": [
+        "UTF-8 LF line endings"
+      ]
+    },
+    {
+      "file": "blender-character-short/references/validation.md",
+      "portable_sha256": "d3acd19d69e3fd7d78bc8ac8907b43381fea70e42964e942d2b49db852f637e0",
+      "repository_sha256": "66f50d3a91857c50d80c0da5a60f7cf889d5cfa3c5da978da92ece168f0e898d",
+      "changes": [
+        "UTF-8 LF line endings",
+        "replace internal review label with a descriptive role",
+        "state v05/v06/v07 acceptance boundaries"
+      ]
+    }
+  ],
+  "files": {
+    "blender-character-short/SKILL.md": "76e3e5e3c3642ef07bb9f9ecfe6fe273ca89b5d585bfcd40b5eb978ac7985b28",
+    "blender-character-short/references/antialiasing.md": "5e05aeef4ba36579e8a06f8b7aa15c612f243260ca879cb975cdb221efe6eaf8",
+    "blender-character-short/references/character-formula-additional-cases.json": "d32905821ba3cbfad99b85ae121afb1977782d4bf3489303ca6938ba0b714239",
+    "blender-character-short/references/character-formula-cases.json": "c08d4060210ac6c6693f5c1cc906a4ee39aef3efba30e39a582af755d13e29e4",
+    "blender-character-short/references/execution.md": "2bd27e6de1efb29e5f7a7464414b65d9ad9b0d00c8ca7a3e77f2833e05905115",
+    "blender-character-short/references/fixtures/source-outline-known-inputs.json": "a10578b9b5a3a2d6c376410bb7ffb0889c58e90df3ba71ff965fde26d317def4",
+    "blender-character-short/references/jobs.example.json": "f248465acbb1f227a18ba44e7de4d233284fdc257c46513d5a2eef4ab7fcb420",
+    "blender-character-short/references/outline.md": "5c34a19c84e6c80cdeaaa42160c03c884a93815ef92a27e00c7a41aca4c9f5ef",
+    "blender-character-short/references/production.md": "ece075380acc75abfa52793484ba383123288085f5f5782e3fb97380f97d5185",
+    "blender-character-short/references/rendering.md": "429e2e6645c3a9077a719785e983c51dbedcc5e1b30af72939a8c1121006d164",
+    "blender-character-short/references/validation.md": "66f50d3a91857c50d80c0da5a60f7cf889d5cfa3c5da978da92ece168f0e898d",
+    "blender-character-short/scripts/audit_contact_footprint.py": "2fe87c444d406d55e17126456f83d860cd82fa4bd3a953f6750c1d4944b1169e",
+    "blender-character-short/scripts/audit_motion.py": "2a76c24b6265adc415f4508457314d31e082cd22384085779cb845b2742c5d88",
+    "blender-character-short/scripts/bake_source_outline.py": "c90364d66c3cfcc876895f2ed2c18897bbcc0717568b470225f76a3b191f559e",
+    "blender-character-short/scripts/build_performance.py": "5de798a82b8e94efa4bec7af8e4022e682ec1dd7fc207e954e98ee7da410e500",
+    "blender-character-short/scripts/calibrate_character.py": "21997284ff90f2450c11a04e687b3b859331053fe75871563ebbd948477da8b2",
+    "blender-character-short/scripts/calibrate_contact_surface.py": "5ce2679c3be08eec59a97a922bdb0a744e7250dbd0766beebbe1a127f93012ca",
+    "blender-character-short/scripts/character_material.py": "ac8bb10afbd18a736f059547410de0e9e85cb0c6ec5324c58d1928c9e0beca52",
+    "blender-character-short/scripts/compare_videos.py": "dd36eb1d15acfef56ac1abfbf8dcd696f29e2d3fd341aee784ef0e58ad4f7951",
+    "blender-character-short/scripts/contact_motion.py": "d3371bf1fcfa77de1f8f1412a62e970708b64b1104f21e9fdcbf17c2168735c2",
+    "blender-character-short/scripts/encode_video.py": "bc4cf4b413d3aa141bdb9f57aeecb6d553dd5735bbc4234a8b96dc2cb46bac1b",
+    "blender-character-short/scripts/execution_lock.py": "49c1f65e714f8218b4c18b47b5a02a6442146ddbab71cb93883b83bc74e6b6d4",
+    "blender-character-short/scripts/gaze_control.py": "9da6f12239934c5f6ccd7d6a131a7814234ae87348c06ac6959c00958f997002",
+    "blender-character-short/scripts/glb_morphs.py": "ffacbd660f93c331c9b9090160071de7128cf96dae26d72631d10fb1d8ee5fd5",
+    "blender-character-short/scripts/import_pmx.py": "34021b2dff8bd1edc15feeabe5d29d4d95372468c462329fc7595f7e4129c9f3",
+    "blender-character-short/scripts/inspect_character.py": "4b4db653403f9417cb9a24c08a9e1558e1c35e992ea75ac479de080dcb65d597",
+    "blender-character-short/scripts/post_sequence.py": "1ccdfe24947cb6f8eace118255db8ba3cee0e111ffe9171d9412b481c6a889f8",
+    "blender-character-short/scripts/prepare_materials.py": "79eff344f1a9a8a1c0a67329e45bb84299076f01c34b13b898814e45d6bbc53c",
+    "blender-character-short/scripts/probe_gaze.py": "40e258af364ceb1f27b527b550805dfa96bf3ad663fc15710f74d575c5ac3912",
+    "blender-character-short/scripts/render_character_probe.py": "8896f7bb91db2a06b4042fcd64a171c21ebddde195ded63bebf6b04588558d50",
+    "blender-character-short/scripts/render_performance.py": "04f37f8205d1e7c0f4b5eabbf2e7de741e1aae74cc8565ef23f2bfa0e4a39a6b",
+    "blender-character-short/scripts/render_queue.py": "52e7a8b871a595b38aebe05786c60403ac4350de3fb36e617c907ce02c0f1d63",
+    "blender-character-short/scripts/render_source_probe.py": "e3fd10d1dbba5198b27dd229f731bbd0a8b61495e9767e0fec27f09323c8f379",
+    "blender-character-short/scripts/run_short.py": "ceb29b2ddfe9dbb8f9704954ad72f397dea903b9c8c3dd3b509dca4e85d84a20",
+    "blender-character-short/scripts/smaa_cpu.py": "1a6ca6ba144075ccc60d925dbaebe85bd6801c24864d5a895cbffa885b418169",
+    "blender-character-short/scripts/source_outline.py": "a18256a6b32dd343c8225778fd07f2a0db5d4edb3cdb16c4c5135a81d7a37f52",
+    "blender-character-short/scripts/source_post.py": "64489b476a5ad38cb0af827e463623f4a9c01228c69d5be5c8dec66b3cfab7bf",
+    "blender-character-short/scripts/verify_character_formula.py": "02a6ed1ec35c35cde2c9410e12136651f75651db8e22240ce284d8d0257b8bcb",
+    "blender-character-short/scripts/verify_post.py": "9062f3d44bbea355d2fea2a5e9e790c756d879776849532d5d134f69d7469b3a",
+    "blender-character-short/scripts/verify_scene.py": "6f853d21168feb3b00128111661113a11c2c6d5733a5518c2abab711f0745609",
+    "blender-character-short/scripts/verify_source_outline.py": "1b98a0463d71b3160812a0da844e73f69c4d5cb113e0ab97a56264b8139c4ff3",
+    "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a"
+  },
+  "historical_validation": {
+    "v05": "two-character independent whole-package technical reuse completed",
+    "v06": "final production video version; media excluded",
+    "v07": "portable distribution; no independent whole-package production rerun"
+  },
+  "current_upload_validation": "See validation.json after checks finish"
+}

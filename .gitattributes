@@ -1,0 +1,2 @@
+# Preserve the frozen v07 script bytes, including their existing line endings.
+* -text

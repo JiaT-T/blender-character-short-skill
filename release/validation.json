@@ -1,0 +1,67 @@
+{
+  "passed": true,
+  "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
+  "python": "3.14.7",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "Pillow": "13.0.0",
+    "imageio-ffmpeg": "0.6.0"
+  },
+  "skill_files": 42,
+  "skill_scripts_compiled_without_bytecode": 31,
+  "validation_script_compiled": true,
+  "json_fixtures_parsed": 4,
+  "internal_markdown_file_links_checked": 19,
+  "frontmatter_required_fields_checked": true,
+  "skill_creator_quick_validate": "Passed in the prior portable-package evidence; not repeated here because PyYAML is not installed",
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 49,
+  "host_cli_help": [
+    {
+      "script": "calibrate_character.py",
+      "returncode": 0
+    },
+    {
+      "script": "compare_videos.py",
+      "returncode": 0
+    },
+    {
+      "script": "encode_video.py",
+      "returncode": 0
+    },
+    {
+      "script": "execution_lock.py",
+      "returncode": 0
+    },
+    {
+      "script": "post_sequence.py",
+      "returncode": 0
+    },
+    {
+      "script": "run_short.py",
+      "returncode": 0
+    },
+    {
+      "script": "smaa_cpu.py",
+      "returncode": 0
+    },
+    {
+      "script": "source_post.py",
+      "returncode": 0
+    },
+    {
+      "script": "verify_post.py",
+      "returncode": 0
+    },
+    {
+      "script": "video_qa.py",
+      "returncode": 0
+    }
+  ],
+  "historical_blender_cli_help": "15 CLI help entries passed in the existing portable-package evidence; not rerun for this upload",
+  "scripts_modified": false,
+  "independent_whole_package_v07_production": "not performed",
+  "continuous_visual_review": "not completed",
+  "audio_review": "not completed",
+  "powershell_example_blocks_parsed": 8,
+  "powershell_example_parse_errors": 0
+}
