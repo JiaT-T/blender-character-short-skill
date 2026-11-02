@@ -29,6 +29,8 @@ Joint length uses shoulder→elbow and elbow→wrist heads because MMD display t
 
 Required: title, duration, fps (24 expected), poses, set, prop, camera_variants. Optional synopsis, expressions and reference notes. `poses` is a nonempty array using the pose-key contract above. The old `performance` character-config key remains readable for historical inputs; new stories should own their choreography.
 
+For optional `translations`, `stationary_support`, `set.materials`, `set.objects`, emission events and the `token` prop, read [narrative scenes](story-scenes.md). Those additions are opt-in; existing inputs retain their default behavior.
+
 - set: linear RGB floor, panel, trim, world; optional stand with normalized x,y,height,radius. Creative set lights are separate from reference matching.
 - prop: kind paper-plane or star; optional positive scale multiplier (default 1); linear color, optional emission; keys with t, normalized p and XYZ rotation degrees. Plane tail extends .025 heights below its origin; account for the landing surface.
 - camera_variants: named shot arrays. Each needs start,end,location,target,scale,purpose; end_scale is a multiplier of the starting scale (for example .97 is a 3% push), not an absolute width. It optionally animates orthographic scale. Scale is ortho width / model height; at 16:9 the vertical view is smaller. Adjacent shots share boundaries; first starts 0 and last ends at duration.
@@ -88,7 +90,7 @@ There is no physics, collision response or subframe/motion-blur guarantee.
 hand geometry before accepting it:
 
 ```powershell
-& $Blender --background --factory-startup --python-exit-code 1 --python "$Skill/scripts/calibrate_contact_surface.py" -- --blend $Scene --character $CharacterJson --frames "80,100,124" --output $PalmReport
+& $Blender --background --factory-startup --python-exit-code 1 --python "$Skill/scripts/calibrate_contact_surface.py" -- --blend CANDIDATE.blend --character CHARACTER.json --frames 80,100,124 --output PALM_REPORT.json
 ```
 
 The script raycasts only faces influenced by the configured wrist/descendants,

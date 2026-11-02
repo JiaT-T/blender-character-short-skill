@@ -18,7 +18,7 @@ from hashlib import sha256
 HOST_CLI = (
     "calibrate_character.py", "compare_videos.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
-    "source_post.py", "verify_post.py", "video_qa.py",
+    "source_post.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
 )
 
 
@@ -29,9 +29,11 @@ def validate(root: Path) -> dict:
     actual = {p.relative_to(root).as_posix(): sha256(p.read_bytes()).hexdigest()
               for p in skill.rglob("*") if p.is_file()}
     assert actual == manifest["files"], "Skill file set or hashes differ from the distribution manifest"
-    assert len(actual) == 42 and len(scripts) == 31
+    assert len(actual) == manifest["source_file_count"]
+    assert len(scripts) == manifest["script_count"]
 
-    for script in scripts + [Path(__file__).resolve()]:
+    validation_scripts = sorted((root / "validation").glob("*.py"))
+    for script in scripts + validation_scripts:
         compile(script.read_bytes(), script.name, "exec", dont_inherit=True)
 
     json_files = sorted(skill.rglob("*.json"))
@@ -61,7 +63,7 @@ def validate(root: Path) -> dict:
     patterns = {
         "credential": re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{24,})"),
         "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-        "machine-path": re.compile(r"\b[A-Za-z]:[\\/](?:Users|Documents|Program Files|Python|project)[\\/]|/(?:root|home|Users)/[A-Za-z0-9_.-]+"),
+        "machine-path": re.compile(r"\b[A-Za-z]:[\\/](?:Users|Documents|Program Files|Python|project)[\\/]|/(?:root|home|Users|mnt|tmp)/[A-Za-z0-9_.-]+"),
         "session-uuid": re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE),
         "email": re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
     }
@@ -92,21 +94,24 @@ def validate(root: Path) -> dict:
     versions = {name: metadata.version(name) for name in ("numpy", "Pillow", "imageio-ffmpeg")}
     return {
         "passed": True,
+        "distribution_version": manifest["distribution_version"],
         "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
         "python": platform.python_version(),
         "dependencies": versions,
         "skill_files": len(actual),
         "skill_scripts_compiled_without_bytecode": len(scripts),
-        "validation_script_compiled": True,
+        "validation_scripts_compiled": len(validation_scripts),
         "json_fixtures_parsed": len(json_files),
         "internal_markdown_file_links_checked": links,
         "frontmatter_required_fields_checked": True,
-        "skill_creator_quick_validate": "Passed in the prior portable-package evidence; not repeated here because PyYAML is not installed",
+        "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "host_cli_help": cli,
-        "historical_blender_cli_help": "15 CLI help entries passed in the existing portable-package evidence; not rerun for this upload",
+        "blender_execution": "Not run; existing 0xC0000022 startup fault. No scene import, Blender help, rendering or runtime audit attempted",
         "scripts_modified": False,
-        "independent_whole_package_v07_production": "not performed",
+        "independent_whole_package_v25_production": "not performed",
+        "full_body_motion_reuse": "not completed",
+        "naturalness_acceptance": "not completed",
         "continuous_visual_review": "not completed",
         "audio_review": "not completed",
     }

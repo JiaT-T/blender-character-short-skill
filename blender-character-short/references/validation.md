@@ -1,11 +1,13 @@
 # Validation and limits
 
-## Current distribution: v07
+## Current public distribution: v25
 
-This repository distributes the v07 portable skill. The independent two-character whole-package technical reuse result belongs to v05; the final production videos were made with v06. v07 has packaging, syntax and CLI evidence, but has not completed its own independent whole-package production rerun. The original evidence project and media are not distributed here.
+This is the generic v25 skill, with optional static GLB scene imports, real-target gaze/return, post-contact hand timing, source rotation variation and frame-boundary postprocessing budgets. The current-iteration evidence is from Nanami Q on the same host/context. v25 produced an 8-second camera-B preview; the 20-second workshop film and 10-second paper-plane reuse retain their actual v22 producers. The separate CesiumMan approach/catch experiment and its project-specific code or motion data are not part of this skill.
+
+Full-body motion-library reuse, natural acting and continuous normal-speed viewing remain unaccepted. No new Blender execution or rendering was performed for this public update because the existing runtime has a startup fault. Pure Python/distribution checks are reported separately in the repository. File counts establish inventory, not film quality.
 
 
-The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Evidence projects are `outputs/skill-iteration-20261027` and `outputs/skill-iteration-20261029`; their run manifests, exact commands, hashes and visual-review records are authoritative for each frozen version.
+The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Historical run manifests, exact commands, hashes and visual-review records are retained privately for each frozen version; this repository contains generic procedures and summarized boundaries.
 
 Use [S] for source code, [G] for observed website runtime/GPU, [B] for Blender execution/output, and [A] for inference/adaptation. Static GLB/manifest inspection is asset evidence, not [G]. CPU formula tests are labeled CPU and do not become Blender or website GPU tests.
 
@@ -74,9 +76,9 @@ scenes reopened with no missing in-use images and rendered representatives.
 All152 supplied input hashes and39 frozen source/doc hashes matched. Generated
 bytecode was disclosed separately and excluded from version archives.
 
-The input list, context ID, method audit, exact commands, stories/configs,
+The input list, method audit, exact commands, stories/configs,
 output hashes and sampled observations are archived under project
-`independent-reuse-v05/execution-context`. No reach clamp, foot drift or
+a private execution archive. No reach clamp, foot drift or
 quaternion sign discontinuity was detected. This establishes **v05 technical
 reuse**, not continuous viewing, full collision proof or strict reproduction.
 A newer freeze requires its own result; consult the project acceptance matrix.
@@ -137,3 +139,123 @@ versions remain separately pinned; do not resume their folders with new hashes.
 For a new pass record inputs, frozen script/config hashes, exact frame range, output/command paths, observed visual/audio scope and remaining limitations. Reopen final delivered scenes, verify packed/missing resources and render a real representative frame; also inspect the external-post output. Structure validation proves packaging only. Announce overall success only with actual evidence for all three gates.
 
 Keep models, textures, lookup images, dependency binaries and character-specific bone/material maps outside the skill. The detailed project logs stay in the evidence project rather than being copied into the generic procedure.
+
+
+## External opaque target blockers: verified scope
+
+The separate read-only auditor was tested in Blender4.5 on one Nanami observer:305/305 backing-board rays were blocked;305/305 open-rack rays hit the actual lamps first;155/155 rays to an evaluated paper-plane triangle hit that object first. A minimal own two-frame fixture changed alpha from1to0.4; the second frame returned unsupported rather than clear. Source scene bytes remained unchanged. These are same-author/context checks, not another character or independent-author acceptance. Own-character surfaces, actual iris optics, luminous-face semantics and normal-speed viewing remain outside this gate.
+
+## Bounded post work: standalone verified scope
+
+Three actual Nanami raw frames from changing poses/cameras were byte-copied to
+an explicitly derived test sequence. The new default, three successive tiny
+budget calls and a budget-to-unlimited continuation matched the prior producer
+in every PNG byte and SMAA edge-array element. Cached prefixes did not starve
+new work; previously committed PNG bytes and job identity remained unchanged.
+A NaN budget was refused before output creation. This was graceful CPU work,
+not forced termination, new rendering, whole-entrypoint or continuous viewing.
+
+## Optional scene matte bands: limited runtime evidence
+
+One actual Nanami scene exercised twelve invalid selections/mix values, including
+an unknown name after a valid selection, animated/luminous materials and a
+character-shared material. Every case was rejected with all material graphs
+unchanged. Absent configuration and mix zero also preserved every graph.
+Four1280x720/64sample raw+AOV/source-post cases matched the earlier experimental
+35percent scene-only mix within the declared raw and output tolerances. This
+verifies the optional helper's mapping to that experiment. Whole-entrypoint,
+default no-option regression, temporal behavior and continuous creative viewing
+remain separate until their actual case records establish them.
+
+## Nested source rotation mapping correction
+
+An own two-bone fixture demonstrated that the earlier world-position conversion
+could separate a mapped child from its mapped parent by0.76537units after a45degree
+turn. The corrected route retains authored local translation/scale. All nine
+synthetic cases passed, including transformed uniform-scale/Euler/local-offset
+save/reopen and an inactive interval. An actual480frame Nanami single-spine
+regression compared238bone and54object world matrices and66shape values: maximum
+bone difference0.00000173, object0.000000164, shapes exactly unchanged, tolerance
+0.00001. This preserves the tested current use; broader upper-body or full-body
+motion and continuous performance require separate evidence.
+
+
+## Optional recovery timing update (Nanami Q only)
+
+See [recovery timing](recovery-retime.md). Fresh complete 20 s workshop and 10 s
+paper-plane cases validate the optional post-contact path adaptation, default
+compatibility and recovery-then-gaze stage composition. Actual producers remain
+pinned per case; the generic update retains character/story/scene data externally.
+The tested original hand controls are a thumb and mitten cluster, not a five-finger
+rig. Scene changes kept the actual diagnostic response/path and simplified the
+opening. Per-scene geometry and sampled visual checks do not establish continuous
+performance acceptance, subframes, full-body motion-library acquisition or another
+character. Historical failed scopes and interpolation controls remain recorded.
+
+
+## Gaze range transitions: additional Nanami Q gray case
+
+An additional fresh-PMX8s/192frame catch story exercised the unchanged v22
+runtime. Required real-tile fixation covered frames1..69; a rendered relief
+blink covered the return to the original forward control as the secured hand
+lowered. All-frame head/control bounds, stationary sole vertices, weighted-hand
+surface checks and held directional footprint checks passed. Actual whole-film
+24samples,20dense action samples and a full-size catch frame were viewed. Earlier
+failed limits, ambiguous cameras, glove overlap and cropped head views remain
+project evidence; they were corrected through external story/character inputs,
+not relaxed limits or hidden targets. This documentation update changes no
+runtime script. Gray output, sampled views and a fresh directory do not establish
+source-post completion, normal-speed continuous viewing, full-body/library catch
+motion, independent context or another character.
+
+
+## Optional return to authored gaze (Nanami Q only)
+
+A fresh8s/192frame default case produced192finalPNG files byte-identical to the
+v22 reference. Raw radiance matched exactly; two Bloom-weight buffers differed
+by at most0.00006103515625 without changing final images. Default evaluated238
+bones,20objects and66shape values also matched exactly. An open-eye optional
+case tracked the real tile through69, then returned to authored control70..82.
+Its largest boundary control step decreased from14.8655 to1.71185degrees. All
+non-eye world transforms and all non-control action curves/shape values stayed
+unchanged, with every world transform unchanged outside the return. Two original
+nondeforming,unweighted MMD eye shadow helpers were traced through their actual
+COPY_TRANSFORMS constraints and included in the eye dependency scope; the earlier
+incomplete-hierarchy failure remains project evidence.
+
+Pure input/weight cases, an actual invalid-range refusal before scene/report
+creation and an actual entrypoint stale-validator refusal before rendering
+passed. The optional complete sourcepost/SMAA/video and five factory-startup
+resource reopens passed;24post samples,paired native return frames and five
+reopened views were inspected. This is same author/context/model evidence, not
+normal-speed continuous viewing, arbitrary rigs, full-body/library acquisition,
+subframe contact or another-character validation. Previously selected videos
+retain their actual frozen producers; new code requires new output identities.
+
+
+## Optional static GLB scene assets (original Nanami workbench fixture)
+
+Two fresh raw-PMX8s/192frame cases exercised the default branch and an imported
+original workbench. Default final192PNGs and the MP4 matched v24 byte-for-byte;
+raw radiance matched exactly, with three Bloom-weight buffers differing by at
+most0.00006103515625. All238bones,20objects and66shape values matched exactly.
+The imported case replaced only six original workbench pieces with the exported
+static GLB and a transform root. All238bones,14remaining objects,66shape values,
+original deform vertices, groups and weights stayed exactly unchanged. Original
+and imported workbench vertices coincided within0.000001character heights.
+
+Two instances under different sizes, nonzero ground and90degree Z/X rotations
+matched expected bounds, including after saving/reopening. Duplicate namespaces
+were refused before new objects, and absent imports were a no-op.19invalid input
+cases and an actual run_short refusal of a changed copied GLB passed before any
+Blender stage. The full imported sourcepost/SMAA/video, integer-frame gaze,
+external opaque visibility, hand/scene surfaces, held footprints and stationary
+support checks passed.24final-post samples, full61/112post frames and four
+factory-reopened native frames were viewed. A remaining edge-on caught-tile
+readability problem motivated separate camera comparisons, not a geometry pass
+being labeled final creative acceptance.
+
+This tests self-created static geometry, not an acquired third-party model,
+arbitrary formats, texture adaptation, full-body/library retargeting, physics,
+subframes, continuous visual playback or independent-context/cross-role reuse.
+See [scene asset imports](scene-assets.md) for the supported file/palette contract.

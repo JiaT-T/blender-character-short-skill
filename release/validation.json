@@ -1,5 +1,6 @@
 {
   "passed": true,
+  "distribution_version": "v25",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -7,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 42,
-  "skill_scripts_compiled_without_bytecode": 31,
-  "validation_script_compiled": true,
+  "skill_files": 72,
+  "skill_scripts_compiled_without_bytecode": 51,
+  "validation_scripts_compiled": 2,
   "json_fixtures_parsed": 4,
-  "internal_markdown_file_links_checked": 19,
+  "internal_markdown_file_links_checked": 38,
   "frontmatter_required_fields_checked": true,
-  "skill_creator_quick_validate": "Passed in the prior portable-package evidence; not repeated here because PyYAML is not installed",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 49,
+  "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 80,
   "host_cli_help": [
     {
       "script": "calibrate_character.py",
@@ -53,15 +54,34 @@
       "returncode": 0
     },
     {
+      "script": "verify_post_budget.py",
+      "returncode": 0
+    },
+    {
       "script": "video_qa.py",
       "returncode": 0
     }
   ],
-  "historical_blender_cli_help": "15 CLI help entries passed in the existing portable-package evidence; not rerun for this upload",
+  "blender_execution": "Not run; existing 0xC0000022 startup fault. No scene import, Blender help, rendering or runtime audit attempted",
   "scripts_modified": false,
-  "independent_whole_package_v07_production": "not performed",
+  "independent_whole_package_v25_production": "not performed",
+  "full_body_motion_reuse": "not completed",
+  "naturalness_acceptance": "not completed",
   "continuous_visual_review": "not completed",
   "audio_review": "not completed",
-  "powershell_example_blocks_parsed": 8,
-  "powershell_example_parse_errors": 0
+  "powershell_examples": {
+    "blocks_parsed": 9,
+    "errors": 0
+  },
+  "pure_python_focused_tests": {
+    "passed": true,
+    "tests_run": 11,
+    "failures": 0,
+    "errors": 0,
+    "blender_started": false,
+    "external_assets_used": false,
+    "fixture_scope": "Original synthetic inputs in an isolated writable temporary directory",
+    "initial_attempt": "Default sandbox temporary-directory ACL blocked file writes; repeated with an explicitly writable test temp root"
+  },
+  "synthetic_post_test_scope": "No-AA generated inputs only; does not validate source SMAA/GPU parity, real-scene frames or film quality"
 }

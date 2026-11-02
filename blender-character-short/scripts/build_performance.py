@@ -11,6 +11,11 @@ from mathutils import Vector,Matrix,Euler,Quaternion
 from prepare_materials import prepare,flat_material
 from gaze_control import aim_existing_control
 from contact_motion import bake_contacts
+from story_stage import add_story_objects
+from support_motion import bake_support
+from source_motion_layer import bake_source_layers
+from scene_surface_style import apply_matte_style
+from scene_asset_import import add_scene_assets
 
 def point(obj,target):obj.rotation_euler=(Vector(target)-obj.location).to_track_quat('-Z','Y').to_euler()
 
@@ -44,6 +49,12 @@ def geometry(name,verts,faces,material):
     me=bpy.data.meshes.new(name);me.from_pydata(verts,[],faces);me.update();o=bpy.data.objects.new(name,me);bpy.context.scene.collection.objects.link(o);o.data.materials.append(material);return o
 
 def make_prop(kind,h,material):
+    if kind=='token':
+        bpy.ops.mesh.primitive_cube_add(size=1)
+        o=bpy.context.object;o.name='Story prop'
+        for vertex in o.data.vertices:vertex.co=Vector((vertex.co.x*.075*h,vertex.co.y*.014*h,vertex.co.z*.075*h))
+        o.data.materials.append(material);be=o.modifiers.new('Token edge','BEVEL');be.width=.006*h;be.segments=3
+        return o
     if kind=='paper-plane':
         verts=[(.10,0,0),(-.08,0,-.025),(-.08,-.08,.018),(-.025,0,.014),(-.08,.08,.018)]
         o=geometry('Story prop',[(h*x,h*y,h*z) for x,y,z in verts],[(0,1,2),(0,3,1),(0,4,1)],material)
@@ -77,6 +88,7 @@ def add_stage(scene,cfg,h,ground):
         if energy<0 or size<=0:raise ValueError('Set light energy must be nonnegative and size positive')
         d=bpy.data.lights.new(name,'AREA');d.energy=energy*h*h;d.shape='DISK';d.size=size*h;d.color=item['color'];o=bpy.data.objects.new(name,d);scene.collection.objects.link(o);o.location=Vector(item['location'])*h;point(o,Vector(item.get('target',[0,0,.65]))*h)
     scene['creative_set_parameters']=json.dumps({'panels':panels,'lights':lights,'world_strength':strength},ensure_ascii=False)
+    return {'floor':floor,'panel':panel,'trim':trim}
 
 def raw_compositor(scene):
     scene.use_nodes=True;nt=scene.node_tree;nt.nodes.clear();rl=nt.nodes.new('CompositorNodeRLayers');out=nt.nodes.new('CompositorNodeComposite');nt.links.new(rl.outputs['Image'],out.inputs[0]);scene.render.use_compositing=True
@@ -98,7 +110,10 @@ def main():
     if missing:raise ValueError('Character bone mapping is invalid: '+','.join(missing))
     h=cfg['height'];ground=cfg['ground'];fps=story.get('fps',24);duration=a.duration or story['duration'];end=round(fps*duration);scene.frame_start=1;scene.frame_end=end;scene.render.fps=fps;scene.render.fps_base=1
     scale_time=duration/story['duration'];frame=lambda seconds:max(1,min(end,round(seconds*scale_time*fps)+1));pos=lambda xyz:Vector((xyz[0]*h,xyz[1]*h,ground+xyz[2]*h));inv=arm.matrix_world.inverted();to_arm=lambda xyz:inv@pos(xyz)
-    mats_audit,mapped=prepare(scene,meshes,cfg);add_stage(scene,story['set'],h,ground);prop=make_prop(story['prop']['kind'],h,principled('Paper / story color',story['prop']['color'],.7,0,story['prop'].get('emission',0)))
+    mats_audit,mapped=prepare(scene,meshes,cfg);stage_materials=add_stage(scene,story['set'],h,ground);prop=make_prop(story['prop']['kind'],h,principled('Paper / story color',story['prop']['color'],.7,0,story['prop'].get('emission',0)))
+    story_materials={};stage_audit=add_story_objects(scene,story['set'],h,ground,frame,material_sink=story_materials)
+    scene_asset_audit=add_scene_assets(scene,a.story,h,ground,story_materials)
+    surface_style_audit=apply_matte_style(scene,story['set'].get('matte_style'),stage_materials,story_materials)
     prop_scale=float(story['prop'].get('scale',1))
     if prop_scale<=0:raise ValueError('Prop scale must be positive')
     prop.scale=(prop_scale,)*3
@@ -113,6 +128,14 @@ def main():
         for pb in arm.pose.bones:pb.matrix_basis=Matrix.Identity(4)
         for semantic,angles in key.get('rotations',{}).items():
             pb=bones[semantic];pb.rotation_mode='QUATERNION';pb.rotation_quaternion=Euler(tuple(math.radians(v) for v in angles),'XYZ').to_quaternion()
+        bpy.context.view_layer.update()
+        translations=key.get('translations',{})
+        for semantic in sorted(translations,key=lambda name:len(bones[name].parent_recursive)):
+            offset=translations[semantic]
+            if len(offset)!=3 or not all(math.isfinite(float(v)) for v in offset):raise ValueError('Pose translations require three finite world offsets')
+            pb=bones[semantic];desired=pb.matrix.copy();desired.translation+=inv.to_3x3()@(Vector(offset)*h)
+            pb.matrix_basis=pb.bone.convert_local_to_pose(desired,pb.bone.matrix_local,parent_matrix=pb.parent.matrix if pb.parent else Matrix.Identity(4),parent_matrix_local=pb.parent.bone.matrix_local if pb.parent else Matrix.Identity(4),invert=True)
+            bpy.context.view_layer.update()
         bpy.context.view_layer.update();rec={'frame':f,'hands':{}}
         for side in ('left','right'):
             hand=key.get(side+'_hand')
@@ -128,6 +151,7 @@ def main():
         for semantic,pb in bones.items():
             if semantic.endswith('_foot'):continue
             pb.rotation_mode='QUATERNION';pb.keyframe_insert('rotation_quaternion',frame=f)
+            pb.keyframe_insert('location',frame=f)
         action_audit.append(rec)
     shape_report={}
     for semantic,keys in story.get('expressions',{}).items():
@@ -142,6 +166,8 @@ def main():
         if obj.animation_data and obj.animation_data.action:
             for fc in obj.animation_data.action.fcurves:
                 for key in fc.keyframe_points:key.interpolation='BEZIER';key.handle_left_type='AUTO_CLAMPED';key.handle_right_type='AUTO_CLAMPED'
+    source_motion_audit=bake_source_layers(scene,arm,cfg,story.get('source_motion_layers',[]),fps,scale_time)
+    support_audit=bake_support(scene,arm,cfg.get('stationary_support',{}),two_bone,h,ground)
     contact_audit=bake_contacts(scene,arm,prop,cfg.get('contact_anchors',{}),story['prop'].get('contacts',[]),h,fps,scale_time,end)
     cameras=[];shot_table=[]
     for i,shot in enumerate(story['camera_variants'][a.variant]):
@@ -165,7 +191,14 @@ def main():
     face_baked=len(face_mats);scene.frame_set(1);bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'scene.blend'))
     report={'character':cfg['id'],'baseline':str(Path(a.baseline).resolve()),'character_config':str(Path(a.character).resolve()),'story':story['title'],'story_config':str(Path(a.story).resolve()),'variant':a.variant,'fps':fps,'frames':end,'duration':end/fps,'control':'Original MMD deformation skeleton; analytic arm target poses baked as FK quaternions; original legs/IK preserved','material_audit':mats_audit,'poses':action_audit,'shapes':shape_report,'face_materials_with_baked_axes':face_baked,'feet':foot,'prop_trace':prop_trace,'shots':shot_table,'strict_render_pass':False,'postprocess_required':True}
     report['prop_contact']=contact_audit
+    report['stationary_support']=support_audit
+    if support_audit['status']=='baked-stationary-FK':
+        report['control']='Original MMD deform bones; analytic arm targets baked as FK; configured stationary leg support baked as FK with original IK constraints muted'
+    report['source_motion_layers']=source_motion_audit
     report['creative_set']=json.loads(scene['creative_set_parameters'])
+    report['narrative_set']=stage_audit
+    if scene_asset_audit is not None:report['scene_assets']=scene_asset_audit
+    if surface_style_audit is not None:report['scene_surface_style']=surface_style_audit
     (out/'build-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');(out/'character.json').write_text(json.dumps(cfg,ensure_ascii=False,indent=2),encoding='utf-8');(out/'story.json').write_text(json.dumps(story,ensure_ascii=False,indent=2),encoding='utf-8')
     timings=[]
     for f in [int(v) for v in a.key_frames.split(',') if v]:

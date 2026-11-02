@@ -32,7 +32,7 @@ processes or remove original assets to resolve uncertainty.
 
 ## Pipeline
 
-Set the example path variables to your own files before running; `$Skill` is this extracted skill folder. Examples use PowerShell. The legacy jobs example uses paths relative to the process working directory. Copy external character/story/material/post profiles and authorized assets separately; the package intentionally contains none of those character assets.
+Set the example path variables to your own files before running; `$Skill` is this skill folder. Copy authorized assets and external character, story, material and post profiles separately. The legacy jobs example uses paths relative to the process working directory.
 
 ```powershell
 python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-source $MmdSource --dependencies $Deps --character $CharacterJson --story $StoryJson --post-config $PostJson --lut $LutPng --output $Output --variant A --width 640 --height 360 --samples 16
@@ -42,9 +42,37 @@ Tested dependencies: Blender 4.5.15 LTS, mmd_tools source 4.5.14 with bundled wh
 
 Products: import-baseline.blend, import-report.json, calibration.json, scene/scene.blend, scene/build-report.json, raw/frame_####.npz, frames/frame_####.png, preview.mp4, qa/, logs and input hashes. Scene textures are packed. Final-chain rerender still requires post profile, LUT and script version.
 
-Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed tracked inputs/scripts require a new directory because pipeline identity hashes directly supplied top-level files and all scripts. This does not cover every transitive resource: mmd_tools source/wheels and material-config references such as blueprint, source GLB, manifests or images are not all included. Freeze and separately hash those resources before resume; do not reuse cached scenes after changing them.
+Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed tracked inputs/scripts require a new directory. v25 binds directly supplied files and scripts, declared source-motion clips/skeletons, configured dorm blueprints and their declared images, and configured static-scene GLBs. This is not a complete transitive-dependency closure: mmd_tools source/wheels and other material/source resources still need separate freezing and hashes. Inspect the actual identity manifest before resuming.
+
+### Frame-boundary budgets
+
+`run_short.py --max-post-seconds N` pauses after committing a complete new post
+frame and its SMAA edge/checkpoint state. It records pipeline `paused` with
+`paused_stage: composite`; no video is encoded until post status is `complete`.
+The standalone option is `post_sequence.py --max-new-seconds N`. Values must be
+finite and positive. Budget timing includes only newly composited frame work;
+cached prefix validation takes additional time, and the final frame may exceed
+the budget. This is a frame-boundary limit, not a process timeout.
+
+Repeat the same command with a different budget or omit the budget. Keep the
+same frozen scripts, frame range, raw job, profile and lookup inputs. All cached
+PNGs, edges and predecessor signatures are revalidated; the execution budget is
+excluded from image identity. Preserve output and start a new directory when
+any production script or image input changes. Never resume an old producer's
+directory with the new budget implementation.
+
+`verify_post_budget.py` accepts real raw inputs and the prior post script. It
+compares default, repeated bounded and budget-to-unlimited runs byte-for-byte
+for PNGs and exactly for SMAA edge arrays. A passing derived-sequence test is
+CPU checkpoint evidence; it is not a forced-kill, whole-entrypoint or visual
+continuity test. Record those separately.
 
 NPZ resume verifies CRC, shape and finite rgba/weight. Corrupt frames regenerate. Post resume verifies PNG decoding and profile/LUT/raw-job/script identity. Preserve damaged outputs if needed as evidence; do not remove an asset tree to recover a frame.
+
+For configured dorm material blueprints, the pipeline also binds the [blueprint
+and each declared image](blueprint-inputs.md). Keep the evidence input manifest
+for dependencies outside this specific guard. New frozen scripts still require
+a new output directory; do not transplant them into an existing render cache.
 
 ## Standalone stages
 

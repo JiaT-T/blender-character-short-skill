@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import io
 import json
+import math
 from pathlib import Path
 import time
 
@@ -87,7 +88,10 @@ def main():
     parser.add_argument('--end', type=int, required=True)
     parser.add_argument('--smaa-area', type=Path)
     parser.add_argument('--smaa-search', type=Path)
+    parser.add_argument('--max-new-seconds', type=float, help='Budget only newly composited frames; cached validation time is extra')
     args = parser.parse_args()
+    if args.max_new_seconds is not None and (not math.isfinite(args.max_new_seconds) or args.max_new_seconds <= 0):
+        parser.error('--max-new-seconds must be finite and positive')
     if bool(args.smaa_area) != bool(args.smaa_search):
         parser.error('--smaa-area and --smaa-search must be supplied together')
     if args.start < 1 or args.end < args.start:
@@ -137,6 +141,7 @@ def main():
     atomic_json(manifest, signature)
     started = time.monotonic()
     events = []
+    newly_composited_seconds = 0.
     previous = None
     previous_state_sha = None
     previous_size = None
@@ -208,6 +213,8 @@ def main():
                 atomic_json(checkpoint, record)
                 event = {'frame': frame, 'status': 'composited', 'reason': reason,
                          'seconds': time.monotonic()-tick}
+            if event['status'] == 'composited':
+                newly_composited_seconds += event['seconds']
             events.append(event)
             atomic_json(output/'post-progress.json', {
                 'status': 'running', 'last_frame': frame, 'range': [args.start, args.end],
@@ -215,6 +222,18 @@ def main():
             })
             if frame % 24 == 0:
                 print('POST_CHECKPOINT', frame, 'elapsed', round(time.monotonic()-started, 1), flush=True)
+            if (args.max_new_seconds is not None and
+                    newly_composited_seconds >= args.max_new_seconds and frame < args.end):
+                atomic_json(output/'post-progress.json', {
+                    'status': 'budget-paused', 'last_frame': frame,
+                    'range': [args.start, args.end], 'records': events,
+                    'elapsed': time.monotonic()-started,
+                    'newly_composited_seconds': newly_composited_seconds,
+                    'job_sha256': job_sha,
+                    'resume': 'Repeat with the same frame range and inputs; the execution budget may change or be omitted. Cached PNG/edge/predecessor states are revalidated.',
+                })
+                print('POST_BUDGET_PAUSED', frame, 'new-seconds', round(newly_composited_seconds, 3), flush=True)
+                return
         atomic_json(output/'post-progress.json', {
             'status': 'complete', 'range': [args.start, args.end], 'records': events,
             'elapsed': time.monotonic()-started, 'job_sha256': job_sha,

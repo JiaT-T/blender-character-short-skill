@@ -1,8 +1,15 @@
-# Blender Character Short Skill · v07
+# Blender Character Short Skill · v25
 
 从已授权的 PMX 角色、角色映射和故事配置制作本地 Blender Eevee 短片的可移植 skill。包含导入、表演与分镜、接触诊断、材质与后处理、视频编码和检查脚本。
 
-**当前版本仍是待验收的制作候选。** v05 完成过双角色整包独立技术复用；最终制作视频使用 v06；本仓库的 v07 尚未完成整包独立端到端复验。本次发布只整理和检查分发文件，没有重新制作视频。
+**完整全身动作复用、表演自然度和正常速度连续观看验收仍未完成。** 本轮 v25 证据来自同一角色、同一宿主和上下文；已有 8 秒相机 B 技术预览，20 秒主片和 10 秒纸飞机复用仍由 v22 制作。单独的 CesiumMan 走近后接物试作及专用代码没有并入此通用 skill。历史 v05 的双角色独立技术复用不能替代 v25 的独立验证。本次公开更新没有启动 Blender 或重新制作视频。
+
+## 相比最初公开版的更新
+
+- 可选静态、自包含 GLB 场景导入：按角色身高定位和缩放，绑定故事材质与实际文件哈希。
+- 真实目标注视、向原注视控制返回、手部控制诊断和接触后的有限恢复调时。
+- 明确映射的源动作旋转变化与静止支撑；仍不支持通用全身重定向或自然步行。
+- 外部蓝图及其声明贴图的身份校验，以及可暂停、恢复的逐帧后处理预算。
 
 ## 内容
 
@@ -10,8 +17,8 @@
 - [`references/production.md`](blender-character-short/references/production.md)：角色、故事和动作配置约定。
 - [`references/execution.md`](blender-character-short/references/execution.md)：命令、阶段产物和恢复方式。
 - [`references/validation.md`](blender-character-short/references/validation.md)：历史证据范围和未完成项。
-- `blender-character-short/scripts/`：31 个原有 Python 脚本，保持 v07 原字节。
-- [`release/distribution-manifest.json`](release/distribution-manifest.json)：来源 ZIP 哈希、42 个 skill 文件清单和分发差异。
+- `blender-character-short/scripts/`：冻结 v25 的通用 Python 脚本，发布时保持原字节。
+- [`release/distribution-manifest.json`](release/distribution-manifest.json)：来源 ZIP 哈希、文件清单、分发差异和排除项。数量用于完整性核查，不代表品质验收。
 - [`release/validation.json`](release/validation.json)：本次上传前的聚焦检查结果。
 
 原项目历史、制作日志和媒体不在本仓库。模型、纹理、PMX/GLB、`.blend`、视频、LUT、SMAA 查找图、依赖二进制和角色专用映射均须另行准备。
@@ -38,16 +45,18 @@ python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-sourc
 
 ```powershell
 python -B validation/validate_distribution.py --report release/validation.json
+python -B -m unittest discover -s validation -p 'test_*.py'
 ```
 
-此检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行 10 个宿主 Python CLI 的帮助入口；不会加载角色、渲染或证明画质。历史 Blender CLI 检查与本次检查分别记录。
+分发检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行宿主 Python CLI 的帮助入口。聚焦测试使用临时生成的自有合成输入，检查静态 GLB 校验、依赖身份、旋转解码、注视/调时边界和后处理暂停恢复。均不加载角色或启动 Blender，不证明画质或自然表演。
 
 ## 已知限制
 
 - 严格 HairHET/模板、透明深度与 MRT、环境贴图 HTTP 403，以及适用源 GPU 数值一致性仍未解决。
 - 连续正常速度视觉验收和音频验收尚未完成；默认自动产物为静音。有限接触采样不能证明全网格、所有帧或子帧均无穿插。
 - 恢复签名不覆盖所有间接资源。mmd_tools/wheels、材质配置引用的 GLB、贴图、蓝图和清单需要另行冻结并校验。
-- 本次语法、CLI 和分发检查不等于 v07 整包独立制作通过。完整限制以 validation 文档为准。
+- v25 的静态 GLB 运行证据使用自制工作台，不代表第三方场景资产通过；完整全身动作复用、自然度、正常速度连续观看和音频验收仍未完成。
+- 当前宿主已有 Blender 启动故障 `0xC0000022`，此次未启动 Blender。语法、CLI、合成输入和分发检查不等于 v25 整包独立制作通过。完整限制以 validation 文档为准。
 
 ## 来源与使用权
 
