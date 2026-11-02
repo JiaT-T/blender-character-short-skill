@@ -17,6 +17,8 @@ For an optional theme-matched matte environment, read [scene surface style](refe
 
 When an existing local packed node clip and matching hierarchy are supplied, [source-motion variation](references/source-motion.md) can add explicitly mapped rotation variation over authored acting. It is a limited reuse route, not full-body action retargeting; preserve the remaining library-motion gap and verify contact separately.
 
+For permitted local GLB2 animation, [motion conversion](references/motion-conversion.md) extracts supported LINEAR node TRS into that existing external format. Keep reviewed source/credit/license identity with the converted data; conversion does not fit a character or validate walking.
+
 ## Establish evidence
 
 Inspect current Blender processes/project and preserve unsaved work. Use one scene writer and one heavy render. Preserve asset/import baselines and save separate scene versions. Keep third-party assets, licenses and character-specific mappings outside this skill.

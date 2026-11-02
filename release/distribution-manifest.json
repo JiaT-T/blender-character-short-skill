@@ -1,100 +1,98 @@
 {
-  "distribution_version": "v25",
-  "source_archive": "blender-character-short-v25.zip",
-  "source_archive_sha256": "e7c88129897f40f95d63d9f2b62a7d6beafa271af7ad5e10ab823c823d817adf",
-  "source_file_count": 72,
-  "script_count": 51,
+  "distribution_version": "v26c",
+  "source_archive": "blender-character-short-v26c.zip",
+  "source_archive_sha256": "3564fd9347a34fc7d590ff2ab47f99aa1c788ab998d5ef9c3b7228a1c339d6b7",
+  "source_file_count": 75,
+  "script_count": 53,
   "inventory_is_not_quality_acceptance": true,
-  "source_zip_and_frozen_directory_hashes_verified": true,
-  "all_scripts_byte_identical_to_frozen_v25": true,
   "repository_packaging_changes": [
+    {
+      "file": "blender-character-short/SKILL.md",
+      "source_sha256": "f2ac2ddd29262db6f352de02116b9989ec4d2c375639a8b04e81d1e45835990e",
+      "candidate_sha256": "8af9c1d70b45c251c5225e2c9c9455ee02e69dab5da33737881c9484edb3b218",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
+    },
     {
       "file": "blender-character-short/references/character-formula-additional-cases.json",
       "source_sha256": "0b9a9669b3654f0ce484cbaf746234f52632e384a239453d2e33083500997952",
-      "published_sha256": "d32905821ba3cbfad99b85ae121afb1977782d4bf3489303ca6938ba0b714239",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "d32905821ba3cbfad99b85ae121afb1977782d4bf3489303ca6938ba0b714239",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/character-formula-cases.json",
       "source_sha256": "1511846863080954277217020eb550a636a4744e88c035cbdc26b04f285dfd76",
-      "published_sha256": "c08d4060210ac6c6693f5c1cc906a4ee39aef3efba30e39a582af755d13e29e4",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "c08d4060210ac6c6693f5c1cc906a4ee39aef3efba30e39a582af755d13e29e4",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/execution.md",
       "source_sha256": "dc16483aee66ceac22827acf0aa05c2e750f5e33d0ee6d5cbbaae22019470334",
-      "published_sha256": "27309e23acabdfde462ff75b4e0121282f8cf761a54fd22e7f0aa4c9cb7c8cd5",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
-    },
-    {
-      "file": "blender-character-short/references/fixtures/source-outline-known-inputs.json",
-      "source_sha256": "25d6c298bc4adf193004e2d1a2dbe438e43a49d13556b5472ea8678fed0e9518",
-      "published_sha256": "a10578b9b5a3a2d6c376410bb7ffb0889c58e90df3ba71ff965fde26d317def4",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "27309e23acabdfde462ff75b4e0121282f8cf761a54fd22e7f0aa4c9cb7c8cd5",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/gaze-targets.md",
       "source_sha256": "f9ff95e1fca438f7e72ed11387aad7ec94f1818d78c8e3733787ca8ff71235b2",
-      "published_sha256": "8a37c8d5571d33f3f1826b3db423c23ef17e48f86a8244f060fbcff3997aa209",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "8a37c8d5571d33f3f1826b3db423c23ef17e48f86a8244f060fbcff3997aa209",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/jobs.example.json",
       "source_sha256": "6de3fb91f0fc3b135109f160678a27e517f78bcbfd5a1685e455df599a07d57a",
-      "published_sha256": "f248465acbb1f227a18ba44e7de4d233284fdc257c46513d5a2eef4ab7fcb420",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "f248465acbb1f227a18ba44e7de4d233284fdc257c46513d5a2eef4ab7fcb420",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/moving-gaze.md",
       "source_sha256": "4a085de01bdde25275864ac081ccb4f41b027bd6690b58bd9bb10d9d6329fad7",
-      "published_sha256": "c898673a289c1768f0ba41724d13c4a6356c1cdc4e9cd296331745e0ab5476be",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "c898673a289c1768f0ba41724d13c4a6356c1cdc4e9cd296331745e0ab5476be",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/outline.md",
       "source_sha256": "46d35ab487df4d613903515ee776015d17cdd120d625fda044af24590fd5c868",
-      "published_sha256": "16e4895566705fa4fa9313ddd139044953915c303a24547224226e133504eb46",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "16e4895566705fa4fa9313ddd139044953915c303a24547224226e133504eb46",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/production.md",
       "source_sha256": "36726ed4a85b520b0b7f46261e592e2902d650c91643ffcfc2e2adf40ea56f74",
-      "published_sha256": "8c8c2a3d202be8d07c61b502f55b38a729902d35e787c97b50212dad26aea845",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "8c8c2a3d202be8d07c61b502f55b38a729902d35e787c97b50212dad26aea845",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/recovery-retime.md",
       "source_sha256": "0d1a22c176ed7429632ea30f41ea420ba358d1718210e4c57f0ae6b66eee1c19",
-      "published_sha256": "b719357fc47c72a207040bd3c49ad52385f322d75e8b02fed516f99da18c6659",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "b719357fc47c72a207040bd3c49ad52385f322d75e8b02fed516f99da18c6659",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/rendering.md",
       "source_sha256": "c0a9e62ce67816a39c23136ace0298f8b4e8829896d9efae9fceaa99fca4aa5e",
-      "published_sha256": "429e2e6645c3a9077a719785e983c51dbedcc5e1b30af72939a8c1121006d164",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "429e2e6645c3a9077a719785e983c51dbedcc5e1b30af72939a8c1121006d164",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/story-scenes.md",
       "source_sha256": "04dfe43c068b114dc495b8eab5ce1547fbd3f8b5a5ba24e5b0d0f13068a63786",
-      "published_sha256": "30259ebd2a1a5f42a1a415b7e7ce3fcb65fdb1c537d7881770f9f7bcadec3408",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "candidate_sha256": "30259ebd2a1a5f42a1a415b7e7ce3fcb65fdb1c537d7881770f9f7bcadec3408",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
       "file": "blender-character-short/references/validation.md",
-      "source_sha256": "b691c741dd4e69ddf5a38e199d623f0d70347f41820afb0e17c4a3ba9f36a98d",
-      "published_sha256": "07ddc4be7309b48ba04487408f318e1d8afe732ad087f0897df148c00b814e12",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "source_sha256": "ac19ab8bdd2c174b0d5896a49600aff237b2be132aa11f244fb01fcb2d7ac574",
+      "candidate_sha256": "687fe97b9873323122c6f1adfd0c0c9b681e336eb8c74babc4b48a147d3a031f",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     },
     {
-      "file": "blender-character-short/SKILL.md",
-      "source_sha256": "5d0df361658895c509c94fd7fab73e8961a6b2d582bb5bfac0de81a15857c621",
-      "published_sha256": "1e12f06495e52d629de000643dcce7f4e0445a266ad1a021485ba32f9650d7c9",
-      "scope": "Documentation/config metadata portability, privacy or current-version boundaries; fixture numbers unchanged"
+      "file": "blender-character-short/references/fixtures/source-outline-known-inputs.json",
+      "source_sha256": "25d6c298bc4adf193004e2d1a2dbe438e43a49d13556b5472ea8678fed0e9518",
+      "candidate_sha256": "a10578b9b5a3a2d6c376410bb7ffb0889c58e90df3ba71ff965fde26d317def4",
+      "scope": "Preserved public portability/privacy text, UTF-8 LF documentation or accurate CPU-only version boundaries; no numeric fixture changes"
     }
   ],
   "files": {
-    "blender-character-short/SKILL.md": "1e12f06495e52d629de000643dcce7f4e0445a266ad1a021485ba32f9650d7c9",
+    "blender-character-short/SKILL.md": "8af9c1d70b45c251c5225e2c9c9455ee02e69dab5da33737881c9484edb3b218",
     "blender-character-short/references/antialiasing.md": "5e05aeef4ba36579e8a06f8b7aa15c612f243260ca879cb975cdb221efe6eaf8",
     "blender-character-short/references/blueprint-inputs.md": "90a6e06ad096ca0477b013467935f895cecb8287569a131cb0331c92b83edd21",
     "blender-character-short/references/character-formula-additional-cases.json": "d32905821ba3cbfad99b85ae121afb1977782d4bf3489303ca6938ba0b714239",
@@ -103,6 +101,7 @@
     "blender-character-short/references/gaze-targets.md": "8a37c8d5571d33f3f1826b3db423c23ef17e48f86a8244f060fbcff3997aa209",
     "blender-character-short/references/hand-controls.md": "887e2c86adc0561be9f99a0c8637d1e98392c5b335f0b2bdeb0e71349ccdcb87",
     "blender-character-short/references/jobs.example.json": "f248465acbb1f227a18ba44e7de4d233284fdc257c46513d5a2eef4ab7fcb420",
+    "blender-character-short/references/motion-conversion.md": "7fa2d26e6d1a05d93349c2ae85c397a1b4696c7d6490fcab42db22992c82510a",
     "blender-character-short/references/moving-gaze.md": "c898673a289c1768f0ba41724d13c4a6356c1cdc4e9cd296331745e0ab5476be",
     "blender-character-short/references/outline.md": "16e4895566705fa4fa9313ddd139044953915c303a24547224226e133504eb46",
     "blender-character-short/references/production.md": "8c8c2a3d202be8d07c61b502f55b38a729902d35e787c97b50212dad26aea845",
@@ -110,10 +109,10 @@
     "blender-character-short/references/rendering.md": "429e2e6645c3a9077a719785e983c51dbedcc5e1b30af72939a8c1121006d164",
     "blender-character-short/references/scene-assets.md": "eb14319c29a5d813fe302b96324ea8e4fca45b66d03419031662349cf416f4e2",
     "blender-character-short/references/scene-style.md": "367031559f8e83d760f90f6c1d87bb9856a5008afb71f4e80a5f463c24b7bada",
-    "blender-character-short/references/source-motion.md": "7e7836482d5db8ee15c6d56790954b6965ed55788fd79229318f98d1b5ac7e73",
+    "blender-character-short/references/source-motion.md": "b24f8c481feba29f21b33c0e35ed441b8f091360e1938006f199ce1f4fed2de7",
     "blender-character-short/references/story-scenes.md": "30259ebd2a1a5f42a1a415b7e7ce3fcb65fdb1c537d7881770f9f7bcadec3408",
     "blender-character-short/references/target-occlusion.md": "2dd79bf16391776a6ea93b5f021fcc4433aa5f62c0ccc4d53e1af092de6ebbf1",
-    "blender-character-short/references/validation.md": "07ddc4be7309b48ba04487408f318e1d8afe732ad087f0897df148c00b814e12",
+    "blender-character-short/references/validation.md": "687fe97b9873323122c6f1adfd0c0c9b681e336eb8c74babc4b48a147d3a031f",
     "blender-character-short/scripts/audit_contact_footprint.py": "2fe87c444d406d55e17126456f83d860cd82fa4bd3a953f6750c1d4944b1169e",
     "blender-character-short/scripts/audit_gaze_targets.py": "74472f817c9f31fa84b0ad0331f56d35ac5aea61d0da1eec8e3851822d1eb3ca",
     "blender-character-short/scripts/audit_head_framing.py": "468fef344461f7bc89f610f8c2f156c71057a4a4c720d1e5f2e0b07da94ea55e",
@@ -129,6 +128,7 @@
     "blender-character-short/scripts/character_material.py": "ac8bb10afbd18a736f059547410de0e9e85cb0c6ec5324c58d1928c9e0beca52",
     "blender-character-short/scripts/compare_videos.py": "dd36eb1d15acfef56ac1abfbf8dcd696f29e2d3fd341aee784ef0e58ad4f7951",
     "blender-character-short/scripts/contact_motion.py": "d3371bf1fcfa77de1f8f1412a62e970708b64b1104f21e9fdcbf17c2168735c2",
+    "blender-character-short/scripts/convert_glb_motion.py": "991169d1b63b200dc55359455911859f647c902040a6817f58c0a63a3d5b22b6",
     "blender-character-short/scripts/encode_video.py": "bc4cf4b413d3aa141bdb9f57aeecb6d553dd5735bbc4234a8b96dc2cb46bac1b",
     "blender-character-short/scripts/execution_lock.py": "49c1f65e714f8218b4c18b47b5a02a6442146ddbab71cb93883b83bc74e6b6d4",
     "blender-character-short/scripts/gaze_control.py": "9da6f12239934c5f6ccd7d6a131a7814234ae87348c06ac6959c00958f997002",
@@ -157,6 +157,7 @@
     "blender-character-short/scripts/story_stage.py": "dcbf1f4066c2fd6f52ead03b898ddf7c304977e6975ed2860865302efc437de5",
     "blender-character-short/scripts/support_motion.py": "c7c6e9bb2046f8a8d3805447f3a92f1ac7c3e569a743a8699d14b04f655eb5f0",
     "blender-character-short/scripts/verify_character_formula.py": "02a6ed1ec35c35cde2c9410e12136651f75651db8e22240ce284d8d0257b8bcb",
+    "blender-character-short/scripts/verify_glb_motion.py": "d3b463e7206f7deb8a16c892f5d307aad369515337c7d234849e2760443b9cd4",
     "blender-character-short/scripts/verify_post.py": "9062f3d44bbea355d2fea2a5e9e790c756d879776849532d5d134f69d7469b3a",
     "blender-character-short/scripts/verify_post_budget.py": "e6359ee04757ccc1bb0f63d71822e5489d89b6811113fac184eed8ca3c7d1bf9",
     "blender-character-short/scripts/verify_scene.py": "6f853d21168feb3b00128111661113a11c2c6d5733a5518c2abab711f0745609",
@@ -174,14 +175,17 @@
     "naturalness": "not accepted",
     "continuous_normal_speed_viewing": "not completed",
     "audio": "current previews are silent; listening acceptance not completed",
-    "blender_execution_during_public_update": "not performed"
+    "blender_execution_during_preparation": "not performed",
+    "continuous_time_interval": "not verified",
+    "new_converter_Blender_integration": "not performed"
   },
   "excluded_from_public_update": [
     "local-only delivery trees, production logs and internal handoff records",
     "character PMX/GLB, textures, scenes, videos and dependency binaries",
     "original or extracted Stand02 clips and skeletons with unverified redistribution rights",
     "CesiumMan GLB, animation data and project-specific approach/catch retargeting experiment",
-    "LUT and SMAA lookup resources, caches, credentials and machine paths"
+    "LUT and SMAA lookup resources, caches, credentials and machine paths",
+    "New converter source GLB, converted packed motion/skeleton/provenance reports and generated CPU fixture directories"
   ],
   "external_motion_rights_review": [
     {
@@ -197,5 +201,16 @@
       "raw_or_derived_motion_included": false,
       "project_specific_experiment_included": false
     }
-  ]
+  ],
+  "candidate_scope": "CPU motion conversion; no new video, Blender integration or continuous-interval acceptance",
+  "all_scripts_byte_identical_to_frozen_v26c": true,
+  "existing_blender_runtime_scripts_unchanged_from_v25": true,
+  "base_public_commit": "712f124527aec0f502b28cd71f57d0f141e1f534",
+  "independent_CPU_review": {
+    "packaged_tests": 56,
+    "historical_counterexamples_rejected": 4,
+    "continuous_interval_verified": false,
+    "Blender_or_visual_acceptance": false
+  },
+  "source_zip_and_publication_allowlist_hashes_verified": true
 }

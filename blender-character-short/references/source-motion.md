@@ -5,6 +5,11 @@ an explicit character mapping are available. Prefer suitable motion-library
 actions for common movements. This implementation supports one packed node JSON
 format; it is not a Mixamo FBX importer or a full-body retargeter.
 
+For a reviewed local GLB2 with ordinary LINEAR node TRS, first use
+[motion conversion](motion-conversion.md) to create this format and its matching
+index-preserving skeleton. This is CPU extraction/verification; the rotation-only
+layer below still has the same contact and full-body limitations.
+
 `source_motion.py` reads version-1 component-major delta vectors and smallest-three
 quaternions, normalizes sampled quaternion interpolation, and evaluates a glTF node
 hierarchy. A current-project trial decoded all 47 tracks of an existing `Stand02`

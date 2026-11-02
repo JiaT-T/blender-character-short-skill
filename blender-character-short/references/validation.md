@@ -1,11 +1,25 @@
 # Validation and limits
 
-## Current public distribution: v25
+## Current distribution candidate: v26c (CPU motion conversion)
 
-This is the generic v25 skill, with optional static GLB scene imports, real-target gaze/return, post-contact hand timing, source rotation variation and frame-boundary postprocessing budgets. The current-iteration evidence is from Nanami Q on the same host/context. v25 produced an 8-second camera-B preview; the 20-second workshop film and 10-second paper-plane reuse retain their actual v22 producers. The separate CesiumMan approach/catch experiment and its project-specific code or motion data are not part of this skill.
+v26c adds a local GLB2 LINEAR node-TRS converter and self-authored CPU verification
+fixtures. It preserves reviewed source/rights hashes and supported restrictions,
+refuses unsupported input and resource excess, checks every original union key
+time plus supplementary discrete world samples, and leaves continuous-interval
+verification false. The frozen hash passed an independent 56-test CPU review and
+four historical counterexample replays. This is a bounded numeric/tool review;
+it does not independently certify rights to any private source asset.
 
-Full-body motion-library reuse, natural acting and continuous normal-speed viewing remain unaccepted. No new Blender execution or rendering was performed for this public update because the existing runtime has a startup fault. Pure Python/distribution checks are reported separately in the repository. File counts establish inventory, not film quality.
+Existing Blender runtime scripts are byte-identical to v25. No Blender execution,
+new render or new video was produced for this candidate. The earlier camera-B
+preview belongs to v25; the workshop and paper-plane films retain v22 producers.
+The separate CesiumMan approach/catch experiment is outside the generic skill.
 
+Continuous-time intervals, Blender integration, target skin/retargeting, contact,
+natural walking/stopping and normal-speed continuous viewing remain unverified.
+The existing 0xC0000022 startup fault remains; no startup retry is part of release
+preparation. File counts are inventory only. Repository checks are recorded
+separately from the historical runtime evidence below.
 
 The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Historical run manifests, exact commands, hashes and visual-review records are retained privately for each frozen version; this repository contains generic procedures and summarized boundaries.
 
@@ -259,3 +273,49 @@ This tests self-created static geometry, not an acquired third-party model,
 arbitrary formats, texture adaptation, full-body/library retargeting, physics,
 subframes, continuous visual playback or independent-context/cross-role reuse.
 See [scene asset imports](scene-assets.md) for the supported file/palette contract.
+
+
+## Local GLB node-motion conversion (CPU only)
+
+The optional converter was exercised with30self-authored numerical/CLI cases and
+one permitted local source:57channels,22nodes,48samples. Independent channel times
+produced the expected analytic parent/child world transform; antipodal quaternion
+sampling, endpoint clamping, explicit selection, appearance stripping, unsupported
+input refusals, file-rights hash identity, new-output refusal and source preservation
+passed. Original-key vector error was below0.000001, quaternion error below0.0001
+degrees and sampled world-matrix error below0.000001 for that source.
+
+A subsequent independent review found a false-success case:12finite local scales
+could overflow after world composition while NaN error accumulation remained0.
+The bounded converter now refuses nonfinite/overflowed world matrices and error
+statistics before output creation. The reviewer's actual12node and1200node CLI
+counterexamples were replayed and refused, without an output directory, verified
+report or uncaught RecursionError. Forward/reverse depth128 is supported, and
+depth129 is refused. Explicit byte, hierarchy, accessor, total resampling and
+validation-product limits are documented in the conversion reference; existing
+Blender runtime/evaluator files were not silently changed.
+
+Further self-authored cases cover animation-only world overflow, a resampling
+product on either side of the supported boundary, and real CLI count/product
+budget rejection. Rights records now reject duplicate/unknown fields instead of
+silently dropping conditions, retain supported item-specific restrictions, and
+bind exact rights bytes. Original30cases remain part of the expanded CPU suite;
+the actual test log/result determines the new candidate's pass and case count.
+
+A further independent review found a world-overflow peak at an original key that
+the earlier sparse world probes omitted. The converter now requires every
+original union key time in its world check, plus additional uniform samples, and
+budgets the complete traversal before packing. It refuses a plan that omits a key
+or a workload that cannot cover all keys within the unchanged limit. Regression
+cases include the200key/60node isolated peak, a finite peak whose recorded world
+scale proves it was evaluated, and a resampling-valid input refused because full
+key world coverage exceeds the existing budget. Successful reports state their
+original-key/additional-sample counts and leave continuous-interval verification
+false. No discrete test establishes safety at every time between keys.
+
+These scripts do not change the existing Blender runtime. New converter data has
+not been through Blender, target-skin/contact, full-body fitting or a natural stop
+check; automatic startup was blocked. Existing separately saved performance and
+footplant experiments cannot be relabeled as validation of these new converter
+bytes. Continuous playback, clean-context full-body reuse and other-character
+coverage remain unpassed. See [motion conversion](motion-conversion.md).

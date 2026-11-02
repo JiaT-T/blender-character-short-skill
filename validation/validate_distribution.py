@@ -16,9 +16,9 @@ from hashlib import sha256
 
 
 HOST_CLI = (
-    "calibrate_character.py", "compare_videos.py", "encode_video.py",
+    "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
-    "source_post.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
+    "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
 )
 
 
@@ -109,7 +109,9 @@ def validate(root: Path) -> dict:
         "host_cli_help": cli,
         "blender_execution": "Not run; existing 0xC0000022 startup fault. No scene import, Blender help, rendering or runtime audit attempted",
         "scripts_modified": False,
-        "independent_whole_package_v25_production": "not performed",
+        "independent_whole_package_v26c_production": "not performed",
+        "continuous_interval_verified": False,
+        "new_converter_Blender_integration": "not performed",
         "full_body_motion_reuse": "not completed",
         "naturalness_acceptance": "not completed",
         "continuous_visual_review": "not completed",

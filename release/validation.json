@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v25",
+  "distribution_version": "v26c",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -8,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 72,
-  "skill_scripts_compiled_without_bytecode": 51,
+  "skill_files": 75,
+  "skill_scripts_compiled_without_bytecode": 53,
   "validation_scripts_compiled": 2,
   "json_fixtures_parsed": 4,
-  "internal_markdown_file_links_checked": 38,
+  "internal_markdown_file_links_checked": 43,
   "frontmatter_required_fields_checked": true,
   "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 80,
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 83,
   "host_cli_help": [
     {
       "script": "calibrate_character.py",
@@ -23,6 +23,10 @@
     },
     {
       "script": "compare_videos.py",
+      "returncode": 0
+    },
+    {
+      "script": "convert_glb_motion.py",
       "returncode": 0
     },
     {
@@ -50,6 +54,10 @@
       "returncode": 0
     },
     {
+      "script": "verify_glb_motion.py",
+      "returncode": 0
+    },
+    {
       "script": "verify_post.py",
       "returncode": 0
     },
@@ -64,24 +72,45 @@
   ],
   "blender_execution": "Not run; existing 0xC0000022 startup fault. No scene import, Blender help, rendering or runtime audit attempted",
   "scripts_modified": false,
-  "independent_whole_package_v25_production": "not performed",
+  "independent_whole_package_v26c_production": "not performed",
+  "continuous_interval_verified": false,
+  "new_converter_Blender_integration": "not performed",
   "full_body_motion_reuse": "not completed",
   "naturalness_acceptance": "not completed",
   "continuous_visual_review": "not completed",
   "audio_review": "not completed",
-  "powershell_examples": {
-    "blocks_parsed": 9,
-    "errors": 0
+  "packaged_cpu_conversion_tests": {
+    "status": "pass",
+    "at_utc": "2026-11-02T23:01:44.934599+00:00",
+    "tests_run": 56,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "source": "Self-authored numeric fixtures generated at runtime; no external motion/model/texture included.",
+    "scope": "CPU conversion/analytic transforms/input rejection/new-output and source-identity behavior only. No Blender/skin/contact/retargeting/naturalness/continuous-view acceptance."
   },
-  "pure_python_focused_tests": {
+  "existing_python_regressions": {
     "passed": true,
     "tests_run": 11,
     "failures": 0,
     "errors": 0,
-    "blender_started": false,
+    "skipped": 0,
+    "Blender_started": false,
     "external_assets_used": false,
-    "fixture_scope": "Original synthetic inputs in an isolated writable temporary directory",
-    "initial_attempt": "Default sandbox temporary-directory ACL blocked file writes; repeated with an explicitly writable test temp root"
+    "scope": "Existing public synthetic input/identity/post-resume regression checks"
   },
-  "synthetic_post_test_scope": "No-AA generated inputs only; does not validate source SMAA/GPU parity, real-scene frames or film quality"
+  "powershell_examples": {
+    "blocks_parsed": 12,
+    "errors": 0
+  },
+  "independent_CPU_review_summary": {
+    "archive_sha256": "3564fd9347a34fc7d590ff2ab47f99aa1c788ab998d5ef9c3b7228a1c339d6b7",
+    "tests": 56,
+    "historical_counterexamples_cleanly_rejected": 4,
+    "continuous_interval_verified": false,
+    "Blender_or_visual_acceptance": false,
+    "asset_rights_independently_certified": false
+  },
+  "new_render_or_video_produced": false,
+  "final_source_hash_verified": "3564fd9347a34fc7d590ff2ab47f99aa1c788ab998d5ef9c3b7228a1c339d6b7"
 }
