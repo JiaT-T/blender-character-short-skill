@@ -1,27 +1,207 @@
 # Validation and limits
 
-## Current distribution candidate: v26c (CPU motion conversion)
+## Current public distribution: v33
 
-v26c adds a local GLB2 LINEAR node-TRS converter and self-authored CPU verification
-fixtures. It preserves reviewed source/rights hashes and supported restrictions,
-refuses unsupported input and resource excess, checks every original union key
-time plus supplementary discrete world samples, and leaves continuous-interval
-verification false. The frozen hash passed an independent 56-test CPU review and
-four historical counterexample replays. This is a bounded numeric/tool review;
-it does not independently certify rights to any private source asset.
+The exact v33 archive was used in a fresh same-machine directory to rebuild the
+10-second paper-plane case from raw PMX, external relative-path profiles and
+licensed local motion through the actual PowerShell entry point. The recorded
+run completed all 240 low-resolution frames, source post/SMAA, encoding/decoding,
+the requested saved body/framing/selected-region checks and a paired resource
+reopen with five packed images and no missing in-use images. A bounded post pause
+was resumed with the same inputs and producer after a recorded successful exit.
+This is one character on one machine/context, not independent-context,
+cross-machine or cross-character validation.
 
-Existing Blender runtime scripts are byte-identical to v25. No Blender execution,
-new render or new video was produced for this candidate. The earlier camera-B
-preview belongs to v25; the workshop and paper-plane films retain v22 producers.
-The separate CesiumMan approach/catch experiment is outside the generic skill.
+The latest 15-second main film retains private authored choreography and private
+postprocessing corrections; it is not an end-to-end raw-PMX rebuild by this generic
+skill. Its final private gaze correction is not a new generic head/eye solver.
+Neither that film, its inputs, nor original or derived motion data is distributed.
 
-Continuous-time intervals, Blender integration, target skin/retargeting, contact,
-natural walking/stopping and normal-speed continuous viewing remain unverified.
-The existing 0xC0000022 startup fault remains; no startup retry is part of release
-preparation. File counts are inventory only. Repository checks are recorded
-separately from the historical runtime evidence below.
+Technical completion, full-file decoding and sampled images do not establish
+normal-speed continuous viewing or naturalness. Credible finger grasp, general
+FBX/Mixamo/finger/cross-character retargeting, full-volume/subframe/cloth/friction
+correctness and strict source-render equivalence remain unaccepted. Approach
+flight phases are not accepted steady walking. Current previews are silent.
 
-The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Historical run manifests, exact commands, hashes and visual-review records are retained privately for each frozen version; this repository contains generic procedures and summarized boundaries.
+This publication repeats only Python, CLI, packaging and privacy checks; it does
+not launch Blender or create a new video. The historic version-specific records
+below retain their own failed/pending scopes and cannot be relabeled as current
+whole-film, continuous-view or naturalness passes.
+
+
+## Current local evidence and scope
+
+The later v30 exact-ZIP Nanami rebuild completed211frames, source-post/SMAA,
+encode/decode, paired resource reopen and all requested saved body, ground,
+stance, gaze, framing and selected head/both-arm surface checks. Its97payload
+files matched the extracted/frozen code; selected nonadjacent head/arm surface
+warning frames were0. The corresponding Full HD export has211frames at24fps,
+1920x1080/64samples, complete decode,5packed images/no missing and a successful
+paired reopen. A24frame processed sheet and a native verification frame were
+actually inspected. These are local numeric/sampled-image results; no full
+normal-speed continuous viewing, full self-volume, subframe or naturalness pass.
+
+The new optional schema2 launch has one actual fresh Nanami input trial:
+240frames/10seconds, all requested saved body/framing checks true and selected
+head/both-arm warnings0. Dense saved-root inspection shows initial rest and
+acceleration into the existing gait without a duplicate root pause at its join.
+An earlier too-shallow ready crouch was refused for unreachable original leg
+geometry after both scenes opened; a separate measured configuration passed.
+This is not a Blender startup failure or permission workaround. The new generic
+candidate still requires exact-final-ZIP replay and legacy schema1 regression;
+the longer prepared-authored main is a separate production route. Do not
+attribute its pre-existing catch/transfer authoring to a raw-PMX main rebuild.
+
+The launch compositor preserves its own authored input from stop end, as its
+record states. A separate cross-version comparison of the new prefixed story
+against v30 found14post-stop output frames above the strict1e-5 matrix bound:
+maximum bone-matrix difference6.92e-5 and prop-matrix difference1.38e-5, with
+unchanged root/camera states. Exact old-film equivalence is therefore unpassed;
+do not weaken that report or equate it with the within-input protection test.
+The small magnitude alone does not determine perceptual acceptability or cause.
+
+Every report and video must retain its actual producer version, hash and review
+scope. A later package does not retroactively produce an older film. Earlier
+failures below remain historical evidence and are not silently overwritten.
+
+## Selected character-region follow-up
+
+The frozen v29 package has completed a fresh exact-ZIP Nanami rebuild from raw
+PMX and permitted local node motion, with211saved frames, full source-post/SMAA,
+encode/decode, body/framing inspection and resource/scene reopen. Its94payload
+files matched the frozen directory and extracted case; runtime Python caches
+are recorded separately rather than counted as covered payload. This is local
+technical evidence on the same character and author/context, not independent
+artistic, cross-character or continuous-viewing acceptance.
+
+A subsequent head/whole-arm surface comparison found21warning frames in the
+missed-reaching segment. The same triangle pairs were present in the original
+authored scene; the new body route added none, but this is not a self-contact
+pass. A four-pole-key correction reduced warnings to8frames but changed the
+interpolated wrist path by.006938character heights and6.43degrees; it was not
+adopted. Identical keyed targets do not establish identical between-key FK.
+
+The wrist-preserving stage now supports schema2 smooth entry/return and up to
+8ordered pipeline stages. Eight fixed poles were compared over the complete
+affected interval; two removed its selected head/both-arm nonadjacent surface
+pairs while protecting all211saved wrist and other states. The chosen measured
+pose uses the smaller original-elbow displacement. This standalone result is
+not a complete final-pipeline or whole-self-volume pass. A fresh two-elbow,
+five-shot Nanami rebuild has separate region/body/framing/protected-state and
+exact-ZIP gates; read its actual reports before marking them passed.
+
+That five-shot raw-input trial subsequently completed211frames of full
+source-post/SMAA/encode/decode and a saved-scene reopen with5packed images.
+All211frames passed the configured head/both-arm nonadjacent surface checks,
+body/external-surface/ground/foot-anchor and story-feature framing inspections.
+Comparison with the v29 reference preserved all protected bones and noncamera
+objects exactly; maximum wrist-position difference was2.97e-7character heights,
+with zero measured wrist rotation difference and outside-window arm matrix
+difference below4.48e-7. The actual post-render side camera was verified in
+the reopen report. Sampled images were viewed; normal-speed continuous
+viewing, full self-volume/torso/cloth/subframe and naturalness remain unpassed.
+This trial precedes the final ZIP freeze; final-byte raw reconstruction still
+has its own gate and must not be inferred from this paragraph.
+
+The configurable [region audit](character-region-surfaces.md) bounds selected
+triangle/chunk/frame work and reports adjacency exclusions, skipped frame scope
+and surface warnings explicitly. Eight pure plan cases cover malformed schema,
+weights, roots, pairs, ranges and workload limits. Five actual owned triangle
+fixtures cover real separation/crossing, adjacency and unsupported selection or
+topology. Twenty-six generated elbow cases include saved/reopened release on
+moving/transformed rigs, original boundaries, nonfinite/norm-overflow rejection
+and combined work limits. Five real CPU CLI cases verify ordered-stage refusal
+before native execution. These reports remain separate from production and
+another-character/naturalness acceptance.
+
+One temporary-camera comparison was invalid because timeline bindings restored
+the source shot during render. Corrected probes explicitly controlled bindings
+and checked the actual post-render camera. A separate trial used an ignored
+`camera` position alias and is retained as a front-close control; the intended
+side shot uses `location` in a new directory. These failed controls are not
+relabeled as evidence for the selected side view. See [story framing](story-framing.md).
+
+## Configured body approach and story framing
+
+The optional body route has been exercised on the authorized Nanami PMX with a
+reviewed local GLB animation, through exact motion conversion, proportional FK,
+measured travel, actual material stances, a measured stop and a different plane
+story rebuilt from raw inputs. The production trial used an open scene path,
+matching floor/sole reference, hand/elbow/gaze and coupled tempo layers, full
+source-post/SMAA/encode/decode, and saved whole-character/scene inspection.
+Read each actual report's producer and input hashes; a trial is not proof that
+later frozen ZIP bytes were independently rebuilt.
+
+CPU boundaries cover malformed mappings/numbers, source identities, recomputed
+motion mismatch, unsupported extra rights conditions, cycles/frame grids and
+invalid framing requirements. Actual camera probes compare deformed feature
+bounds with the installed Blender projector and matched rendered images. Final
+acceptance still requires an exact-ZIP raw-input rebuild, saved-scene/resource
+reopen and checks on that final producer, not relabeled prototype evidence.
+
+Failures are retained: overly long stances exceeded original leg reach;
+forcing flight to ground increased hip discontinuity; a more exact contact
+target also exceeded reach; side-camera overlap hid the incoming plane; a tight
+reaction crop cut resting hands. None is repaired by declaring import/decode or
+an inspection exit0 equivalent to natural acting. Choose measured, reachable
+stance intervals and an adequate camera envelope instead.
+
+The current scope is one production character, one author/context, configured
+node data and original-rig FK. General FBX/Mixamo acquisition/retargeting,
+convincing start from rest, another-character/independent-context production,
+subframe/volume/self-collision/physics, continuous normal-speed viewing,
+alpha-aware occlusion, iris readability and audio listening remain separate
+unpassed gates. [Body approach](body-approach.md) and
+[story framing](story-framing.md) state exact operational boundaries.
+
+## Optional coupled scene timing
+
+The scene-tempo route separately checks mapped bone/object world matrices,
+F-curve samples and active camera identity at every output integer frame.
+Original integer frames and all original in-range key times are checked for
+numeric validity under combined work limits. The generated verifier includes
+deformed shape vertices, material/property channels, fractional sampling,
+save/reopen, known-invalid skipped original keys and explicit unsupported-data
+refusals. Check the actual runtime report for the tested producer and case count.
+
+Same-character Nanami production application does not establish another rig or
+independent-context acceptance. This timing route does not close the full-body
+library retarget/contact/stop gap. Changed pace still needs complete visual
+review; mapped-state equality does not prove natural movement or subframe
+clearance. See [coupled scene timing](scene-tempo.md).
+
+Earlier version-specific records below are retained as historical evidence;
+their pending or failed gates cannot be replaced by unrelated later tests.
+
+## Wrist-preserving elbow stage (Nov3)
+
+The optional elbow-pole stage has been run on a 336-frame Nanami trial and on
+a different 240-frame Nanami plane/gesture story rebuilt from the raw PMX.
+The latter used matched default and opt-in outputs, complete raw/source-post/
+SMAA/encode/decode stages and sampled visual inspection. All 56 producer Python
+files matched the tested case. Sixteen generated-rig cases also passed,
+including saved/reopened transformed moving parents, wrist attachments,
+constraint dependencies, no-op, quaternion sign equivalence and input refusals.
+
+An independent saved-graph comparison of the two 240-frame outputs allowed only
+the configured right-arm interval. Protected and outside-window matrices differed
+by at most 1.252e-6, below 1e-5; the tested whole-arm surfaces had no intersections
+with head, peer hand or non-armature scene meshes at integer frames. This is one
+character and the same author/context, not cross-character artistic or independent
+context validation. The new gesture is authored; existing Stand02 supplies only
+secondary rotation, not a newly acquired library wave.
+
+The first plane story's farewell wording did not match its actual safe landing
+on a pad. Keep that creative mismatch separate from the working pipeline and
+pose-preservation evidence. Normal-speed continuous viewing, sleeve/torso volume,
+subframe motion and general collision remain unverified. The separate 14-second
+storage film used project authoring over earlier generic helpers; it is not
+proof that this optional stage alone rebuilds that complete film.
+
+Full-body source locomotion fitting and curved-palm sliding still belong to
+separate project trials; this stage does not silently claim either capability.
+
+The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Version-specific run manifests, commands, hashes and visual-review records remain in private evidence archives; only generic procedures and bounded summaries are distributed here.
 
 Use [S] for source code, [G] for observed website runtime/GPU, [B] for Blender execution/output, and [A] for inference/adaptation. Static GLB/manifest inspection is asset evidence, not [G]. CPU formula tests are labeled CPU and do not become Blender or website GPU tests.
 
@@ -275,7 +455,7 @@ subframes, continuous visual playback or independent-context/cross-role reuse.
 See [scene asset imports](scene-assets.md) for the supported file/palette contract.
 
 
-## Local GLB node-motion conversion (CPU only)
+## Historical v26 local GLB node-motion conversion (CPU-only freeze)
 
 The optional converter was exercised with30self-authored numerical/CLI cases and
 one permitted local source:57channels,22nodes,48samples. Independent channel times
@@ -313,9 +493,9 @@ key world coverage exceeds the existing budget. Successful reports state their
 original-key/additional-sample counts and leave continuous-interval verification
 false. No discrete test establishes safety at every time between keys.
 
-These scripts do not change the existing Blender runtime. New converter data has
-not been through Blender, target-skin/contact, full-body fitting or a natural stop
-check; automatic startup was blocked. Existing separately saved performance and
+At the v26 freeze, these scripts did not change the existing Blender runtime.
+That freeze's new converter data had not been through Blender, target-skin/contact,
+full-body fitting or a natural stop check; automatic startup was blocked. Its separately saved performance and
 footplant experiments cannot be relabeled as validation of these new converter
 bytes. Continuous playback, clean-context full-body reuse and other-character
 coverage remain unpassed. See [motion conversion](motion-conversion.md).

@@ -45,3 +45,11 @@ temporal diagnostics and continuous viewing separately.
 
 This route is Eevee-only. It does not implement source outlines, iris optics,
 transparent materials, arbitrary texture shaders or website GPU equivalence.
+
+
+In a large or distant ground plane, inspect whether a constant light band
+introduces an unmotivated horizon-like boundary behind the character. Compare
+the same processed frames/cameras with the original soft gradient. Reject a
+profile that steals attention from the action even when all world states and
+character geometry are unchanged. A numerically valid style is still an
+artistic candidate, and one rejected profile does not invalidate every mix.

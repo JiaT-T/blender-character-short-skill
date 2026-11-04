@@ -1,5 +1,19 @@
 # Execution and recovery
 
+Record the actual native Blender exit code separately from its wrapper's
+exit code. A wrapper can exit successfully after recording a failed child.
+Keep the execution surface and any required per-command approval explicit;
+one approved host invocation is not a permanent grant to leave a sandbox.
+
+Classify a failed child from its actual log. An OS/application initialization
+failure, a scene-open failure, a Python import error and a supported validation
+refusal are different outcomes. Follow the user's explicit stopping condition;
+do not silently broaden it to every script error or narrow it to ignore a real
+application/scene failure. Preserve failed attempts and use new receipts/outputs
+after an authorized repair. Blender entry points importing sibling modules must
+insert their own `Path(__file__).resolve().parent` into `sys.path`; the Python
+script directory is not guaranteed to be on Blender's import path.
+
 ## Shared execution lock
 
 On Windows, wrap cooperating render commands with one shared lock path for the
@@ -32,7 +46,7 @@ processes or remove original assets to resolve uncertainty.
 
 ## Pipeline
 
-Set the example path variables to your own files before running; `$Skill` is this skill folder. Copy authorized assets and external character, story, material and post profiles separately. The legacy jobs example uses paths relative to the process working directory.
+Set all example variables to your own external inputs before execution; `$Skill` is this skill folder. The generic package does not contain a ready-to-render character or licensed action. Keep inputs and newly generated output outside the public repository.
 
 ```powershell
 python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-source $MmdSource --dependencies $Deps --character $CharacterJson --story $StoryJson --post-config $PostJson --lut $LutPng --output $Output --variant A --width 640 --height 360 --samples 16
@@ -42,7 +56,14 @@ Tested dependencies: Blender 4.5.15 LTS, mmd_tools source 4.5.14 with bundled wh
 
 Products: import-baseline.blend, import-report.json, calibration.json, scene/scene.blend, scene/build-report.json, raw/frame_####.npz, frames/frame_####.png, preview.mp4, qa/, logs and input hashes. Scene textures are packed. Final-chain rerender still requires post profile, LUT and script version.
 
-Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed tracked inputs/scripts require a new directory. v25 binds directly supplied files and scripts, declared source-motion clips/skeletons, configured dorm blueprints and their declared images, and configured static-scene GLBs. This is not a complete transitive-dependency closure: mmd_tools source/wheels and other material/source resources still need separate freezing and hashes. Inspect the actual identity manifest before resuming.
+The optional `--body-approach-plan` adds `body-fit`, `body-travel`, `body-plant`
+and `body-compose` before hand recovery/elbow/gaze/whole-scene tempo. Its five
+local motion/rights files and body producer dependencies are bound to the
+pipeline. Body plans require the original story duration and explicit
+`body_interaction_frame`; changed inputs/producers require a clean output.
+See [configured body approach](body-approach.md) for constraints and final audit.
+
+Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed tracked inputs/scripts require a new directory. Read the actual identity manifest for covered source-motion, blueprint/image, body-plan and stage dependencies; this is not a complete transitive dependency closure. Freeze external add-on/wheels and other indirect resources separately.
 
 ### Frame-boundary budgets
 
@@ -68,6 +89,14 @@ CPU checkpoint evidence; it is not a forced-kill, whole-entrypoint or visual
 continuity test. Record those separately.
 
 NPZ resume verifies CRC, shape and finite rgba/weight. Corrupt frames regenerate. Post resume verifies PNG decoding and profile/LUT/raw-job/script identity. Preserve damaged outputs if needed as evidence; do not remove an asset tree to recover a frame.
+
+Repeated entrypoint stages keep their first log and create numbered attempt
+logs. Events record each real log path and child PID; prior progress is copied
+before resume. A missing tool session handle is not a child exit receipt.
+Inspect the recorded process and output before another attempt. On Windows,
+avoid long-lived delete-blocking readers of atomically replaced progress files;
+monitor append logs or use a reader sharing deletion. WinError5 alone neither
+identifies its cause nor authorizes changing permissions.
 
 For configured dorm material blueprints, the pipeline also binds the [blueprint
 and each declared image](blueprint-inputs.md). Keep the evidence input manifest
@@ -105,3 +134,30 @@ whole-body animation merely to inspect a closeup.
 ## Labeled video comparisons
 
 python scripts/compare_videos.py --left EARLIER --right CANDIDATE --output REVIEW.mp4 --duration SECONDS --left-label Earlier --right-label Candidate creates a silent side-by-side review and fully decodes it. Shorter inputs hold their last frame to the chosen duration; the JSON records this. Matched inputs support implementation comparisons; different stories/cameras are editorial comparisons, not pixel parity. Latin labels and Unicode file paths are tested; no audio comparison is implied.
+
+
+## External project working directory
+
+The external character `materials.dorm_blueprint` and body plan `source.files`
+paths follow the process working directory. Each blueprint image `file` is
+relative to that blueprint's parent. Launch the CLI from the external project's
+root when using these relative paths; its children inherit that directory.
+Supply the installed Blender/add-on/Python paths explicitly. Keep authorized
+raw model, motion, lookup inputs and role mappings outside the generic skill.
+
+For a relocation check, copy the immutable producer and authorized inputs into
+a different clean directory with no old `.blend`, raw frames, post cache or
+result folder. Run from that copy, inspect the collected motion/blueprint/image
+paths, produce and decode a complete movie, and reopen its paired scene. Record
+which installed dependencies remain external. This proves only the tested
+same-machine directory/working-directory behavior, not cross-machine setup,
+an independent agent context or another character.
+
+When a receipt says running but stops advancing, check the original execution
+session and exact owned processes on the launching surface before any recovery.
+An empty restricted view alone is not host exit evidence. Preserve the stale
+receipt, stage log and progress before a confirmed-gone job is resumed. Use
+the same immutable producer/inputs in bounded stages, retain every new attempt
+log, and keep an unknown interruption cause unknown. Successful continuation
+is not proof that an OS/security root cause has been fixed. Never change host,
+permissions or security controls to bypass an actual denial.

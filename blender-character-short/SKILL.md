@@ -17,6 +17,8 @@ For an optional theme-matched matte environment, read [scene surface style](refe
 
 When an existing local packed node clip and matching hierarchy are supplied, [source-motion variation](references/source-motion.md) can add explicitly mapped rotation variation over authored acting. It is a limited reuse route, not full-body action retargeting; preserve the remaining library-motion gap and verify contact separately.
 
+For a reviewed locally converted body fragment and matching original rig, use the optional [configured body approach](references/body-approach.md). Fit proportions, measured travel, actual material stances and a bounded stop into the story, then inspect the entire performance. This narrow route starts already moving and does not establish general FBX/Mixamo or cross-character retargeting.
+
 For permitted local GLB2 animation, [motion conversion](references/motion-conversion.md) extracts supported LINEAR node TRS into that existing external format. Keep reviewed source/credit/license identity with the converted data; conversion does not fit a character or validate walking.
 
 ## Establish evidence
@@ -43,7 +45,11 @@ Keep new pose keys in the story input. For palm interactions, use the [contact w
 
 When an otherwise readable noncontact recovery is too abrupt, use the optional [post-contact recovery timing](references/recovery-retime.md) route. Preserve held performance and props, then judge complete playback before adoption.
 
+When the complete story needs a different approach, pause or recovery pace, use the optional [coupled scene timing](references/scene-tempo.md) route. Keep expressions, props, materials and camera cuts on the same external time map, then judge the complete motion again.
+
 For finger or mitten acting, first inspect [actual weighted hand controls](references/hand-controls.md). Keep selected existing joints and timing in external character/story inputs, then repeat the full contact and release checks after deformation changes.
+
+When a sleeve blocks an otherwise supported palm interaction, use the optional [wrist-preserving elbow pose](references/elbow-poles.md) route. Inspect the complete forearm and nearby set before changing the contact point: a passing palm footprint can coexist with a sleeve intersection.
 
 ## Validate rendering, then creative changes
 
@@ -63,7 +69,15 @@ For bounded foreground work, use the [frame-boundary execution budgets](referenc
 
 Each iteration: inspect current output, choose up to three specific problems with character/shot/time, separate variables where practical, render and compare under matching conditions. Keep the better version. Write successful methods back to this skill and re-run them. Record failures and untested assumptions separately.
 
+When the story needs a visible start from rest, the opt-in [grounded launch](references/grounded-launch.md) prepares a measured ready stance and acceleration before the configured source-body approach. Reject original-leg reach failures, inspect actual saved joins and keep continuous naturalness unverified until viewed.
+
+Use [story-purpose framing](references/story-framing.md) when a changed camera risks cropping the hair, hands, stopping feet or plot prop. Declare required features per beat, check actual saved geometry, and still review visibility in rendered output.
+
+For large hair, sleeves or hands that may overlap during a reach or head turn, use [weighted character-region surfaces](references/character-region-surfaces.md). External scene clearance does not inspect these pairs. Keep bone/weight selections outside the skill, retain warnings inherited from authored acting, and validate the full relevant interval after any pose correction.
+
 Use original or licensed sound when it serves a verified beat. Silent output is the automated default. Audio sourcing, editing and actual listening need separate evidence.
+
+When a scene should acknowledge successful placement, use [scene feedback](references/scene-feedback.md). Confirm real seating before a restrained response that preserves the original material style. Review the complete shot and retain any failed movement or gaze checks separately.
 
 ## Independent acceptance
 

@@ -69,7 +69,9 @@ def make_prop(kind,h,material):
 
 def add_stage(scene,cfg,h,ground):
     floor=principled('Creative set floor',cfg['floor']);panel=principled('Creative set panel',cfg['panel']);trim=principled('Creative set trim',cfg['trim'],.4,.15)
-    bpy.ops.mesh.primitive_plane_add(size=h*200,location=(0,0,ground-h*.003));bpy.context.object.name='Studio floor';bpy.context.object.data.materials.append(floor)
+    floor_offset=cfg.get('floor_offset_H',-.003)
+    if type(floor_offset) not in (int,float) or not math.isfinite(floor_offset) or abs(floor_offset)>.01:raise ValueError('floor_offset_H must be finite and within one percent of character height')
+    bpy.ops.mesh.primitive_plane_add(size=h*200,location=(0,0,ground+h*floor_offset));bpy.context.object.name='Studio floor';bpy.context.object.data.materials.append(floor)
     # Architectural panels belong to the set; no extra animated story props.
     panels=cfg.get('panels',[{'position':[x,.7,.8],'size':[.5,.07,1.7]} for x in [-1.1,1.1]])
     for item in panels:

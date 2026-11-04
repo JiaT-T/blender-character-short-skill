@@ -1,24 +1,19 @@
-# Blender Character Short Skill · v26c CPU 动作转换候选
+# Blender Character Short Skill · v33
 
 从已授权的 PMX 角色、角色映射和故事配置制作本地 Blender Eevee 短片的可移植 skill。包含导入、表演与分镜、接触诊断、材质与后处理、视频编码和检查脚本。
 
-**v26c 新增的是 CPU 动作转换能力，尚未完成 Blender 集成或视觉验收。** 它把已获许可的本地 GLB2 LINEAR 节点 TRS 动画转成既有 packed-v1 数据及匹配层级，保留源文件与许可记录哈希、支持的署名和限制字段。它不拟合角色，也不证明自然行走、停止或成片质量。
+**v33 有纸飞机剧情从原始 PMX 全流程重建的本地技术证据，尚未通过连续观看或自然度验收。** 实际验证使用本哈希的 ZIP、相对路径外部配置、许可动作和 PowerShell 入口，在同一台机器的新目录完成 240 帧低清构建、后处理、编码/解码、范围内检查及配对工程重开。它只覆盖 Nanami Q 这一个角色与纸飞机剧情，不代表独立上下文、其他电脑或跨角色通过。
 
-独立 CPU 审核对本冻结哈希执行了 56 项自有合成测试，并拒绝四个历史反例。世界矩阵检查覆盖全部原始合并 key 时刻和额外离散采样；**不验证 key 之间的整个连续时间区间**。Blender 集成、目标皮肤/重定向、接触、完整全身动作复用、自然度和正常速度连续观看仍未完成。本候选没有新视频：相机 B 预览仍由 v25 制作，20 秒主片和 10 秒纸飞机片仍由 v22 制作；独立 CesiumMan 试作及专用代码不在通用包内。
+最新 15 秒主片保留私有原始编排与私有视线修正，**不是通用 skill 从原始 PMX 完整重建的主片**，也没有因此新增通用头眼求解功能。手指可信包握、跨角色/通用 FBX/Mixamo 重定向和正常速度连续观感仍未完成。主片、视频、模型、原始及派生动作、私有重建输入均不在此仓库。
 
-## 本候选相对 v25 的变化
+## 相对 v26c 的更新
 
-- 新增 `convert_glb_motion.py` 和 `verify_glb_motion.py`，以及输入、许可、资源上限与数值验证说明。
-- 转换前检查文件大小、节点层级深度、累计采样和完整世界检查预算；超限拒绝，不删原始 keys 或提高上限。
-- 重复/未知许可字段、非有限世界矩阵和缺少原始 key 的验证计划会被拒绝；支持的附加限制与精确许可字节哈希保留。
-- 既有 Blender 运行脚本保持 v25 字节；将新脚本加入目录会改变整条流水线的脚本身份，历史渲染应保留原 producer，未来运行使用新目录。
+- 配置式原骨架全身接近流程：比例拟合、测量位移、脚底选区支撑、有限停步衔接，以及可选的准备姿势与起步加速；仍是选定节点动作与单角色映射。
+- 保持手腕的肘部方向调整、选定加权角色区域三角面检查和按剧情要求的头/手/脚/道具画面边界检查。
+- 耦合全场景时间映射、放置确认后的场景材质响应，以及与外部手部、注视和身体计划的阶段组合。
+- 保存重复尝试日志、真实子进程退出信息和输入/脚本身份，支持有界后处理暂停后按原身份继续。
 
-## 从 v25 保留的能力
-
-- 可选静态、自包含 GLB 场景导入：按角色身高定位和缩放，绑定故事材质与实际文件哈希。
-- 真实目标注视、向原注视控制返回、手部控制诊断和接触后的有限恢复调时。
-- 明确映射的源动作旋转变化与静止支撑；仍不支持通用全身重定向或自然步行。
-- 外部蓝图及其声明贴图的身份校验，以及可暂停、恢复的逐帧后处理预算。
+既有 GLB CPU 动作转换、静态场景导入、真实目标注视、原始骨架表演、外部 LUT/SMAA 后处理和编码检查仍保留。转换器的关键时刻检查不保证两 key 之间的全部连续时间安全。每个场景须保留自己的实际 producer 和输入；新脚本不得直接移入旧渲染缓存继续。
 
 ## 内容
 
@@ -27,7 +22,10 @@
 - [`references/execution.md`](blender-character-short/references/execution.md)：命令、阶段产物和恢复方式。
 - [`references/validation.md`](blender-character-short/references/validation.md)：历史证据范围和未完成项。
 - [`references/motion-conversion.md`](blender-character-short/references/motion-conversion.md)：CPU 转换命令、许可字段、支持子集、资源边界和验证范围。
-- `blender-character-short/scripts/`：冻结 v26c 的通用 Python 脚本，候选中保持原字节。
+- [`references/body-approach.md`](blender-character-short/references/body-approach.md)：配置式接近/停步及外部动作身份。
+- [`references/grounded-launch.md`](blender-character-short/references/grounded-launch.md)：准备姿势和有界起步。
+- [`references/character-region-surfaces.md`](blender-character-short/references/character-region-surfaces.md)、[`references/story-framing.md`](blender-character-short/references/story-framing.md)：选定表面与画面范围的检查边界。
+- `blender-character-short/scripts/`：保持 v33 冻结 ZIP 中的原始脚本字节。
 - [`release/distribution-manifest.json`](release/distribution-manifest.json)：来源 ZIP 哈希、文件清单、分发差异和排除项。数量用于完整性核查，不代表品质验收。
 - [`release/validation.json`](release/validation.json)：本次上传前的聚焦检查结果。
 
@@ -41,7 +39,9 @@
 
 ## 使用
 
-CPU 动作转换可单独执行，不需要 Blender。先核对素材使用/修改/再分发权限，按 motion-conversion 文档准备真实 `source_sha256`、作者、许可、限制和修改说明；把转换输出保存在通用 skill 和公开仓库之外的新目录：
+先准备已授权的 PMX、原始角色映射、故事与材质配置、适用动作及其权利记录、后处理配置和查找资源。克隆此仓库本身不包含可直接复现影片的角色输入。历史技术验证使用的完整私有 PowerShell 重建入口和编排也未发布。
+
+CPU 动作转换可单独执行，不需要 Blender。按 motion-conversion 文档填写实际 `source_sha256`、作者、许可、附加限制和修改说明，把转换输出放在公开仓库之外的新目录：
 
 ```powershell
 $env:PYTHONDONTWRITEBYTECODE = '1'
@@ -51,9 +51,9 @@ python -B "$Skill/scripts/verify_glb_motion.py" --output $NewCpuVerificationDire
 
 存在多个动画时，转换命令须明确传 `--animation INDEX`。生成的动作、层级及许可报告可能继续受源条款约束，不能随通用代码自动公开。验证脚本生成自有临时数值 GLB，不需要下载或附带第三方资产。
 
-先阅读 production 和 execution 文档，准备已授权 PMX、mmd_tools 源码、角色与故事 JSON、适用材质资源、后处理配置和 LUT。需要 SMAA 时额外提供匹配源版本的 Area/Search 图。外部配置中的相对路径按进程工作目录解析。
+制作前阅读 production 和 execution 文档，准备 mmd_tools 源码及依赖、角色/故事 JSON、后处理配置和 LUT；启用 SMAA 时另提供匹配版本的 Area/Search 图。外部路径有各自的解析基准，按文档从外部项目根目录启动，并检查实际收集到的输入身份。
 
-在 PowerShell 中将下列变量设置为自己的实际路径；`$Skill` 指向仓库内的 `blender-character-short` 文件夹，`$Output` 使用独立的新输出目录：
+在 PowerShell 中将下列变量设为实际路径；`$Skill` 指向此仓库的 skill 文件夹，`$Output` 使用仓库外的新输出目录。按所用流程另附身体、肘部、注视、时间映射或场景响应计划参数，具体合同见各引用文档：
 
 ```powershell
 python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-source $MmdSource --dependencies $Deps --character $CharacterJson --story $StoryJson --post-config $PostJson --lut $LutPng --output $Output --variant A --width 640 --height 360 --samples 16
@@ -68,15 +68,16 @@ python -B validation/validate_distribution.py --report release/validation.json
 python -B -m unittest discover -s validation -p 'test_*.py'
 ```
 
-分发检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行宿主 Python CLI 的帮助入口。原有聚焦测试检查静态 GLB 校验、依赖身份、旋转解码、注视/调时边界和后处理暂停恢复；上方 `verify_glb_motion.py` 另执行新转换器的合成 CPU 套件。均不加载角色或启动 Blender，不证明画质或自然表演。测试生成目录、原始与转换动作均不属于发布候选。
+分发检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行可在宿主 Python 执行的 CLI 帮助入口。原有聚焦测试检查身份、旋转解码、注视/调时边界和后处理恢复；`verify_glb_motion.py` 另执行自有合成 CPU 套件。依赖 `bpy` 的场景检查须在另行许可的 Blender 环境运行；本次发布不重新渲染。测试输出、原始及转换动作均不属于公开文件。
 
 ## 已知限制
 
 - 严格 HairHET/模板、透明深度与 MRT、环境贴图 HTTP 403，以及适用源 GPU 数值一致性仍未解决。
 - 连续正常速度视觉验收和音频验收尚未完成；默认自动产物为静音。有限接触采样不能证明全网格、所有帧或子帧均无穿插。
 - 恢复签名不覆盖所有间接资源。mmd_tools/wheels、材质配置引用的 GLB、贴图、蓝图和清单需要另行冻结并校验。
-- v25 的静态 GLB 运行证据使用自制工作台，不代表第三方场景资产通过；完整全身动作复用、自然度、正常速度连续观看和音频验收仍未完成。
-- 当前宿主已有 Blender 启动故障 `0xC0000022`，此次未启动 Blender。CPU 数值、语法、CLI 和分发检查不等于 v26c 的 Blender 集成、整包独立制作或动作质量通过。完整限制以 validation 文档为准。
+- 只完成选定 Cesium 节点动作与 Nanami 原始骨架的配置适配；手指、通用 FBX/Mixamo、跨角色重定向、自然稳步与可信抓握均未完成。接近段有腾空，不能称为稳定步行。
+- 从原始 PMX 完整复用的证据只属于纸飞机剧情。主片使用私有编排；局部视线修正、技术检查和抽帧不等于连续观看或自然度通过。
+- 本次发布只复查代码、CPU 用例与分发文件，没有新增渲染或影片。历史启动故障和后来成功运行按各版本记录区分；不把旧故障推断为当前应用状态。完整限制见 validation 文档。
 
 ## 来源与使用权
 
