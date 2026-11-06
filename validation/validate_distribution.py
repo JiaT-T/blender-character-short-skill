@@ -22,6 +22,30 @@ HOST_CLI = (
 )
 
 
+MEDIA_PATHS = {"docs/media/nietiya-demo-1080p30.mp4", "docs/media/nietiya-demo-poster.jpg"}
+
+
+def validate_demo_media(root: Path) -> set[str]:
+    """Only the two explicitly reviewed demo outputs may accompany the skill."""
+    path = root / "release/demo-media.json"
+    if not path.exists():
+        return set()
+    media = json.loads(path.read_text("utf-8"))
+    rows = media["files"]
+    assert len(rows) == 2 and {r["path"] for r in rows} == MEDIA_PATHS, "Unexpected media allowlist"
+    for row in rows:
+        file = root / row["path"]
+        assert file.is_file() and not file.is_symlink(), "Missing or linked demo media"
+        data = file.read_bytes()
+        assert 0 < len(data) <= 50_000_000 and len(data) == row["bytes"], "Demo media size differs"
+        assert sha256(data).hexdigest() == row["sha256"], "Demo media hash differs"
+        if file.suffix == ".mp4":
+            assert data[4:8] == b"ftyp", "Expected MP4 container"
+        else:
+            assert data[:3] == b"\xff\xd8\xff", "Expected JPEG poster"
+    return MEDIA_PATHS
+
+
 def validate(root: Path) -> dict:
     skill = root / "blender-character-short"
     scripts = sorted((skill / "scripts").glob("*.py"))
@@ -57,6 +81,8 @@ def validate(root: Path) -> dict:
             assert (path.parent / dest).is_file(), f"Broken document link: {path.name}: {target}"
             links += 1
 
+    demo_media = validate_demo_media(root)
+
     forbidden = {".pmx", ".pmd", ".blend", ".glb", ".gltf", ".png", ".jpg", ".jpeg", ".bmp",
                  ".tga", ".dds", ".ktx", ".exr", ".hdr", ".npz", ".npy", ".mp4", ".mov",
                  ".webm", ".avi", ".wav", ".mp3", ".ogg", ".zip", ".whl", ".exe", ".dll", ".pyc"}
@@ -71,6 +97,8 @@ def validate(root: Path) -> dict:
     for path in root.rglob("*"):
         if not path.is_file() or ".git" in path.parts:
             continue
+        if path.relative_to(root).as_posix() in demo_media:
+            continue  # Exact paths, bytes, hashes and media headers checked above.
         assert path.suffix.lower() not in forbidden, f"Excluded artifact: {path.name}"
         assert path.suffix.lower() in {".py", ".md", ".json"} or path.name in {".gitignore", ".gitattributes"}, path.name
         text = path.read_text("utf-8-sig")
@@ -106,8 +134,9 @@ def validate(root: Path) -> dict:
         "frontmatter_required_fields_checked": True,
         "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
+        "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "Not run for this publication. Recorded v43a native131tests and existing-controller runtime evidence are separate from publication CPU/distribution checks",
+        "blender_execution": "This validator does not run Blender. Demo render/decode evidence, when supplied, is recorded separately in release/demo-media.json; historical v43a native131tests remain separate",
         "skill_scripts_modified_for_publication": False,
         "publication_validator_updated": True,
         "host_legacy_unittest_suite": "11 tests executed in restricted environment; fixture writes/cleanup encountered PermissionError. Not counted as passed; no permission changes or reroute",

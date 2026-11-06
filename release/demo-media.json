@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "type": "noncommercial-video-demonstration",
+  "created_utc": "2026-11-06T13:22:29.014973+00:00",
+  "files": [
+    {
+      "path": "docs/media/nietiya-demo-1080p30.mp4",
+      "bytes": 5733702,
+      "sha256": "757b993e50aaa9734fc997727e9a7a9ece45d50372e4cec70c8a59d09ad68160"
+    },
+    {
+      "path": "docs/media/nietiya-demo-poster.jpg",
+      "bytes": 338135,
+      "sha256": "67552f8c6dbd23bfb519d6081bf5b96386bf58742731d5b31aa82ac8cf92dc60"
+    }
+  ],
+  "credits": "docs/DEMO-CREDITS.md",
+  "video": {
+    "resolution": [
+      1920,
+      1080
+    ],
+    "fps": 30,
+    "frames": 391,
+    "duration_seconds": 13.03,
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_tracks": 0,
+    "no_text_overlay": true
+  },
+  "production": {
+    "engine": "Blender Eevee",
+    "gpu": "NVIDIA GeForce RTX 5060",
+    "look": "h07 source-derived local material/shadow/HET adaptation",
+    "frozen_skill_updated": false,
+    "workflow_scope": "Later local production and private character-specific look inputs; not a standalone rebuild from frozen repository code"
+  },
+  "verification": {
+    "full_decode_exit": 0,
+    "full_decode_frames": 391,
+    "per_frame_actual_gpu_verified": true,
+    "source_frame_hashes_verified": true,
+    "sampled_visual_source_frames": [
+      31,
+      105,
+      106,
+      130,
+      205,
+      210,
+      211,
+      240,
+      310,
+      330,
+      331,
+      345,
+      365,
+      366,
+      390,
+      421
+    ],
+    "normal_speed_continuous_visual_acceptance": false,
+    "strict_website_pixel_parity": false
+  },
+  "rights": {
+    "model_source": "https://www.aplaybox.com/details/model/huBrmYQe2u0m",
+    "use": "Noncommercial rendered fan-art video demonstration with complete credits",
+    "model_redistribution": false,
+    "project_or_motion_data_redistribution": false,
+    "motion_license": "CC BY-NC 4.0; see credits for attribution and changes"
+  }
+}
