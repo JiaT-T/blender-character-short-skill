@@ -83,7 +83,7 @@ def inspect_pairs(trees,pairs):
 
 def audit(scene,plan):
     arms=[o for o in scene.objects if o.type=='ARMATURE']
-    if len(arms)!=1 or len(arms[0].pose.bones)>512:raise ValueError('One bounded character armature required')
+    if len(arms)!=1 or len(arms[0].pose.bones)>2048:raise ValueError('One character armature with at most2048 bones required')
     meshes,triangles,regions,counts,work=selected_geometry(scene,arms[0],plan);rows=[]
     for frame in plan['frames']:
         scene.frame_set(frame);bpy.context.view_layer.update();points=evaluated_points(scene,meshes,triangles);trees=build_chunks(regions,triangles,points);pairs=inspect_pairs(trees,plan['pairs'])

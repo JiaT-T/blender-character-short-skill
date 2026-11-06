@@ -1,33 +1,109 @@
 # Validation and limits
 
-## Current public distribution: v33
+## Current v43a: provided controllers and permitted recorded actions
 
-The exact v33 archive was used in a fresh same-machine directory to rebuild the
-10-second paper-plane case from raw PMX, external relative-path profiles and
-licensed local motion through the actual PowerShell entry point. The recorded
-run completed all 240 low-resolution frames, source post/SMAA, encoding/decoding,
-the requested saved body/framing/selected-region checks and a paired resource
-reopen with five packed images and no missing in-use images. A bounded post pause
-was resumed with the same inputs and producer after a recorded successful exit.
-This is one character on one machine/context, not independent-context,
-cross-machine or cross-character validation.
+The user-provided controller route was exercised on one existing character project:
+724 original controller bones were retained,46 missing rotation bindings repaired,
+and two permitted captured clips adapted through source-local TRS into361integer
+frames. Four control-to-skin probes succeeded; the final generic importer and a
+fresh saved-action check reached about0.293mm maximum joint-position difference
+and1.665degrees shortest orientation difference. These measurements are not
+naturalness or cross-character acceptance. Fingers use a separate relaxed preset,
+not captured finger motion. Automated MMR generation was not rerun or repaired.
 
-The latest 15-second main film retains private authored choreography and private
-postprocessing corrections; it is not an end-to-end raw-PMX rebuild by this generic
-skill. Its final private gaze correction is not a new generic head/eye solver.
-Neither that film, its inputs, nor original or derived motion data is distributed.
+Original PMX physical data were imported locally, assembled and baked. One film
+producer saved then crashed during same-process reload; a fresh process checked
+the saved artifact. A separate generic bake/verify pair both exited0. The new route
+separates producer-save-exit and fresh-process verification. The old crash cause
+is unknown, and legacy same-process reload is not claimed fixed. Camera-only
+changes reused the cache; no corrective actor-pose/rebake loop is claimed.
 
-Technical completion, full-file decoding and sampled images do not establish
-normal-speed continuous viewing or naturalness. Credible finger grasp, general
-FBX/Mixamo/finger/cross-character retargeting, full-volume/subframe/cloth/friction
-correctness and strict source-render equivalence remain unaccepted. Approach
-flight phases are not accepted steady walking. Current previews are silent.
+The latest native suite has131tests, including aliased-rig, unweighted-model and
+existing-model-action refusals plus a real weighted synthetic target. The final
+169file/133script frozen package was tested; public packaging only redacts
+documentation/example locators. No Python script bytes are changed for publishing.
+Two local silent361frame movies were encoded and fully decoded at30fps/640x360.
+The assistant actually viewed only stills, including compressed captions. After
+that frozen checkpoint, the user reported watching the V04 film and accepted it.
+User visual acceptance is passed; playback speed/continuity details were not
+specified. This does not supply assistant whole-film viewing or objective
+half-frame/sliding/full-body collision evidence. Remaining unverified items include
+exact source shaders/MMD physics, complete clean raw-input rebuild and cross-machine
+or cross-character portability. Earlier unverified visual labels below describe
+their historical checkpoints, not a rejection of the later user acceptance. The old low-res90frame preview
+is partial. Actual assets, fitted targets, role mappings, projects and movies are
+not published. See [existing-controller workflow](existing-controller-projects.md).
 
-This publication repeats only Python, CLI, packaging and privacy checks; it does
-not launch Blender or create a new video. The historic version-specific records
-below retain their own failed/pending scopes and cannot be relabeled as current
-whole-film, continuous-view or naturalness passes.
+The sections below preserve earlier version-specific evidence and failures.
 
+
+## v38 optional transported arm frames
+
+The preceding v37 full-body case's close-up follow-up found a rapid right
+forearm rotation around frames75..77 (63.6degrees per frame at the largest
+half-frame interval). A forward static pole probe worsened that peak and was
+rejected. The optional transported-frame route and an externally authored
+forward lowering arc address separate orientation and pole-path problems.
+This is an opt-in change: the old route remains the default. Its exact native
+tests, final selected take, endpoint/contact measurements, visual probes and
+clean-package results are bound in the local delivery. Do not promote an
+intermediate orientation-only probe to an accepted complete performance or
+infer normal-speed continuous viewing from its angle report.
+
+## v37 adult full-body motion remix, 2026-11-05
+
+A separate local adult character case uses the original 1191-bone rig and one
+reviewed CC-BY4.0 Cesium Man node-TRS fragment. No source mesh, logo, target
+model, derived clip, character mapping or video is bundled in the generic skill.
+Source conversion is recomputed and matched to all five reviewed inputs.
+Knee-local positive hinge calibration and an explicit five-degree source bend
+floor were needed; the latter is recorded motion modification. The original
+knee limit remains active. Measured actual shoe stance intervals replace the
+previous character's intervals. A rejected flight-phase plant is retained.
+
+The final baseline fits 48 frames at24fps, speed1.3023m/s and travel2.55m. This
+source has visible flight: it is a stylized running/bounding fragment, not an
+accepted steady walk. External story tracks turn it into a chase, two-step
+brake, missed catch, wide-arm reaction and recovery step. An eight-second
+retimed take and a 176-frame original-tempo take are separate preserved cases.
+Original models, rest hierarchy, weights and morph geometry are preserved.
+
+The first original-tempo braking pose put opaque dress geometry about80.6mm
+below the real floor despite passing its shoe checks. That take is rejected.
+A new lower-crouch take preserves3.09m root travel and a maximum981mm wrist
+span. Fresh saved-output readback checks351 integer/half-frame samples,
+nonfinger body/root/prop actions, original constraints and skin identity. Its
+declared2mm sole and6mm tracked-contact bounds pass (actual maxima1.448mm
+sole penetration relative to the declared sole floor and0.961mm tracked error).
+The entire skin's worst actual-plane gap is-1.084mm at a boot vertex in the
+source phase, rather than the previous dress failure. This remains discrete
+sampling, not continuous or whole-volume proof. Critical wide/side/feet/face
+images were actually inspected; normal-speed continuous viewing is unverified.
+
+A selected-region report checks27 poses, leaving149 integer frames unrequested.
+The selected leg-pair warnings are0; hand/upper-body warnings remain nonzero.
+The upper-body region contains the hands, so that test also includes hand
+self-surface/layered-clothing comparisons. The neutral baseline already has
+325 left and285 right warnings; the new clip ranges200..672 and248..1095.
+This is not a disjointness pass and does not dismiss newly introduced warnings.
+No general self-collision, realistic balance, cloth dynamics or anatomical
+naturalness certification is claimed. Close-up inspection and an independent
+finger audit remain separate evidence from the whole-body readback. The lower-
+crouch take's independent176-integer-frame hand audit passes protected motion,
+actual selected skin, joint limits and requested selected-hand surface checks.
+Its `substeps=1` does not test half-frame hand targets, regardless of a vacuous
+subframe boolean. An external ending-only variation relaxes the off-hand and
+holds the goodbye gesture; its acceptance and exact producer are recorded
+separately in the local delivery, without rewriting this preserved take.
+
+The preview is deliberately simplified flat-texture CPU rendering. An explicit
+`views.wide` override now works as well as other following views; absent an
+override retains the saved camera. Old previews keep their actual archived
+producer instead of being attributed to the corrected writer. Rendering,
+encoding, clean-package validation and their exact producer hashes are listed
+in the paired local delivery reports. Neither a decoded video nor a contact
+sheet means it has been continuously watched at normal speed. Older character
+results below remain historical evidence; no new Nanami validation was run.
 
 ## Current local evidence and scope
 
@@ -201,7 +277,7 @@ proof that this optional stage alone rebuilds that complete film.
 Full-body source locomotion fitting and curved-palm sliding still belong to
 separate project trials; this stage does not silently claim either capability.
 
-The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Version-specific run manifests, commands, hashes and visual-review records remain in private evidence archives; only generic procedures and bounded summaries are distributed here.
+The skill is a tested production candidate, **not an accepted strict reproduction or reference-quality filmmaker**. Rendering, performance and independent reuse are separate gates. Evidence projects are `outputs/skill-iteration-20261027` and `outputs/skill-iteration-20261029`; their run manifests, exact commands, hashes and visual-review records are authoritative for each frozen version.
 
 Use [S] for source code, [G] for observed website runtime/GPU, [B] for Blender execution/output, and [A] for inference/adaptation. Static GLB/manifest inspection is asset evidence, not [G]. CPU formula tests are labeled CPU and do not become Blender or website GPU tests.
 
@@ -212,7 +288,7 @@ Use [S] for source code, [G] for observed website runtime/GPU, [B] for Blender e
 | Environment/import | Blender4.5.15 LTS / Eevee; mmd_tools4.5.14; two authorized PMX characters, original rigs, packed textures and existing morphs | No MMR-generated controls, physics, walking or general retargeting claim |
 | New production | Two10-second paper-plane stories, two camera arrangements each, editable scenes and complete240-frame source-post candidates | Four boards were diagnostic; candidate render remains approximate in the listed unsupported branches |
 | Action/camera improvement | Same-frame v03/v04 comparison found clearer Q plane/hair separation and larger late framing, and earlier Ni landing close-up | Q plane exits upper edge at8s as an explicit creative tradeoff; only sampled visual verification |
-| Fresh PMX reuse | An independent review session, initially no parent history, supplied skill + assets/config + new star story; both192-frame/8-second/24fps/640×360 outputs completed | v1 technical path passed, but story placement failed. v2 is a disclosed feedback-informed retry, not a second untouched context |
+| Fresh PMX reuse | Independent context `a clean v05 review context`, initially no parent history, supplied skill + assets/config + new star story; both192-frame/8-second/24fps/640×360 outputs completed | v1 technical path passed, but story placement failed. v2 is a disclosed feedback-informed retry, not a second untouched context |
 | Landmark correction | Frozen v03-landmarks rebuilt both from PMX; all28 frozen file hashes matched; actual shoulders/arm lengths used; no hand reach clamps remained | Q v2 shoulder height improved but depth remained ambiguous and hair top cropped; Ni final face improved but initial star overlapped clothing. Technical completion is not story fidelity |
 | Rendering formulas | Eleven actual32×32 Eevee cases: shadow boundaries/gates, Face alpha/mirror, specular, rim, SkinRamp and Matcap | Max ROI error .00048828125, tolerance .001; fixed Normal/View and explicit texture tolerance exclude geometric/TBN/runtime equivalence |
 | Static source probes | Dorm v03 outline branch corrected and rendered; Ni v03 Face smoothing corrected and rendered; raw/AOV and post stages preserved | Dorm static GLB outline is not an animated PMX outline; small Ni neutral-pose difference is not an overall aesthetic improvement |
@@ -259,7 +335,7 @@ Strict rendering and performance remain unpassed.
 
 ## Completed Oct29 v05 independent run and v06 extensions
 
-An independent review session began without parent
+Independent context `a clean v07 review context` began without parent
 history, supplied only frozen v05, raw assets/character mappings, runtime paths
 and a new paper-plane brief. It authored two camera arrangements per role,
 reviewed and revised its own inputs, and ran the entire entrypoint from PMX.
@@ -270,9 +346,9 @@ scenes reopened with no missing in-use images and rendered representatives.
 All152 supplied input hashes and39 frozen source/doc hashes matched. Generated
 bytecode was disclosed separately and excluded from version archives.
 
-The input list, method audit, exact commands, stories/configs,
+The input list, context ID, method audit, exact commands, stories/configs,
 output hashes and sampled observations are archived under project
-a private execution archive. No reach clamp, foot drift or
+`independent-reuse-v05/execution-context`. No reach clamp, foot drift or
 quaternion sign discontinuity was detected. This establishes **v05 technical
 reuse**, not continuous viewing, full collision proof or strict reproduction.
 A newer freeze requires its own result; consult the project acceptance matrix.
@@ -499,3 +575,169 @@ full-body fitting or a natural stop check; automatic startup was blocked. Its se
 footplant experiments cannot be relabeled as validation of these new converter
 bytes. Continuous playback, clean-context full-body reuse and other-character
 coverage remain unpassed. See [motion conversion](motion-conversion.md).
+
+## Original weighted hand clips (v34 local scope)
+
+The optional hand route was exercised on one original 1,191-bone model with
+15 separately weighted finger joints per hand. External data supplies 30 joints
+and 32 calibrated axes, including two independent thumb-opposition axes; these
+are not built-in role presets. All 32 isolated axes actually deformed the skin
+using the final runtime on an existing body performance, while exact nonselected
+world transforms remained unchanged. Eight pure input/curve tests and official
+skill-format validation passed; those are separate from native Blender checks.
+
+A 96-frame close/hold/release clip was saved and independently reopened at
+191 integer/half-frame samples. The first motion was rejected for four transient
+index/middle surface-crossing samples despite passing static held poses. The
+second external motion synchronizes those adjacent digits, preserving the
+remaining stagger. Its audit passes the declared geometry, protected bone/object
+world, morph, nonfinger skin, local translation/scale and rotation checks;
+subframe target error is below the declared .25-degree tolerance. No threshold
+was relaxed to remove the crossings. Read the paired audit's actual booleans,
+input hashes and producer hashes rather than treating exit 0 as acceptance.
+
+The 96 actual saved integer frames were rendered as a four-second 24-fps
+192-pixel diagnostic video with one low-priority CPU thread, then fully decoded.
+Twenty-four native key views and twelve decoded samples were actually viewed.
+They show a moderate C silhouette, visible thumb opposition and open/closed/open
+stages. Diagnostic colours, smooth normals, small size and render grain limit
+the assessment. This is not original-material rendering, full-story viewing,
+closed-volume clearance, cross-hand/intrafinger/sleeve collision, physical grasp
+or complete normal-speed naturalness acceptance. No second character was tested
+through this new hand route. Character profiles, motions, meshes, snapshots and
+model scenes stay outside the generic package.
+
+The same bound profile and generic writer were also applied to a different
+existing body performance of that model: a milder 48-frame left-hand preparation
+gesture, returning to its source pose before the authored palm-up key. Its saved
+clip passed 95 integer/half-frame samples, protecting the other 1,176 bones,
+objects, morphs and nonfinger skin with observed comparison error zero. This is
+same-character fragment reuse; it does not validate new full-story composition,
+physical contact, a second character or complete continuous viewing.
+
+## Supported sphere grip (v35 local scope)
+
+The new sphere route was run on that same original model with a 40.7-mm sphere,
+three reviewed terminal-finger regions, fixed-anchor cord and 120-frame/24-fps
+arm gesture. Eighty-one actual pose candidates and bounded parameter probes were
+used, with bone names, calibrated frame, sizes and joint values in external data.
+The original geometry, bones, weights and morph data remain unchanged.
+
+Static fit did not establish closure safety: direct closing produced 4.77-mm
+surface penetration; sequential thumb motion still produced about .44 mm. A
+small measured thumb detour, slower opposition and reverse release removed the
+failures without changing the contact thresholds. Visual review also found the
+noncontact fingers too straight; their external relaxation was adjusted and the
+complete saved clip re-audited. A numerical fit does not choose acting by itself.
+
+The recommended saved clip passes all declared checks at 239 integer/half-frame
+times, including 97 held samples. Actual skin/sphere and skin/cord triangle pairs
+and selected same-hand region intersections are zero; required pad gaps remain
+within the declared 1.2-mm contact bound, with positive sphere clearance. The
+other 1,176 bones, object worlds, morph values and nonfinger skin have observed
+comparison error zero against the newly authored arm/prop baseline. Material
+triangle anchors and prop-in-wrist transforms remain within .5-mm drift bounds.
+Cord length, endpoints, real lift and unsupported-state rest checks also pass.
+
+The saved finger target approximation is below .25 degrees; actual wrist path
+error is below the separately declared .25-mm half-frame bound and 10-micrometre
+integer bound. These describe sampled geometry, not every continuous instant.
+Native cord mesh topology changes from taut to slack and is cached per frame.
+Twelve native math/allocation/preflight tests passed, including refusal of large
+Cartesian grids before allocation and bounded cord point allocation.
+
+This is kinematic geometric contact, not rigid-body force/friction or dynamic
+rope simulation. Full original-shader/story rendering, general whole-character
+self-collision/closed-volume containment, cross-character reuse and reliable
+normal-speed continuous viewing remain unvalidated. CPU base-texture/UV views
+and diagnostic colours are separate from original material equivalence.
+# v36 short comic acting (local candidate)
+
+One original ten-second stationary upper-body story was authored for the same
+adult weighted character used in v34/v35. The semantic clip compiler placed
+17 external clips as 19 instances, including a reach and a torso reaction each
+reused at a different timing/amplitude. Hands, head/eye targets, torso, original
+morphs and an owned floating sphere have separate tracks. This demonstrates
+same-character clip composition; it is not cross-character or motion-library
+retargeting.
+
+The first body attempt rejected an unreachable resting right wrist when the
+torso leaned. Raising that authored rest target corrected reach without changing
+the tolerance. Sampled source-texture views of the second attempt showed a large
+head turn obscuring the face; the selected third attempt reduced its head limit
+from 40 to 28 degrees. Original bone rest data, weights and morph geometry were
+retained. Existing leg IK remains, with lower-body reference motion held fixed.
+
+The saved finger layer was independently reopened at 240 **integer** frames.
+Protected bone/object worlds, expressions, actual nonfinger skin, selected local
+translation/scale were unchanged from the new body-performance baseline. Requested
+finger rotation matrix error was 1.79e-7; selected original same-hand region
+surface pairs were disjoint in these samples. This audit used `--substeps 1`:
+the legacy report's subframe-error boolean has no subframe samples behind it and
+must not be described as a passed half-frame test.
+
+A separate saved-scene readback found matching wrist/prop tracks and expression
+values, stationary reference foot positions, preserved narrative markers and
+actual weighted eye skin moving relative to the head. This establishes that the
+existing binocular route deforms the real skin, not exact fixation or artistic
+gaze quality. Six new pure composition tests and eight existing hand-plan tests
+passed. Complete preview decode, sampled visual review and normal-speed viewing
+remain separate evidence in the local delivery; continuous naturalness, comedy,
+hair/sleeve collision and physical flick/contact accuracy are not certified by
+these numeric checks. Simplified image/UV preview shading is not source-render
+equivalence.
+
+The ten-second take also produced an uninterrupted 240-frame wide preview and
+a seven-segment edit using 66 matched face/hand insert frames. The edit keeps
+the same saved scene and original frame times, with source image/profile/style
+identities checked by `compose_acting_preview.py`. Both videos fully decoded
+at 24 fps, 512×384. Their 24-frame contact sheets and selected source key views
+were inspected separately; normal-speed continuous viewing was not completed.
+
+
+
+## Recorded motion and foot-reference correction (v39–v42 local scope)
+
+The user rejected the earlierv38 full-body take. Its numerical results do not
+override that visual rejection. Later work uses permitted recorded BVH actions
+on the same original adult MMD model; no new second-character test is implied.
+Original rest hierarchy, weights and morph geometry remain, with eye/finger
+acting separately configured. A two-excerpt practice gag and a second recorded
+greeting story have complete earlier local previews; decoding and sampled views
+remain distinct from continuous viewing.
+
+Source inspection found zero-length toe End Sites in the chosen BVH. Blender's
+importer extended them into display tails. Earlier dance shoe-goal tests used
+those virtual tails, so their passing target errors are not measured source
+sole/toe-tip evidence. The new typed marker route instead uses recorded ankle
+and toe-joint-head height offsets from separately declared reference poses.
+Those poses and the negative clamp remain explicit assumptions, not contact or
+force labels. The generic archive contains no source/derived motion data.
+
+A single captured calibration frame was also nonneutral for one foot. Explicit
+per-foot source references now align the original model's neutral-rest foot
+heading and transfer relative source ankle/toe rotations. The extra artistic
+pitch limit stays30degrees. Three source fragments have been fitted through the
+new route, including a90frame independent crop; source/root/torso/leg comparison
+and actual weighted shoe checks accompany the local reports. The crop was
+rebuilt from raw BVH; an initial private conversion-CLI delimiter error was
+corrected after checking the already completed sampling identities.
+
+One corrected240frame dance reduced required constant root lowering from
+about99.8mm to57.2mm. Its integer shoe/pose/length/unit-scale checks pass, but the
+separate half-frame proxy-height bound still fails at about10mm. Declared marker
+goals are not physical sole-contact truth. New passive-ground simulation also
+substantially reduces the previously observed opaque-costume floor crossing,
+while retaining a small residual and viewing limitations. See the local paired
+scene/hash/derivation/cache/render evidence rather than inferring success from
+an executable return code or a body count.
+
+At v42a the native pure suite had119tests with no failures/errors/skips, including
+source-reference bounds, typed marker math and passive-ground-plan refusals.
+This is not119visual-quality tests. Actual saved rotation/geometry/cache checks,
+matched rendered stills, full video decoding, normal-speed continuous viewing
+and audio listening have separate acceptance states in each local handoff.
+Continuous naturalness/comedy, general full-volume self-collision, exact MMD
+physics/shaders and cross-character portability remain unverified. The selected
+MMR full-generation workflow failed and its undocumented alternate was denied
+without execution; no completed controller claim is made.

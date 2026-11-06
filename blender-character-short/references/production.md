@@ -1,5 +1,26 @@
 # Production configuration and acting
 
+## Relocating local project inputs
+
+Open a reviewed source `.blend` at its real original location and pack local
+image dependencies before moving it. Raw file copying can leave relative paths
+pointing into the wrong directory. An unchanged copied-file hash proves copied
+bytes, not dependency portability.
+
+```text
+blender --background --disable-autoexec --offline-mode --python scripts/pack_blend_resources.py -- --blend <original-location.blend> --expected-sha256 <reviewed-hash> --output <new-packed-copy.blend> --report <packing-report.json>
+```
+
+This narrow route checks one original character's rest/skin identity, local file
+image dependencies, original input/image hashes, packed-file state and a fresh
+reopen. Bounds are512MB input,256MB per unpacked image and1GB total unpacked
+images. Linked libraries, movies, image sequences and network paths need a
+separately reviewed workflow. Missing files fail without searching another
+folder. Keep the failed copy and repair record. Packing does not grant asset or
+font redistribution rights; character projects remain outside the generic kit.
+Physics cache portability and actual rendered appearance require their own
+checks after packing.
+
 ## Character JSON
 
 Use UTF-8. Input paths inside JSON currently must resolve from the process working directory; absolute paths are safest. inspect_character.py --blend BASELINE --output REPORT runs inside Blender and records bones/joints, UVs, material images, morphs and bounds.
@@ -89,8 +110,11 @@ There is no physics, collision response or subframe/motion-blur guarantee.
 **A bone-center anchor can lie inside a thick glove.** Measure actual evaluated
 hand geometry before accepting it:
 
-```powershell
-& $Blender --background --factory-startup --python-exit-code 1 --python "$Skill/scripts/calibrate_contact_surface.py" -- --blend CANDIDATE.blend --character CHARACTER.json --frames 80,100,124 --output PALM_REPORT.json
+```text
+blender --background --factory-startup --python-exit-code 1 \
+  --python scripts/calibrate_contact_surface.py -- \
+  --blend CANDIDATE.blend --character CHARACTER.json \
+  --frames 80,100,124 --output PALM_REPORT.json
 ```
 
 The script raycasts only faces influenced by the configured wrist/descendants,

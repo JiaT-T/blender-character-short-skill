@@ -10,6 +10,7 @@ from bake_elbow_poles import dependency_bones
 from build_performance import two_bone
 
 def plant(scene,character,plan,travel_report):
+    if any(not plan['feet'][side]['contacts'] for side in ('left','right')):raise ValueError('Material planting requires explicit reviewed contact intervals on both feet; undeclared recorded contacts cannot pass as planted')
     arm,actor=character_rig(scene);h=finite(character['height'],'height',True);ground=finite(character['ground'],'ground');floor=ground+plan['travel']['sole_height']*h;tol=.00003*h;count=scene.frame_end
     if scene.frame_start!=1 or not 2<=count<=240 or count!=travel_report['frames'] or scene.render.fps/scene.render.fps_base!=plan['fps']:raise ValueError('Body travel timeline mismatch')
     geometry=geometry_identity(scene,arm)

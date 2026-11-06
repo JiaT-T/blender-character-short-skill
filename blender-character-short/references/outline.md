@@ -6,8 +6,12 @@ the original GLB, an explicit global tint, a new output path and a contiguous
 integer frame range. The scene must retain `source_mesh_index` and
 `source_material_index` from `render_source_probe.import_glb`.
 
-```powershell
-& $Blender --background --factory-startup --python-exit-code 1 --python "$Skill/scripts/bake_source_outline.py" -- --scene INPUT.blend --glb SOURCE.glb --output NEW.blend --report BAKE.json --start 1 --end 48 --tint 1 1 1 --remove-legacy-outline
+```text
+blender --background --factory-startup --python-exit-code 1 \
+  --python scripts/bake_source_outline.py -- \
+  --scene INPUT.blend --glb SOURCE.glb --output NEW.blend \
+  --report BAKE.json --start 1 --end 48 --tint 1 1 1 \
+  --remove-legacy-outline
 ```
 
 `--remove-legacy-outline` removes only the prior diagnostic hull named
@@ -36,8 +40,11 @@ does not replace the fragment shader's opaque alpha.
 
 Reopen and verify before use:
 
-```powershell
-& $Blender --background --factory-startup --python-exit-code 1 --python "$Skill/scripts/bake_source_outline.py" -- --scene NEW.blend --glb SOURCE.glb --report REOPEN.json --start 1 --end 48 --tint 1 1 1 --verify-only
+```text
+blender --background --factory-startup --python-exit-code 1 \
+  --python scripts/bake_source_outline.py -- \
+  --scene NEW.blend --glb SOURCE.glb --report REOPEN.json \
+  --start 1 --end 48 --tint 1 1 1 --verify-only
 ```
 
 Rebake after changes to pose, morph values, camera, projection, aspect, topology or outline

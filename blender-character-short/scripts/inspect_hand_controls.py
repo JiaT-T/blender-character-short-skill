@@ -21,7 +21,7 @@ def main():
     if a.output.exists():raise FileExistsError('Preserve earlier inventory: '+str(a.output))
     source=a.blend.resolve();digest=hashlib.sha256(source.read_bytes()).hexdigest()
     cfg=json.loads(a.character.read_text('utf-8'))
-    bpy.ops.wm.open_mainfile(filepath=str(source))
+    bpy.ops.wm.open_mainfile(filepath=str(source),load_ui=False,use_scripts=False)
     scene=bpy.context.scene;arms=[o for o in scene.objects if o.type=='ARMATURE']
     if len(arms)!=1:raise ValueError('Expected exactly one character armature')
     arm=arms[0];wrists={}
@@ -53,10 +53,10 @@ def main():
                          'rest_matrix':list(map(list,bone.matrix_local)),
                          'constraints':[{'type':c.type,'influence':c.influence} for c in pose.constraints],
                          'skin':{**weight,'meshes':sorted(weight['meshes'])}})
-        hands[side]={'wrist':wrist.name,'descendant_bones':rows,
+        hands[side]={'wrist':wrist.name,'wrist_rest_matrix':list(map(list,wrist.matrix_local)),'wrist_constraints':[{'type':c.type,'influence':c.influence} for c in arm.pose.bones[wrist.name].constraints],'wrist_skin':{**stats.get(wrist.name,{}),'meshes':sorted(stats.get(wrist.name,{}).get('meshes',set()))},'descendant_bones':rows,
                      'weighted_deforming_descendants':sum(r['deform'] and r['skin']['weighted_vertices']>0 for r in rows)}
     if hashlib.sha256(source.read_bytes()).hexdigest()!=digest:raise RuntimeError('Source scene bytes changed')
-    report={'status':'readonly-inventory-complete','blend':str(source),'scene_sha256':digest,'armature':arm.name,
+    report={'writer_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'character_sha256':hashlib.sha256(a.character.read_bytes()).hexdigest(),'load_ui':False,'use_scripts':False,'status':'readonly-inventory-complete','blend':str(source),'scene_sha256':digest,'armature':arm.name,
             'weight_threshold_exclusive':a.min_weight,'hands':hands,'source_scene_bytes_unchanged':True,
             'scope':'Counts original mesh assignments above threshold under configured wrists. This is not evaluated deformation, automatic rig mapping, a curl axis, fingertip contact, or natural grasp acceptance. Zero counted assignments do not imply a bone cannot affect a constrained/indirect control.'}
     a.output.parent.mkdir(parents=True,exist_ok=True)

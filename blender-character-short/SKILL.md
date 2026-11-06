@@ -1,11 +1,21 @@
 ---
 name: blender-character-short
-description: Build local Blender Eevee character shorts from authorized PMX assets, character mappings and a small story; develop reference-led acting, configurable shots, source-backed materials, staged compositing and reproducible video delivery. Strict shader equivalence requires separate evidence.
+description: Build local Blender character shorts from authorized PMX assets, character mappings and a small story; prioritize permitted recorded actions, then adapt body/wrist movement and weighted hand acting, inspect documented MMD physics and deliver reproducible local previews. Strict shader and naturalness acceptance require separate evidence.
 ---
 
 # Blender character short
 
 Turn the story into a readable performance, then improve the procedure from actual output. Read [production inputs](references/production.md) before preparing a character/story, [rendering contract](references/rendering.md) for source reproduction, and [execution](references/execution.md) for commands and recovery. [Validation](references/validation.md) records verified scope and limitations.
+
+For new full-body acting, start with [recorded library actions](references/library-actions.md). Preview permitted captured motion, calibrate its actual source skeleton, retain captured root travel and wrist changes, then add missing eyes, fingers and story-specific details. Preserve failed user visual reviews; numeric success cannot overturn them. Do not use a long authored FK sequence as a substitute for a library-motion route.
+
+Before correcting shoes, inspect the raw source joint/End Site semantics and each foot’s neutral reference. A cropped first pose may already point one foot down, and an importer-generated display tail is not a recorded toe tip. Use explicit [neutral foot references](references/library-actions.md#use-a-real-neutral-foot-reference) and preserve the source/calibration evidence.
+
+When a reviewed captured fit has visibly floating shoes, the optional [experimental geometric shoe adaptation](references/recorded-shoes.md) uses explicit source-height proxies and existing original IK/FK. Preserve upper performance and old versions, measure actual shoes after reopen, separate integer/half-frame failures and inspect costume/silhouette changes. It does not generate controllers or establish physical contact/naturalness.
+
+For installed MMD Tools physics or MikuMikuRig controllers, read [documented plugin workflows and limits](references/mmd-plugins.md). Check matching instructions, versions and model data before trying a backup. Missing instructions mean defer that portion; installation is separate from feature success.
+
+When the user supplies a rendering project with existing controllers, use [existing controller projects](references/existing-controller-projects.md). Preserve the original, verify actual skin response, retain the provided rig, adapt permitted recorded motion and follow saved-project scene/camera/physics/preview checkpoints. Missing binding repair, controller generation, cache baking and visual acceptance are separate claims.
 
 For a plot-driven environment, data-authored scene changes, body offsets or stationary support, read [narrative scenes](references/story-scenes.md). Build the reachable interaction space and visible consequence around the character's intent before adding decoration.
 
@@ -19,11 +29,15 @@ When an existing local packed node clip and matching hierarchy are supplied, [so
 
 For a reviewed locally converted body fragment and matching original rig, use the optional [configured body approach](references/body-approach.md). Fit proportions, measured travel, actual material stances and a bounded stop into the story, then inspect the entire performance. This narrow route starts already moving and does not establish general FBX/Mixamo or cross-character retargeting.
 
+For a broader comic performance adapted from a permitted existing body asset, read [body motion remix](references/body-motion-remix.md). Calibrate the original knee hinge, edit timing and full-body acting in external tracks, preserve the source, and inspect both the feet and opaque costume during the stop.
+
 For permitted local GLB2 animation, [motion conversion](references/motion-conversion.md) extracts supported LINEAR node TRS into that existing external format. Keep reviewed source/credit/license identity with the converted data; conversion does not fit a character or validate walking.
 
 ## Establish evidence
 
 Inspect current Blender processes/project and preserve unsaved work. Use one scene writer and one heavy render. Preserve asset/import baselines and save separate scene versions. Keep third-party assets, licenses and character-specific mappings outside this skill.
+
+Pack local image dependencies before relocating an input `.blend`. A filesystem copy preserves bytes while changing the base of relative texture paths. Use `pack_blend_resources.py` at the known original location, require the reviewed input hash, preserve original files, and verify the new packed copy after reopening. Missing paths must fail; do not guess another asset directory. See [production inputs](references/production.md#relocating-local-project-inputs).
 
 Verify processes on the same host/execution surface that launched them; an empty restricted process view is not proof that a host render exited. For cooperating Windows jobs use the [shared execution lock](references/execution.md#shared-execution-lock), then check owned host PIDs and output timestamps before any uncertain recovery.
 
@@ -35,7 +49,9 @@ Actually view reference work and record links/time ranges. Separate sampled play
 
 Write anticipation, action, contact/reaction and recovery beats. Give each shot a narrative purpose and visible focus. Compare two materially different dynamic shot arrangements. Use scale-aware character configurations for bones, proportions, UV/material mappings, expressions and pose targets. Before placing a prop relative to a shoulder, face or hand, derive rest-joint landmarks from the imported baseline; total height alone is insufficient across chibi and adult proportions.
 
-Import PMX into a factory-startup process and inspect the saved baseline. Preserve original deform bones, weights and morphs. Verify actual deformation and support feet. The arm solver bakes targets as original-rig FK; existing leg IK remains by default. Joint-head distances, not display-bone tails, define arm length. Inspect reach clamps and reject unreachable required contact. MMR and full physics are unvalidated.
+For a short comic performance, read [reusable acting clips](references/performance-clips.md). Prioritize a readable wish, obstruction and payoff; compose independently timed hands, eyes, head, torso and reactions. Retimed repeated gestures and simple original props can establish character intent with modest rendering. Choose geometric precision to suit the visible shot, and retain complete-motion visual acceptance as its own step.
+
+Import PMX in an isolated process and inspect the saved baseline. Record whether factory startup with explicit project dependencies or normal startup with installed addons is used. Preserve original deform bones, weights and morphs. Verify actual deformation and support feet. The arm solver bakes targets as original-rig FK; existing leg IK remains by default. Joint-head distances, not display-bone tails, define arm length. Inspect reach clamps and reject unreachable required contact. Earlier automated MMR full generation failed; later user-provided controllers were retained and tested without regeneration. Original-data physics has narrow bake/reopen and sampled visual evidence, not general simulation or continuous naturalness acceptance.
 
 Existing leg IK is the default. The opt-in stationary support route explicitly mutes the configured knee/ankle IK in a new candidate and bakes the original bones; it requires its own evaluated and visual checks. Do not describe that route as unchanged active IK or locomotion.
 
@@ -47,7 +63,9 @@ When an otherwise readable noncontact recovery is too abrupt, use the optional [
 
 When the complete story needs a different approach, pause or recovery pace, use the optional [coupled scene timing](references/scene-tempo.md) route. Keep expressions, props, materials and camera cuts on the same external time map, then judge the complete motion again.
 
-For finger or mitten acting, first inspect [actual weighted hand controls](references/hand-controls.md). Keep selected existing joints and timing in external character/story inputs, then repeat the full contact and release checks after deformation changes.
+For finger or mitten acting, first inspect [actual weighted hand controls](references/hand-controls.md). The optional bounded multi-axis FK route uses external rest/skin-bound profiles and gesture channels, then independently reopens the saved clip to compare actual skin and protected source motion. Confirm thumb opposition, contact and normal-speed acting separately.
+
+For a small spherical prop, use the optional [geometric sphere grip](references/sphere-grasp.md) route. Fit actual finger surfaces, preserve support before release, inspect the closing path and noncontact fingers, then measure saved contact, material-point sliding and wrist/arm transitions. This does not establish friction or continuous naturalness.
 
 When a sleeve blocks an otherwise supported palm interaction, use the optional [wrist-preserving elbow pose](references/elbow-poles.md) route. Inspect the complete forearm and nearby set before changing the contact point: a passing palm footprint can coexist with a sleeve intersection.
 

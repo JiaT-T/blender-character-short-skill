@@ -11,7 +11,7 @@
       "finalRGB": "L5494",
       "parameters": "Wp L4868 offset564334"
     },
-    "review": "Six primary analytical cases independently recomputed by an independent reviewer. Synthetic colors isolate formulas; they do not claim Ni appearance."
+    "review": "Six primary analytical cases independently recomputed by an independent analytical review. Synthetic colors isolate formulas; they do not claim Ni appearance."
   },
   "coordinate_contract": {
     "source": "Y-up; source vector H computations use identity view for convenience. Simultaneously rotating N/V/L to camera coordinates preserves ordinary dot products. Face uses world XZ projection.",

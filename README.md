@@ -1,6 +1,42 @@
-# Blender Character Short Skill · v33
+# Blender Character Short Skill · v43a
 
-从已授权的 PMX 角色、角色映射和故事配置制作本地 Blender Eevee 短片的可移植 skill。包含导入、表演与分镜、接触诊断、材质与后处理、视频编码和检查脚本。
+从已授权的 PMX 角色、角色映射和故事配置制作本地 Blender 角色短片（Eevee与保存的Cycles工程路线分开使用）的可移植 skill。包含导入、表演与分镜、接触诊断、材质与后处理、视频编码和检查脚本。
+
+## v43a 当前更新
+
+本版保留已有用户控制器，提供外部映射的缺失旋转绑定、已拟合动作目标导入、
+分离的物理缓存生产与新进程复验，以及保存Cycles工程的有界续渲。优先复用
+许可动作，角色配置与素材置于仓库外。用一个涅提娅项目实测了库动作挥手/鞠躬
+及简化彩排场景；未重新生成MMR控制器，也不宣称修复了此前生成失败。
+
+冻结包有169文件/133Python脚本，131项原生测试通过；实际361帧导入与保存后
+重开、缓存检查、两条本地影片的编码和整段解码有分项证据。**助手未完成正常速度连续观看；用户随后报告已看过V04成片并验收通过。**
+用户人工视频验收与半帧接触、精确物理、全身碰撞或完整原始输入独立重建是不同范围；
+这些客观技术项仍未验证。 摄像机切点
+变化明确复用了未改状态的帧，不作为全片重新渲染。模型、原始/派生动作、场景、
+工程、视频、插件和角色配置均未上传。
+
+入口：[现有控制器工程流程](blender-character-short/references/existing-controller-projects.md)、
+[库动作](blender-character-short/references/library-actions.md)、
+[MMD Tools/MMR说明与边界](blender-character-short/references/mmd-plugins.md)。
+当前分发身份见[清单](release/distribution-manifest.json)和[发布检查](release/validation.json)。
+所有Python脚本保持冻结v43a原始字节；仅文档/示例脱敏差异逐项记录。
+
+一个本地物理生产者曾在保存后同进程重开时崩溃；新进程复验通过，但原因未明。
+新缓存路线要求分别启动生产与验证进程，不能把缓存成功或解码成功当成自然度通过。
+
+### 原生单元测试
+
+在仓库根目录、已具备匹配Blender依赖的环境，可用独立后台进程运行：
+
+```text
+blender --background --disable-autoexec --offline-mode --python-exit-code 1 --python-expr "import sys,unittest; sys.path.insert(0,'blender-character-short/scripts'); suite=unittest.defaultTestLoader.discover('blender-character-short/scripts',pattern='test_*.py'); result=unittest.TextTestRunner().run(suite); assert result.wasSuccessful()"
+```
+
+这些测试不是131项视觉质量测试；没有携带角色或许可动作数据。发布步骤本身不重渲染，
+下方v33内容保留为历史背景，当前能力与限制以v43a记录及各专门文档为准。
+
+## v33 历史背景
 
 **v33 有纸飞机剧情从原始 PMX 全流程重建的本地技术证据，尚未通过连续观看或自然度验收。** 实际验证使用本哈希的 ZIP、相对路径外部配置、许可动作和 PowerShell 入口，在同一台机器的新目录完成 240 帧低清构建、后处理、编码/解码、范围内检查及配对工程重开。它只覆盖 Nanami Q 这一个角色与纸飞机剧情，不代表独立上下文、其他电脑或跨角色通过。
 
@@ -25,7 +61,7 @@
 - [`references/body-approach.md`](blender-character-short/references/body-approach.md)：配置式接近/停步及外部动作身份。
 - [`references/grounded-launch.md`](blender-character-short/references/grounded-launch.md)：准备姿势和有界起步。
 - [`references/character-region-surfaces.md`](blender-character-short/references/character-region-surfaces.md)、[`references/story-framing.md`](blender-character-short/references/story-framing.md)：选定表面与画面范围的检查边界。
-- `blender-character-short/scripts/`：保持 v33 冻结 ZIP 中的原始脚本字节。
+- `blender-character-short/scripts/`：当前保持 v43a 冻结 ZIP 的原始脚本字节。
 - [`release/distribution-manifest.json`](release/distribution-manifest.json)：来源 ZIP 哈希、文件清单、分发差异和排除项。数量用于完整性核查，不代表品质验收。
 - [`release/validation.json`](release/validation.json)：本次上传前的聚焦检查结果。
 
@@ -70,12 +106,12 @@ python -B -m unittest discover -s validation -p 'test_*.py'
 
 分发检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行可在宿主 Python 执行的 CLI 帮助入口。原有聚焦测试检查身份、旋转解码、注视/调时边界和后处理恢复；`verify_glb_motion.py` 另执行自有合成 CPU 套件。依赖 `bpy` 的场景检查须在另行许可的 Blender 环境运行；本次发布不重新渲染。测试输出、原始及转换动作均不属于公开文件。
 
-## 已知限制
+## 历史v33限制与仍适用的边界
 
 - 严格 HairHET/模板、透明深度与 MRT、环境贴图 HTTP 403，以及适用源 GPU 数值一致性仍未解决。
-- 连续正常速度视觉验收和音频验收尚未完成；默认自动产物为静音。有限接触采样不能证明全网格、所有帧或子帧均无穿插。
+- 助手连续正常速度视觉验收尚未完成；用户已报告V04成片人工验收通过。默认自动产物为静音。有限接触采样不能证明全网格、所有帧或子帧均无穿插。
 - 恢复签名不覆盖所有间接资源。mmd_tools/wheels、材质配置引用的 GLB、贴图、蓝图和清单需要另行冻结并校验。
-- 只完成选定 Cesium 节点动作与 Nanami 原始骨架的配置适配；手指、通用 FBX/Mixamo、跨角色重定向、自然稳步与可信抓握均未完成。接近段有腾空，不能称为稳定步行。
+- v33只完成选定 Cesium 节点动作与 Nanami 原始骨架的配置适配；v43a另有单个已有控制器的许可捕捉动作证据；手指、通用 FBX/Mixamo、跨角色重定向、自然稳步与可信抓握均未完成。接近段有腾空，不能称为稳定步行。
 - 从原始 PMX 完整复用的证据只属于纸飞机剧情。主片使用私有编排；局部视线修正、技术检查和抽帧不等于连续观看或自然度通过。
 - 本次发布只复查代码、CPU 用例与分发文件，没有新增渲染或影片。历史启动故障和后来成功运行按各版本记录区分；不把旧故障推断为当前应用状态。完整限制见 validation 文档。
 

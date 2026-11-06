@@ -8,6 +8,7 @@ from body_motion_plan import load_json,load_plan,sha,finite
 from body_motion_runtime import character_rig,geometry_identity,select_feet,foot_points,bone_worlds,linear_curves,linked_inputs_unchanged,producer_hashes,require_current_producer
 
 def travel(scene,character,plan,fit_report):
+    if plan.get('root_motion','legacy-measured-travel')=='recorded':raise ValueError('Recorded root motion is already retained by fitting; do not add measured constant travel')
     arm,actor=character_rig(scene);h=finite(character['height'],'height',True);ground=finite(character['ground'],'ground');first,last=scene.frame_start,scene.frame_end;count=last-first+1;fps=plan['fps']
     if first!=1 or not 2<=count<=240 or scene.render.fps/scene.render.fps_base!=fps or len(fit_report['rows'])!=count:raise ValueError('Fitted timeline/report mismatch')
     if actor.animation_data and actor.animation_data.action and len(actor.animation_data.action.fcurves):raise ValueError('Existing root animation must not be replaced')

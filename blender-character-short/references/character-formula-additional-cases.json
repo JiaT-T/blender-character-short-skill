@@ -13,7 +13,7 @@
       "finalRGB": "L5494"
     },
     "kind": "Source-derived CPU mathematical fixtures; no Blender render performed for these four",
-    "independent_review": "an independent reviewer independently recomputed source equations; not generated from builder output"
+    "independent_review": "an independent analytical review independently recomputed source equations; not generated from builder output"
   },
   "coordinate_contract": {
     "source": "Y-up; source vector H computations use identity view for convenience. Simultaneously rotating N/V/L to camera coordinates preserves ordinary dot products. Face uses world XZ projection.",

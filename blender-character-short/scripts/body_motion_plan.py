@@ -10,7 +10,7 @@ SOURCE_KEYS={'clip','skeleton','conversion_report','source_glb','provenance'}
 BODY_PRODUCER_NAMES=('body_motion_plan.py','body_motion_runtime.py','body_approach_pose.py','body_launch_pose.py',
                     'fit_body_motion.py','travel_body_motion.py','plant_body_motion.py',
                     'compose_body_approach.py','source_motion.py','convert_glb_motion.py',
-                    'elbow_pole_plan.py','bake_elbow_poles.py','build_performance.py','contact_motion.py')
+                    'elbow_pole_plan.py','bake_elbow_poles.py','build_performance.py','contact_motion.py','limb_frame.py','foot_reference.py')
 
 def sha(path):
     with Path(path).open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
@@ -31,6 +31,24 @@ def _validate_plan(value):
     fields={'schema','source','fps','basis','body','limbs','hips','scale_reference','feet','travel','release_frames','compose','weight_threshold'}
     if not isinstance(value,dict) or type(value.get('schema')) is not int or value['schema'] not in (1,2):raise ValueError('Unsupported body motion plan schema')
     if value['schema']==2:fields.add('launch')
+    if 'wrist_rotation' in value:
+        fields.add('wrist_rotation')
+        if value['wrist_rotation'] not in ['original-relative','source-first-fitted']:raise ValueError('Unknown recorded wrist calibration mode')
+    if 'arm_rotation' in value:
+        fields.add('arm_rotation')
+        if value['arm_rotation'] not in ['direction-fit','source-first-fitted']:raise ValueError('Unknown recorded arm calibration mode')
+        if value['arm_rotation']=='source-first-fitted' and value.get('wrist_rotation')!='source-first-fitted':raise ValueError('Captured arm rotations require explicitly captured wrist calibration')
+    if 'root_motion' in value:
+        fields.add('root_motion')
+        if value['root_motion'] not in ['legacy-measured-travel','recorded']:raise ValueError('Unknown source root-motion route')
+    if 'foot_orientation_references' in value:fields.add('foot_orientation_references')
+    if 'limb_hinges' in value:
+        fields.add('limb_hinges');hinges=value['limb_hinges']
+        if not isinstance(hinges,dict) or not hinges or set(hinges)-{'left_leg','right_leg'}:raise ValueError('Explicit leg hinge mappings required')
+        for row in hinges.values():
+            if not isinstance(row,dict) or set(row) not in ({'axis_local','bend_sign'},{'axis_local','bend_sign','minimum_bend_degrees'}) or type(row['bend_sign']) is not int or row['bend_sign'] not in [-1,1]:raise ValueError('Calibrated knee-local axis and bend sign required')
+            if abs(np.linalg.norm(numeric_vector(row['axis_local'],3,'hinge axis'))-1)>1e-6:raise ValueError('Unit knee-local hinge axis required')
+            if not 0<=finite(row.get('minimum_bend_degrees',0),'minimum bend')<=30:raise ValueError('Minimum knee bend outside0..30degrees')
     if set(value)!=fields:raise ValueError('Incomplete body motion plan')
     source=value['source']
     if not isinstance(source,dict) or set(source)!={'files','sha256'} or not isinstance(source['files'],dict) or not isinstance(source['sha256'],dict) or set(source['files'])!=SOURCE_KEYS or set(source['sha256'])!=SOURCE_KEYS:raise ValueError('All five source files and reviewed SHA256 identities are required')
@@ -43,6 +61,9 @@ def _validate_plan(value):
     if not isinstance(value['basis'],list) or len(value['basis'])!=3:raise ValueError('Basis requires three numeric rows')
     basis=np.asarray([numeric_vector(row,3,'Basis row') for row in value['basis']])
     if basis.shape!=(3,3) or not np.isfinite(basis).all() or not np.allclose(basis@basis.T,np.eye(3),atol=1e-6) or abs(np.linalg.det(basis)-1)>1e-6:raise ValueError('Basis must be a proper orthonormal3x3 rotation')
+    if 'foot_orientation_references' in value:
+        from foot_reference import validate as validate_feet
+        validate_feet(value['foot_orientation_references'],source['sha256']['source_glb'],basis)
     if not isinstance(value['body'],list) or not 1<=len(value['body'])<=32:raise ValueError('Explicit bounded body mapping required')
     mapped=[]
     for row in value['body']:
@@ -65,7 +86,8 @@ def _validate_plan(value):
     for side,row in value['feet'].items():
         if not isinstance(row,dict) or set(row)!={'deform_root','contacts'}:raise ValueError('Foot needs deform_root/contact intervals')
         bone_name(row['deform_root'])
-        if not isinstance(row['contacts'],list) or not 1<=len(row['contacts'])<=16:raise ValueError('Bounded stance intervals required')
+        minimum_contacts=0 if value.get('root_motion')=='recorded' else 1
+        if not isinstance(row['contacts'],list) or not minimum_contacts<=len(row['contacts'])<=16:raise ValueError('Bounded stance intervals required; empty means undeclared contacts only for recorded-root fitting')
         previous=0
         for interval in row['contacts']:
             if not isinstance(interval,list) or len(interval)!=2:raise ValueError('A stance is a start/end frame pair')

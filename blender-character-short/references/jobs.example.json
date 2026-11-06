@@ -1,7 +1,7 @@
 [
   {
-    "blend": "outputs/character-a/frozen.blend",
-    "output": "work/frames/character-a",
+    "blend": "external-inputs/character-a/frozen.blend",
+    "output": "external-output/frames/character-a",
     "start": 1,
     "end": 192,
     "width": 960,

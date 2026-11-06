@@ -46,13 +46,11 @@ processes or remove original assets to resolve uncertainty.
 
 ## Pipeline
 
-Set all example variables to your own external inputs before execution; `$Skill` is this skill folder. The generic package does not contain a ready-to-render character or licensed action. Keep inputs and newly generated output outside the public repository.
-
 ```powershell
 python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-source $MmdSource --dependencies $Deps --character $CharacterJson --story $StoryJson --post-config $PostJson --lut $LutPng --output $Output --variant A --width 640 --height 360 --samples 16
 ```
 
-Tested dependencies: Blender 4.5.15 LTS, mmd_tools source 4.5.14 with bundled wheels, Python 3.14.7, NumPy 2.5.4, Pillow 13.0.0, imageio_ffmpeg 0.6.0 / FFmpeg 7.1. Add-on source contains mmd_tools/__init__.py. Import unpacks dependencies locally, not globally.
+Tested dependencies: Blender 4.5.15 LTS, mmd_tools source 4.5.14 with bundled wheels, Python 3.14.7, NumPy 2.5.4, Pillow, imageio_ffmpeg/FFmpeg 7.1. Add-on source contains mmd_tools/__init__.py. Import unpacks dependencies locally, not globally.
 
 Products: import-baseline.blend, import-report.json, calibration.json, scene/scene.blend, scene/build-report.json, raw/frame_####.npz, frames/frame_####.png, preview.mp4, qa/, logs and input hashes. Scene textures are packed. Final-chain rerender still requires post profile, LUT and script version.
 
@@ -63,7 +61,7 @@ pipeline. Body plans require the original story duration and explicit
 `body_interaction_frame`; changed inputs/producers require a clean output.
 See [configured body approach](body-approach.md) for constraints and final audit.
 
-Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed tracked inputs/scripts require a new directory. Read the actual identity manifest for covered source-motion, blueprint/image, body-plan and stage dependencies; this is not a complete transitive dependency closure. Freeze external add-on/wheels and other indirect resources separately.
+Add --max-render-seconds N for a frame-boundary pause. After pipeline status paused, repeat the identical command without that option. Existing baseline/scene and validated raw frames are retained. Changed inputs/scripts require a new directory because pipeline identity hashes supplied inputs and all scripts.
 
 ### Frame-boundary budgets
 

@@ -6,7 +6,7 @@ from mathutils import Matrix,Vector
 
 def character_rig(scene):
     arms=[o for o in scene.objects if o.type=='ARMATURE']
-    if len(arms)!=1 or len(arms[0].pose.bones)>512:raise ValueError('One bounded character armature required')
+    if len(arms)!=1 or len(arms[0].pose.bones)>2048:raise ValueError('One character armature with at most2048 bones required')
     arm=arms[0];actor=arm
     while actor.parent is not None:actor=actor.parent
     if actor==arm or actor.type!='EMPTY' or len(actor.constraints) or not np.allclose(np.asarray(actor.matrix_world.to_3x3()),np.eye(3),atol=1e-6):raise ValueError('An unconstrained unit-axis actor root is required')

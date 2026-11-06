@@ -1,5 +1,11 @@
 # Source rendering contract
 
+## Separate editable acting-preview project
+
+For simplified acting previews, keep the original material project, external material/view profile, exact renderer producer and output movie together. An optional `render_acting_preview.py --mode scene --blend ORIGINAL --profile PROFILE --out NEW_REPORT_DIRECTORY --preview-blend NEW_COPY.blend` saves the configured preview materials, CPU settings and integer-frame camera keys into a separate local project. It requires a named configured `video_view`, an unconstrained orthographic inspection camera, packed file images and a new output path. It never saves the original scene.
+
+This export is not verification. Freshly reopen the new copy, check the original body and saved physics cache against the source, render selected original frames and compare the actual pixels. Check again after relocation before claiming a standalone project. Camera keys cover integer frames only; original shader equivalence, collisions, physical correctness and normal-speed acting approval are separate. Models and derived animation remain subject to their own licenses and must not enter a generic skill archive.
+
 Record page/variant/coating, asset and source-bundle hashes, runtime parameters and matching conditions for each profile. [S] source code, [G] observed runtime, [B] Blender output and [A] adaptation are distinct. Node creation, formula tests, actual rendering, visual agreement and temporal stability are separate claims.
 
 Use the same GLB first when PMX geometry/UV/normals differ. render_source_probe.py consumes an external Dorm blueprint; render_character_probe.py consumes a Character profile and extracted textures. Keep stage radiance, Bloom weight and useful AOVs. Numeric differences require genuinely matched inputs.

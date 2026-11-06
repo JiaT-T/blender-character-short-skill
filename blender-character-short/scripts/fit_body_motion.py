@@ -7,6 +7,8 @@ from mathutils import Matrix,Vector
 from body_motion_plan import load_json,load_plan,prepare_source,sha,finite
 from body_motion_runtime import character_rig,meshes_for,geometry_identity,select_feet,foot_points,orient_world,key_bones,linear_curves,bone_worlds,linked_inputs_unchanged,producer_hashes,require_current_producer
 from build_performance import aim_bone
+from limb_frame import hinge_alignment,bend_floor
+from foot_reference import heading_alignment
 
 def fit(scene,character,plan,data):
     arm,actor=character_rig(scene);count=len(data['times']);h=finite(character['height'],'height',True)
@@ -41,11 +43,24 @@ def fit(scene,character,plan,data):
     if not math.isfinite(source_length) or min(target_length,source_length)<1e-6:raise ValueError('Degenerate scale reference')
     scale=target_length/source_length
     if not 1e-6<=scale<=1e6:raise ValueError('Source/target scale ratio out of supported bounds')
-    basis=np.asarray(plan['basis'],float);arm_rotation=arm.matrix_world.to_quaternion();previous={};rows=[];errors=[];selection=select_feet(scene,arm,plan)
+    basis=np.asarray(plan['basis'],float);arm_rotation=arm.matrix_world.to_quaternion();previous={};rows=[];errors=[];selection=select_feet(scene,arm,plan);hinge_previous={};hinge_rest={};bend_modifications=[]
+    for limb,config in plan.get('limb_hinges',{}).items():
+        a,b,c=[arm.pose.bones[n] for n in limbs[limb]['bones'][:3]];hinge_rest[limb]=(arm.matrix_world.to_3x3()@(rest[b.name].translation-rest[a.name].translation),arm.matrix_world.to_3x3()@b.bone.matrix_local.to_3x3()@Vector(config['axis_local']))
     scene.frame_start=1;scene.frame_end=count;scene.render.fps=plan['fps'];scene.render.fps_base=1
+    foot_references={};foot_rotation_errors=[]
+    if 'foot_orientation_references' in plan:
+        for side,row in plan['foot_orientation_references']['feet'].items():
+            ankle,toe=limbs[side+'_leg']['bones'][2:];forward=arm.matrix_world.to_3x3()@(rest[toe].translation-rest[ankle].translation);yaw=heading_alignment(row['forward'],basis,np.asarray(forward))
+            for name,source_key in [(ankle,'ankle_rotation'),(toe,'toe_rotation')]:
+                target=yaw@np.asarray(arm.matrix_world.to_3x3()@rest[name].to_3x3());foot_references[name]=(np.asarray(row[source_key]),target)
     def rotation(index,name,world):
-        delta=basis@world[index,:3,:3]@np.linalg.inv(source[index,:3,:3])@basis.T
-        return Matrix(delta.tolist()).to_quaternion()@(arm_rotation@arm.pose.bones[name].bone.matrix_local.to_quaternion())
+        if name not in foot_references:
+            delta=basis@world[index,:3,:3]@np.linalg.inv(source[index,:3,:3])@basis.T
+            return Matrix(delta.tolist()).to_quaternion()@(arm_rotation@arm.pose.bones[name].bone.matrix_local.to_quaternion())
+        ref,target=foot_references[name]
+        delta=basis@world[index,:3,:3]@np.linalg.inv(ref)@basis.T
+        return Matrix((delta@target).tolist()).to_quaternion()
+    wrist_reference={};arm_reference={};arm_rotation_errors=[]
     for frame,world in enumerate(data['worlds'],1):
         scene.frame_set(frame)
         for bone in arm.pose.bones:bone.matrix_basis=Matrix.Identity(4)
@@ -54,24 +69,72 @@ def fit(scene,character,plan,data):
         hips=arm.pose.bones[plan['hips']];index=next(row['source'] for row in mappings if row['bone']==hips.name);offset=arm.matrix_world.to_3x3().inverted()@Vector((basis@(world[index,:3,3]-source[index,:3,3])*scale).tolist())
         desired=hips.matrix.copy();desired.translation=rest[hips.name].translation+offset
         hips.matrix_basis=hips.bone.convert_local_to_pose(desired,hips.bone.matrix_local,parent_matrix=hips.parent.matrix if hips.parent else Matrix.Identity(4),parent_matrix_local=hips.parent.bone.matrix_local if hips.parent else Matrix.Identity(4),invert=True);bpy.context.view_layer.update()
-        for item in limbs.values():
-            names=item['bones'];indexes=item['source'];a,b,c=[arm.pose.bones[n] for n in names[:3]]
+        for limb,item in limbs.items():
+            names=item['bones'];indexes=item['source'];a,b,c=[arm.pose.bones[n] for n in names[:3]];modified_lower=None
+            if limb in hinge_rest:
+                config=plan['limb_hinges'][limb];u=basis@(world[indexes[1],:3,3]-world[indexes[0],:3,3]);l=basis@(world[indexes[2],:3,3]-world[indexes[1],:3,3]);hint=np.asarray(hinge_previous.get(limb,hinge_rest[limb][1]))*config['bend_sign'];modified_lower,change=bend_floor(u,l,config.get('minimum_bend_degrees',0),hint)
+                if change>1e-6:
+                    source_lower=l/np.linalg.norm(l);source_upper=u/np.linalg.norm(u);original_axis=np.cross(source_upper,source_lower);adapted_axis=np.cross(source_upper,modified_lower)
+                    bend_modifications.append({'frame':frame,'limb':limb,'added_bend_degrees':change,'minimum_bend_degrees':config['minimum_bend_degrees'],
+                        'source_direction_change_degrees':math.degrees(math.acos(float(np.clip(source_lower@modified_lower,-1,1)))),
+                        'near_straight_plane_hemisphere_stabilized':bool(np.linalg.norm(original_axis)>1e-6 and np.dot(original_axis,adapted_axis)<0)})
+                delta,axis=hinge_alignment(*hinge_rest[limb],u,modified_lower,config['bend_sign'],hinge_previous.get(limb));hinge_previous[limb]=axis;orient_world(arm,a,Matrix(delta.tolist()).to_quaternion()@(arm_rotation@a.bone.matrix_local.to_quaternion()))
             for bone,child,start,end in ((a,b,indexes[0],indexes[1]),(b,c,indexes[1],indexes[2])):
                 direction=arm.matrix_world.to_3x3().inverted()@Vector((basis@(world[end,:3,3]-world[start,:3,3])).tolist())
+                if bone==b and modified_lower is not None:direction=arm.matrix_world.to_3x3().inverted()@Vector(modified_lower.tolist())
                 if direction.length<1e-8:raise ValueError('Source limb segment collapsed')
-                aim_bone(bone,direction,child.head-bone.head);bone.location=(0,0,0);bone.scale=(1,1,1);bpy.context.view_layer.update();errors.append(math.degrees((child.head-bone.head).angle(direction)))
+                aim_bone(bone,direction,child.head-bone.head);bone.location=(0,0,0);bone.scale=(1,1,1);bpy.context.view_layer.update();errors.append({'frame':frame,'bone':bone.name,'degrees':math.degrees((child.head-bone.head).angle(direction))})
             if len(names)==4:
                 for name,index in zip(names[2:],indexes[2:]):orient_world(arm,arm.pose.bones[name],rotation(index,name,world))
+        if plan.get('arm_rotation','direction-fit')=='source-first-fitted':
+            for side in ['left_arm','right_arm']:
+                item=limbs[side]
+                for name,index in zip(item['bones'][:2],item['source'][:2]):
+                    bone=arm.pose.bones[name]
+                    if frame==1:arm_reference[name]=(world[index,:3,:3].copy(),np.asarray((arm.matrix_world@bone.matrix).to_3x3()).copy())
+                    else:
+                        source_first,target_first=arm_reference[name];delta=basis@world[index,:3,:3]@np.linalg.inv(source_first)@basis.T
+                        orient_world(arm,bone,Matrix((delta@target_first).tolist()).to_quaternion())
+                for start,end,a_index,b_index in zip(item['bones'][:2],item['bones'][1:],item['source'][:2],item['source'][1:]):
+                    desired=Vector((basis@(world[b_index,:3,3]-world[a_index,:3,3])).tolist());observed=arm.matrix_world.to_3x3()@(arm.pose.bones[end].head-arm.pose.bones[start].head)
+                    degrees=math.degrees(observed.angle(desired));errors.append({'frame':frame,'bone':start,'degrees':degrees,'stage':'captured-arm-rotation-direction-guard'})
+                    if degrees>1:raise ValueError('Captured source arm rotations do not preserve fitted joint directions: '+str([frame,side,start,degrees]))
+        if plan.get('wrist_rotation','original-relative')=='source-first-fitted':
+            for side in ['left_arm','right_arm']:
+                item=limbs[side];bone=arm.pose.bones[item['bones'][2]];index=item['source'][2]
+                if frame==1:
+                    wrist_reference[side]=(world[index,:3,:3].copy(),np.asarray((arm.matrix_world@bone.matrix).to_3x3()).copy())
+                else:
+                    source_first,target_first=wrist_reference[side]
+                    delta=basis@world[index,:3,:3]@np.linalg.inv(source_first)@basis.T
+                    orient_world(arm,bone,Matrix((delta@target_first).tolist()).to_quaternion())
         key_bones(arm,controls,frame,previous);bpy.context.view_layer.update();bone_worlds(arm,arm.pose.bones.keys())
+        for side in ['left_leg','right_leg']:
+            for name,index in zip(limbs[side]['bones'][2:],limbs[side]['source'][2:]):
+                if name not in foot_references:continue
+                ref,target=foot_references[name];desired=basis@world[index,:3,:3]@np.linalg.inv(ref)@basis.T@target;actual=np.asarray((arm.matrix_world@arm.pose.bones[name].matrix).to_3x3());error=float(np.max(np.abs(actual-desired)))
+                if not math.isfinite(error) or error>1e-5:raise ValueError('Original constraints prevent calibrated foot orientation')
+                foot_rotation_errors.append(error)
+        if plan.get('arm_rotation','direction-fit')=='source-first-fitted':
+            for side in ['left_arm','right_arm']:
+                item=limbs[side]
+                for name,index in zip(item['bones'][:2],item['source'][:2]):
+                    source_first,target_first=arm_reference[name];desired=basis@world[index,:3,:3]@np.linalg.inv(source_first)@basis.T@target_first;actual=np.asarray((arm.matrix_world@arm.pose.bones[name].matrix).to_3x3());maximum=float(np.max(np.abs(actual-desired)))
+                    if not math.isfinite(maximum) or maximum>1e-5:raise ValueError('Original arm constraints prevent captured world-rotation preservation')
+                    arm_rotation_errors.append(maximum)
         row={'frame':frame,'source_time':data['times'][frame-1],'feet':{}}
         for side,item in plan['feet'].items():
             ankle=limbs[side+'_leg']['bones'][2];row['feet'][side]={'minimum_z_H':min(p.z for _,_,p in foot_points(selection,side))/h,'ankle_world':list(arm.matrix_world@arm.pose.bones[ankle].head)}
         rows.append(row)
-    if max(errors)>1:raise ValueError('Original constraints prevent source joint-direction fitting')
+    worst=sorted(errors,key=lambda row:row['degrees'],reverse=True)[:8];maximum_error=worst[0]['degrees'];print('BODY_FIT_ALIGNMENT',json.dumps(worst,ensure_ascii=False),flush=True)
+    if maximum_error>1:raise ValueError('Original constraints prevent source joint-direction fitting: '+json.dumps(worst,ensure_ascii=False))
     linear_curves(arm.animation_data.action,controls)
     if geometry_identity(scene,arm)!=before:raise ValueError('Original rest/geometry/weights/morph data changed')
     scene.frame_set(1)
-    return {'status':'proportional-body-FK-fitted-await-travel-contact-and-visuals','frames':count,'fps':plan['fps'],'geometry_identity':before,'controls':controls,'muted_leg_IK_in_new_scene':muted,'original_driver_count_retained':drivers,'target_scale_length':target_length,'source_scale_length':float(source_length),'world_scale_ratio':float(scale),'maximum_limb_direction_error_degrees':max(errors),'rows':rows,'rights':data['rights'],'source_input_sha256':data['source_hashes'],'scope':'Explicit torso rotations/root bob and proportional limb joint directions; source ankle/toe orientation, original wrist-relative orientation. No source mesh, skin, texture or logo. Original rest/weights/morph geometry retained. Declared leg IK constraints muted, drivers retained; no travel/footplant/stop/naturalness/cross-rig acceptance.'}
+    scene['source_minimum_knee_bend_adaptations']=json.dumps(bend_modifications)
+    scene['source_arm_rotation_evidence']=json.dumps({'mode':plan.get('arm_rotation','direction-fit'),'maximum_world_rotation_component_error':max(arm_rotation_errors) if arm_rotation_errors else None,'reference':{name:{'source_first_world_rotation':a.tolist(),'target_first_fitted_world_rotation':b.tolist()} for name,(a,b) in arm_reference.items()}})
+    scene['source_foot_orientation_evidence']=json.dumps({'mode':'explicit-neutral-foot-reference' if foot_references else 'legacy-source-reference','review_sha256':plan.get('foot_orientation_references',{}).get('review_sha256'),'maximum_world_rotation_component_error':max(foot_rotation_errors) if foot_rotation_errors else None,'reference':{name:{'source_world_rotation':a.tolist(),'target_world_rotation':b.tolist()} for name,(a,b) in foot_references.items()}})
+    return {'status':('recorded-root-body-FK-fitted-await-contact-and-visuals' if plan.get('root_motion')=='recorded' else 'proportional-body-FK-fitted-await-travel-contact-and-visuals'),'frames':count,'fps':plan['fps'],'wrist_rotation_mode':plan.get('wrist_rotation','original-relative'),'root_motion_mode':plan.get('root_motion','legacy-measured-travel'),'geometry_identity':before,'controls':controls,'muted_leg_IK_in_new_scene':muted,'original_driver_count_retained':drivers,'target_scale_length':target_length,'source_scale_length':float(source_length),'world_scale_ratio':float(scale),'maximum_limb_direction_error_degrees':maximum_error,'worst_joint_direction_samples':worst,'rows':rows,'rights':data['rights'],'source_input_sha256':data['source_hashes'],'scope':'Explicit torso rotations/root bob and proportional limb joint directions; source ankle/toe orientation, wrist calibration explicitly reported (default original-relative; optional source-first-fitted). No source mesh, skin, texture or logo. Original rest/weights/morph geometry retained. Declared leg IK constraints muted, drivers retained; no travel/footplant/stop/naturalness/cross-rig acceptance.'}
 
 def main(arguments=None):
     parser=argparse.ArgumentParser(description=__doc__)
@@ -79,7 +142,14 @@ def main(arguments=None):
     a=parser.parse_args(arguments if arguments is not None else sys.argv[sys.argv.index('--')+1:]);paths={key:getattr(a,key).resolve() for key in ('baseline','character','plan','output','report')}
     if len(set(paths.values()))!=5 or paths['output'].suffix.lower()!='.blend' or paths['report'].suffix.lower()!='.json' or paths['output'].exists() or paths['report'].exists():raise ValueError('Distinct inputs and new blend/report outputs required')
     plan,files=load_plan(paths['plan']);data=prepare_source(plan,files);character=load_json(paths['character']);hashes={p:sha(p) for p in [paths['baseline'],paths['character'],paths['plan'],*files.values()]}
-    bpy.ops.wm.open_mainfile(filepath=str(paths['baseline']),load_ui=False,use_scripts=False);result=fit(bpy.context.scene,character,plan,data);linked_inputs_unchanged(hashes)
+    bpy.ops.wm.open_mainfile(filepath=str(paths['baseline']),load_ui=False,use_scripts=False)
+    try:result=fit(bpy.context.scene,character,plan,data)
+    except ValueError as exc:
+        linked_inputs_unchanged(hashes);paths['report'].parent.mkdir(parents=True,exist_ok=True);paths['report'].write_text(json.dumps({'status':'rejected-before-save','reason':str(exc),'input_scene_sha256':hashes[paths['baseline']],'plan_sha256':hashes[paths['plan']],'writer_sha256':sha(Path(__file__)),'source_unchanged':True},ensure_ascii=False,indent=2),'utf-8');raise
+    result['limb_hinge_parameters']=plan.get('limb_hinges',{});result['minimum_knee_bend_adaptations']=json.loads(bpy.context.scene.get('source_minimum_knee_bend_adaptations','[]'));result['alignment_target']='Reviewed source limb directions after any explicitly configured minimum-knee-bend modification; not an unmodified source-match claim.'
+    result['arm_rotation']=json.loads(bpy.context.scene['source_arm_rotation_evidence'])
+    result['foot_orientation_references']=json.loads(bpy.context.scene['source_foot_orientation_evidence'])
+    linked_inputs_unchanged(hashes)
     paths['output'].parent.mkdir(parents=True,exist_ok=True);paths['report'].parent.mkdir(parents=True,exist_ok=True);bpy.ops.wm.save_as_mainfile(filepath=str(paths['output']))
     result.update(schema=1,producer_sha256=producer_hashes(),input_scene_sha256=hashes[paths['baseline']],output_scene_sha256=sha(paths['output']),character_sha256=hashes[paths['character']],plan_sha256=hashes[paths['plan']],writer_sha256=sha(Path(__file__)),runtime_sha256=sha(Path(__file__).with_name('body_motion_runtime.py')),validator_sha256=sha(Path(__file__).with_name('body_motion_plan.py')))
     paths['report'].write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False),'utf-8');print('BODY_FK_FIT',result['frames'],result['maximum_limb_direction_error_degrees'],flush=True)

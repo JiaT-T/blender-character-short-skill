@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v33",
+  "distribution_version": "v43a",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -8,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 103,
-  "skill_scripts_compiled_without_bytecode": 74,
+  "skill_files": 169,
+  "skill_scripts_compiled_without_bytecode": 133,
   "validation_scripts_compiled": 2,
   "json_fixtures_parsed": 4,
-  "internal_markdown_file_links_checked": 64,
+  "internal_markdown_file_links_checked": 90,
   "frontmatter_required_fields_checked": true,
   "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 111,
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 179,
   "host_cli_help": [
     {
       "script": "calibrate_character.py",
@@ -70,68 +70,24 @@
       "returncode": 0
     }
   ],
-  "blender_execution": "Not run for this publication. Recorded exact-v33 paper-plane runtime evidence is separate from current CPU/distribution checks",
-  "scripts_modified": false,
-  "independent_whole_package_v33_production": "not performed",
+  "blender_execution": "Not run for this publication. Recorded v43a native131tests and existing-controller runtime evidence are separate from publication CPU/distribution checks",
+  "skill_scripts_modified_for_publication": false,
+  "publication_validator_updated": true,
+  "host_legacy_unittest_suite": "11 tests executed in restricted environment; fixture writes/cleanup encountered PermissionError. Not counted as passed; no permission changes or reroute",
+  "recorded_native_suite": {
+    "tests": 131,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "user_reported_video_acceptance_passed": true,
+  "assistant_normal_speed_continuous_viewing": false,
+  "independent_whole_package_v43a_production": "not performed",
   "continuous_interval_verified": false,
-  "recorded_raw_PMX_reuse": "Paper-plane only; same character, machine and context. Not rerun during publication",
+  "recorded_raw_PMX_reuse": "Historical v33 paper-plane evidence retained. v43a uses a provided-controller source, not a complete independent raw-PMX rebuild",
   "main_film_raw_PMX_rebuild": false,
-  "general_finger_or_cross_character_retargeting": "not completed",
-  "naturalness_acceptance": "not completed",
-  "continuous_visual_review": "not completed",
-  "audio_review": "not completed",
-  "packaged_cpu_conversion_tests": {
-    "status": "pass",
-    "at_utc": "2026-11-04T02:16:25.000399+00:00",
-    "tests_run": 56,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 0,
-    "source": "Self-authored numeric fixtures generated at runtime; no external motion/model/texture included.",
-    "scope": "CPU conversion/analytic transforms/input rejection/new-output and source-identity behavior only. No Blender/skin/contact/retargeting/naturalness/continuous-view acceptance."
-  },
-  "existing_python_regressions": {
-    "passed": true,
-    "tests_run": 11,
-    "failures": 0,
-    "errors": 0,
-    "skipped": 0,
-    "scope": "Existing synthetic identity, decoding, gaze/retime and post-resume checks; no Blender or external assets"
-  },
-  "new_pure_plan_checks": {
-    "passed": true,
-    "tests_run": 9,
-    "failures": 0,
-    "errors": 0,
-    "scope": "Original synthetic body/launch, framing, feedback, tempo, elbow and region-plan CPU cases; no Blender, model or motion file"
-  },
-  "powershell_examples": {
-    "blocks_parsed": 13,
-    "errors": 0
-  },
-  "recorded_delivery_runtime_evidence": {
-    "producer_archive_sha256": "ef6e9630c46b192bc30ec7b31b779b84bf6f74c9c5ea068ffa5f2fe890433cbe",
-    "story": "paper-plane",
-    "raw_PMX_full_pipeline": true,
-    "frames": 240,
-    "seconds": 10,
-    "resolution": [
-      480,
-      270
-    ],
-    "actual_PowerShell_entry": true,
-    "post_budget_resume": true,
-    "paired_scene_reopened": true,
-    "packed_images": 5,
-    "missing_images": 0,
-    "same_machine_character_and_context_only": true,
-    "main_film_raw_PMX_rebuild": false,
-    "main_film_private_authored_route": true,
-    "continuous_normal_speed_viewing": false,
-    "grasp_naturalness": false,
-    "general_finger_or_cross_character_retargeting": false,
-    "publication_runtime_rerender": false
-  },
-  "licenses_and_credits_checked": "Supplied model Readme plus Cesium license/source/trademark records read; notices retained, assets and derived motion excluded",
-  "publication_created_video": false
+  "general_finger_or_cross_character_retargeting": "not completed; provided-controller, weighted-hand and permitted recorded-action routes are separately limited",
+  "naturalness_acceptance": "User accepted the V04 demonstration after watching; objective universal naturalness is not certified",
+  "continuous_visual_review": "Assistant not completed; user reports watching/acceptance, speed and continuity details not specified",
+  "audio_review": "not completed"
 }

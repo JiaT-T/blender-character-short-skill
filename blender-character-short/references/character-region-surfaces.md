@@ -23,7 +23,7 @@ contains no character profile or motion data. Schema1 has exactly:
 Each region includes the named original bone and descendants. A complete
 triangle belongs only if every vertex's summed weight for those bones meets
 the configured threshold. Region roots must be distinct. The scene must have
-one armature with at most512bones; original vertex and triangle topology must
+one armature with at most2048bones; original vertex and triangle topology must
 remain unchanged. Meshes are selected by their armature modifier and
 object-level `hide_render=false`, without alpha masking or collection-visibility
 interpretation. Inspect region triangle counts to confirm the intended body
@@ -62,3 +62,10 @@ not establish penetration depth, closed-volume containment, cloth physics,
 unselected body-part clearance, subframe safety, natural motion, transparency-
 aware visibility or normal-speed continuous viewing. An old authored
 intersection remains a warning even when a new action layer adds none.
+
+Region descendants can overlap: an upper-body root may contain both hand
+regions. Such a pair also reports a hand against geometry inside its own
+descendant region, including layered glove surfaces. Inspect the original
+neutral scene with the same plan and disclose the overlap. Counts alone do not
+separate hand-to-torso penetration from hand self-surface warnings. Do not call
+that plan a pure torso test or use a nonzero baseline to dismiss new warnings.

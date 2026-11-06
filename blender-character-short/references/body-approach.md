@@ -8,7 +8,7 @@ low-cost complete preview before increasing render quality.
 This is proportional torso/limb FK fitting followed by configured contact and
 an authored transition on the original rig. It is not general FBX/Mixamo
 retargeting, automatic action acquisition, arbitrary-character compatibility or
-naturalness acceptance. The current production case is Nanami only. Schema1
+naturalness acceptance. Historical approach cases use Nanami; the later [body motion remix](body-motion-remix.md) case separately fits an adult rig. These do not establish arbitrary-character compatibility. Schema1
 starts already moving. Schema2 optionally prepares an explicit measured ready
 stance and acceleration; read [grounded launch](grounded-launch.md) before use.
 
@@ -80,9 +80,9 @@ and unhandled authored channels are refused. This route requires stable vertex
 topology and unit-axis actor/unit-scale rig transforms.
 
 Current limits:2..240 uniformly sampled source frames,256source nodes,
-512target bones,500000target bone-frames; source hierarchy/conversion work has
+2048target bones,500000target bone-frames; source hierarchy/conversion work has
 the converter's separate bounds. Source scale/shear/reflection and nonfinite
-worlds are refused. Each body record binds14producer/dependency files; the
+worlds are refused. Each body record binds16producer/dependency files; the
 pipeline also binds all scripts and all five external source files.
 
 Material solving stops iterating within.00003H and requires pivot error within
