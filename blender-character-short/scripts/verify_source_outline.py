@@ -4,6 +4,10 @@ Consumes a separately reviewed scalar oracle JSON. Geometry checks compare
 source-derived cached coordinates; fragment checks read linear EXR center ROIs.
 No claim of website GPU raster/depth/stencil equivalence.
 """
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
 import argparse,sys,json,math,time,copy
 from pathlib import Path
 import bpy,numpy as np
@@ -47,7 +51,7 @@ def fragment_checks(oracle,out):
     for i,c in enumerate(oracle['variants']):cases.append(dict(c,g=c.get('effective_control',[0,.5,0,0])[1],b=c.get('effective_control',[0,.5,0,0])[2],multi='_MULTI_OUTLINE_COLOR' in c['keywords'],label='branch '+str(i)))
     for i,c in enumerate(cases):
         col=i%5;row=i//5;x=-4+col*2;y=3-row*2;mesh=bpy.data.meshes.new(c['label']);mesh.from_pydata([(x-.9,y-.9,0),(x+.9,y-.9,0),(x+.9,y+.9,0),(x-.9,y+.9,0)],[],[(0,1,2,3)]);obj=bpy.data.objects.new(c['label'],mesh);s.collection.objects.link(obj);attr=mesh.attributes.new(impl.CONTROL,'FLOAT_COLOR','POINT');attr.data.foreach_set('color',np.tile([1,c['g'],c['b'],1],4).astype(np.float32));mesh.materials.append(impl.material(dict(params,multi_color=c.get('multi',True)),c['label']));c['sample_xy_bottom_origin']=[col*100+50,350-row*100]
-    out.mkdir(parents=True,exist_ok=True);setup_raw(s,out,['Image','HX_BloomWeight','SourceOutlineMask']);s.frame_set(1);s.render.filepath=str(out/'fixtures.png');bpy.ops.wm.save_as_mainfile(filepath=str(out/'fixtures.blend'));bpy.ops.render.render(write_still=True);images={}
+    out.mkdir(parents=True,exist_ok=True);setup_raw(s,out,['Image','HX_BloomWeight','SourceOutlineMask']);s.frame_set(1);s.render.filepath=str(out/'fixtures.png');bpy.ops.wm.save_as_mainfile(filepath=str(out/'fixtures.blend'));render_with_policy(write_still=True);images={}
     for name in ['Image','HX_BloomWeight','SourceOutlineMask']:
         path=out/(name+'_0001.exr');im=bpy.data.images.load(str(path),check_existing=False);pixels=np.empty(len(im.pixels),np.float32);im.pixels.foreach_get(pixels);images[name]=pixels.reshape(im.size[1],im.size[0],4);bpy.data.images.remove(im)
     results=[]

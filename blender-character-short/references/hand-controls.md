@@ -72,7 +72,7 @@ evaluated geometry cache is a local derived asset, outside the installable skill
 Limits: 240 clip frames, 64 joints, 192 channels, 2,048 rig bones, 500,000
 skinned vertices, 300,000 bone/object-frame comparisons and 20 million
 vertex-frame samples. Start small; actual surface cost still varies by rig.
-When sharing a host with rendering work, use a single low-priority CPU thread
+When sharing a host with rendering work, use a single low-priority thread for CPU work; apply the [render device policy](render-devices.md) to 3D rendering. Use modest resource bounds
 and assess resources before any small diagnostic render.
 
 Review front/back/edge or oblique views, then complete normal-speed playback.

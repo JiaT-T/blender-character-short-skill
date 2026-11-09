@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "source_producer": "v45a-local",
+  "source_generic_zip_sha256": "5f9f8da0b8cd922e6992e5da705f77bd498554a5a301d22dd1442fca80e5dff2",
+  "script_bytes_match_recorded_native_suite": true,
+  "test_counts_overlap": true,
+  "recorded_native_suite": {
+    "tests": 202,
+    "errors": 0,
+    "failures": 0,
+    "skips": 0
+  },
+  "recorded_host_suite": {
+    "tests": 66,
+    "errors": 0,
+    "failures": 0
+  },
+  "native_producer_sha256": "c0e949c945358fe9038d48067b5f1854e8455daca3f030ea41fee68b24866b9d",
+  "environment": {
+    "blender": "4.5.15 LTS",
+    "mmd_tools": "4.5.14",
+    "MikuMikuRig": "3.86",
+    "host_python": "3.14.7",
+    "blender_python": "3.11.15"
+  },
+  "single_model_integration": {
+    "provided_controller_baseline_skin_probes": 18,
+    "direct_generation_skin_probes": 18,
+    "fresh_process_reopens": true,
+    "look_cases": 6,
+    "look_body_response_probes": 18,
+    "original_model_bones": 1191,
+    "generated_controller_bones": 773,
+    "generation_max_rest_matrix_component_delta": 6.642937660217285e-05,
+    "generation_neutral_skin_max_delta_m": 2.172010454160045e-06,
+    "one_native_compositor": true,
+    "source_website_pixel_parity": false
+  },
+  "retained_current_job": {
+    "producer": "v45-local",
+    "size": [
+      1920,
+      1080
+    ],
+    "fps": 30,
+    "frames": 30,
+    "duration": 1,
+    "initial_prefix_frames": 3,
+    "prefix_unchanged": true,
+    "full_decode_exit": 0,
+    "real_rejections": 8
+  },
+  "new_default_integration": {
+    "producer": "v45a-local",
+    "size": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "frames": 6,
+    "duration": 0.25,
+    "initial_prefix_frames": 2,
+    "prefix_unchanged": true,
+    "full_decode_exit": 0,
+    "real_rejections": 8,
+    "additional_stage_cli_rejections": 3
+  },
+  "sampled_visual_review": true,
+  "normal_speed_continuous_viewing": false,
+  "new_story_completed": false,
+  "audio_reviewed": false,
+  "arbitrary_model_or_cross_machine_compatibility": false,
+  "new_assets_or_movies_published": false,
+  "publication_runs_blender": false,
+  "original_projects_modified": false,
+  "evidence_scope": "Recorded local integrations with separate frozen producers, not public raw-input reproductions or universal visual acceptance."
+}

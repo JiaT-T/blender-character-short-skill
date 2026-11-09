@@ -1,6 +1,6 @@
-# Blender Character Short Skill · v43a
+# Blender Character Short Skill · v45a
 
-从已授权的 PMX 角色、角色映射和故事配置制作本地 Blender 角色短片（Eevee与保存的Cycles工程路线分开使用）的可移植 skill。包含导入、表演与分镜、接触诊断、材质与后处理、视频编码和检查脚本。
+面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v45a-local`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
 
 ## 示范视频
 
@@ -12,119 +12,81 @@
 
 本示范为非商业同人及技术展示，仅公开成片和视频封面，不分发模型、动作、贴图或工程。外观使用后续本地材质适配，不等于仓库 v43a 冻结代码单独重建结果。README 展示静态封面，点击封面或视频链接可进入 MP4 文件页查看或下载。
 
-## v43a 当前更新
+## 当前能力与验证范围
 
-本版保留已有用户控制器，提供外部映射的缺失旋转绑定、已拟合动作目标导入、
-分离的物理缓存生产与新进程复验，以及保存Cycles工程的有界续渲。优先复用
-许可动作，角色配置与素材置于仓库外。用一个涅提娅项目实测了库动作挥手/鞠躬
-及简化彩排场景；未重新生成MMR控制器，也不宣称修复了此前生成失败。
+| 环节 | v45a 行为与证据 |
+|---|---|
+| 版本与入口 | 一个后台入口串起依赖检查、基线、外观迁移、保存工程渲染和编码；记录 Blender、插件、二进制及脚本身份。`build` 不自动编写故事或制作完整影片。 |
+| MMD/MMR | 已有未带旧动作的控制器工程，以及用户指导的直接生成分支，均在一个模型上保存并独立重开；各通过 18 项真实加权蒙皮响应，涵盖手臂 FK、手腕、手 IK、十指主控、躯干和头。 |
+| 已审核外观 | 通用迁移器要求匹配的网格、UV、法线和材质索引，保留目标 rig/蒙皮/动作/镜头；迁移保存的材质与唯一原生合成链。需要另行提供有权使用的 packed look donor 和角色配置，不随仓库提供 h07 工程或素材。 |
+| 动态外观检查 | 正面、侧面、闭眼、转头、活动相机切换与切回共六组真实画面及 HET/头轴检查；与保存的 h07 基准对照，未宣称与网站逐像素等价。 |
+| 帧率与续渲 | 读取保存的 `fps/fps_base`；帧率参数只作一致性断言。绑定工程、声明资源、脚本集合、版本、Blender 二进制、采样、尺寸、镜头等身份，逐帧核验 PNG 字节与哈希。 |
+| 编码 | 仅编码完整、输入身份已验证的序列；从回执读取帧率，输出静音 H.264 并完整解码，核对尺寸、帧数、帧率和时长。 |
 
-冻结包有169文件/133Python脚本，131项原生测试通过；实际361帧导入与保存后
-重开、缓存检查、两条本地影片的编码和整段解码有分项证据。**助手未完成正常速度连续观看；用户随后报告已看过V04成片并验收通过。**
-用户人工视频验收与半帧接触、精确物理、全身碰撞或完整原始输入独立重建是不同范围；
-这些客观技术项仍未验证。 摄像机切点
-变化明确复用了未改状态的帧，不作为全片重新渲染。该次 v43a 代码发布未上传模型、
-原始/派生动作、场景、工程、视频、插件或角色配置；后来单独增加的示范成片见上方。
+本地冻结 v45a 有 **196 个文件、155 个 Python 脚本**，66 项主机测试与 202 项原生 Blender 测试通过，两套计数有重叠，不能相加。保存工程到编码链另有真实素材验证：保留的 v45 生产者完成 1920×1080、30fps、30 帧的 1 秒技术片；加入阶段绑定修复后的 v45a 独立完成默认 1280×720、24fps、6 帧的 0.25 秒技术片。两条序列都分批续渲、原前缀哈希不变并完整解码；各有 8 项实际错误输入拒绝，新版另有 3 项基线/外观/编码绑定 CLI 拒绝。两条技术片、角色输入和项目回执均留在本地，未随本次代码发布。
 
-入口：[现有控制器工程流程](blender-character-short/references/existing-controller-projects.md)、
-[库动作](blender-character-short/references/library-actions.md)、
-[MMD Tools/MMR说明与边界](blender-character-short/references/mmd-plugins.md)。
-当前分发身份见[清单](release/distribution-manifest.json)和[发布检查](release/validation.json)。
-所有Python脚本保持冻结v43a原始字节；仅文档/示例脱敏差异逐项记录。
+这些是技术集成与抽帧证据，**不是新剧情影片、动作库自然度或正常速度整段观看验收**。先前用户对 V04 的验收只属于该片；上方既有 13 秒示范也不因此新增验收。分项证据和限制见 [runtime evidence](release/runtime-evidence-v45a.json)。本次发布步骤复查代码和分发内容，不重新渲染。
 
-一个本地物理生产者曾在保存后同进程重开时崩溃；新进程复验通过，但原因未明。
-新缓存路线要求分别启动生产与验证进程，不能把缓存成功或解码成功当成自然度通过。
+## 默认规格与设备
 
-### 原生单元测试
+新视频默认 **1280×720、24fps**；只有用户明确要求更高规格时才提高。已有工程保留真实 `fps/fps_base`，当前显式规格不被覆盖；需要重定时时另存新工程，不把 30fps 序列重新标为 24fps。低成本分镜可明确选择更小预览规格。
 
-在仓库根目录、已具备匹配Blender依赖的环境，可用独立后台进程运行：
+常规新视频与预览优先 **Eevee + 兼容独显**。引擎选择和设备选择分开：保存工程保留原引擎，已有 Cycles 工程有独立入口。Eevee 的实际 graphics context 必须与硬件清单唯一匹配，不能只凭“检测到一块显卡”声称已使用它。
 
-```text
-blender --background --disable-autoexec --offline-mode --python-exit-code 1 --python-expr "import sys,unittest; sys.path.insert(0,'blender-character-short/scripts'); suite=unittest.defaultTestLoader.discover('blender-character-short/scripts',pattern='test_*.py'); result=unittest.TextTestRunner().run(suite); assert result.wasSuccessful()"
-```
-
-这些测试不是131项视觉质量测试；没有携带角色或许可动作数据。发布步骤本身不重渲染，
-下方v33内容保留为历史背景，当前能力与限制以v43a记录及各专门文档为准。
-
-## v33 历史背景
-
-**v33 有纸飞机剧情从原始 PMX 全流程重建的本地技术证据，尚未通过连续观看或自然度验收。** 实际验证使用本哈希的 ZIP、相对路径外部配置、许可动作和 PowerShell 入口，在同一台机器的新目录完成 240 帧低清构建、后处理、编码/解码、范围内检查及配对工程重开。它只覆盖 Nanami Q 这一个角色与纸飞机剧情，不代表独立上下文、其他电脑或跨角色通过。
-
-最新 15 秒主片保留私有原始编排与私有视线修正，**不是通用 skill 从原始 PMX 完整重建的主片**，也没有因此新增通用头眼求解功能。手指可信包握、跨角色/通用 FBX/Mixamo 重定向和正常速度连续观感仍未完成。主片、视频、模型、原始及派生动作、私有重建输入均不在此仓库。
-
-## 相对 v26c 的更新
-
-- 配置式原骨架全身接近流程：比例拟合、测量位移、脚底选区支撑、有限停步衔接，以及可选的准备姿势与起步加速；仍是选定节点动作与单角色映射。
-- 保持手腕的肘部方向调整、选定加权角色区域三角面检查和按剧情要求的头/手/脚/道具画面边界检查。
-- 耦合全场景时间映射、放置确认后的场景材质响应，以及与外部手部、注视和身体计划的阶段组合。
-- 保存重复尝试日志、真实子进程退出信息和输入/脚本身份，支持有界后处理暂停后按原身份继续。
-
-既有 GLB CPU 动作转换、静态场景导入、真实目标注视、原始骨架表演、外部 LUT/SMAA 后处理和编码检查仍保留。转换器的关键时刻检查不保证两 key 之间的全部连续时间安全。每个场景须保留自己的实际 producer 和输入；新脚本不得直接移入旧渲染缓存继续。
-
-## 内容
-
-- [`blender-character-short/SKILL.md`](blender-character-short/SKILL.md)：skill 入口。
-- [`references/production.md`](blender-character-short/references/production.md)：角色、故事和动作配置约定。
-- [`references/execution.md`](blender-character-short/references/execution.md)：命令、阶段产物和恢复方式。
-- [`references/validation.md`](blender-character-short/references/validation.md)：历史证据范围和未完成项。
-- [`references/motion-conversion.md`](blender-character-short/references/motion-conversion.md)：CPU 转换命令、许可字段、支持子集、资源边界和验证范围。
-- [`references/body-approach.md`](blender-character-short/references/body-approach.md)：配置式接近/停步及外部动作身份。
-- [`references/grounded-launch.md`](blender-character-short/references/grounded-launch.md)：准备姿势和有界起步。
-- [`references/character-region-surfaces.md`](blender-character-short/references/character-region-surfaces.md)、[`references/story-framing.md`](blender-character-short/references/story-framing.md)：选定表面与画面范围的检查边界。
-- `blender-character-short/scripts/`：当前保持 v43a 冻结 ZIP 的原始脚本字节。
-- [`release/distribution-manifest.json`](release/distribution-manifest.json)：来源 ZIP 哈希、文件清单、分发差异和排除项。数量用于完整性核查，不代表品质验收。
-- [`release/validation.json`](release/validation.json)：本次上传前的聚焦检查结果。
-
-原项目历史和制作日志不在本仓库。上方仅另行提供示范 MP4、视频封面和借物信息；模型、纹理、PMX/GLB、`.blend`、其余媒体、LUT、SMAA 查找图、依赖二进制和角色专用映射仍须另行准备。
+独显存在但不可用、驱动错误或设备分类不明时，停止受影响渲染并报告，不静默改用 CPU。只有可靠识别为纯核显机器时，CPU 才可用于适用的 Cycles 路线；**Eevee 没有 CPU 模式**，核显环境不能自动切引擎，应由用户决定独立的材质/引擎适配。物理、合成与编码的 CPU 计算不等于 3D 渲染改用 CPU。硬件分类当前使用 Windows DXCore，其他系统和跨机器未验证。详见[设备与引擎策略](blender-character-short/references/render-devices.md)。
 
 ## 环境与安装
 
-历史验证环境：Windows、Blender 4.5.15 LTS / Eevee、mmd_tools 4.5.14 源码与其配套 wheels、宿主 Python 3.14.7、NumPy 2.5.4、Pillow 13.0.0、imageio-ffmpeg 0.6.0 / FFmpeg 7.1。Blender 自带 Python 是另一套运行时，不能用宿主 Python 直接运行依赖 `bpy` 的脚本。Windows 协作执行锁尚未在其他系统验证。
+本次真实验证环境：Windows、Blender 4.5.15 LTS、MMD Tools 4.5.14、MikuMikuRig 3.86 与随 Blender 启用的 Rigify。Blender 内置 Python 3.11.15 / NumPy 1.26.4；外部编排和编码使用 Python 3.14.7、NumPy 2.5.4、Pillow 13.0.0、imageio-ffmpeg 0.6.0 / FFmpeg 7.1。版本是已验证组合，不代表其他组合已兼容。
 
-将完整的 `blender-character-short` 文件夹放入所用助手的技能目录，或让助手直接读取其中的 `SKILL.md`。例如 Codex 的用户技能目录为 `$CODEX_HOME/skills`，未设置时通常为 `~/.codex/skills`。安装 skill 不会安装 Blender 或第三方依赖，也不包含可直接制作的角色资产。
+克隆本仓库，将整个 `blender-character-short` 文件夹交给支持 skill 的助手读取，或安装到其技能目录。入口为 [`SKILL.md`](blender-character-short/SKILL.md)。安装 skill 不会安装 Blender、插件、Python 依赖或角色素材；按各插件可信来源及说明单独准备并启用，参见 [MMD/MMR 说明](blender-character-short/references/mmd-plugins.md)。依赖 `bpy` 的脚本必须由匹配的 Blender 后台执行，不能用外部 Python 直接运行。
 
-## 使用
+## 使用流程
 
-先准备已授权的 PMX、原始角色映射、故事与材质配置、适用动作及其权利记录、后处理配置和查找资源。克隆此仓库本身不包含可直接复现影片的角色输入。历史技术验证使用的完整私有 PowerShell 重建入口和编排也未发布。
+1. 将有权使用的模型、已有控制器工程、角色映射、动作、look donor、镜头与物理输入置于仓库外。为新输出选择独立目录，保护原工程；按[项目合同](blender-character-short/references/current-production.md)填写外部项目 JSON、真实路径和 SHA256。
+2. 优先使用已有未带旧影片动作的 MMR 基线。只有原始未生成控制器的 MMD 副本才使用直接生成：选中原 MMD 骨架 → Extras/Finger options → Build a controller，核对实际骨名与外部 preset。不要对已有 rig 重复生成；Finger options 不代替正确骨名映射。
+3. 在通过基线和外观检查的副本中，按剧情导入许可动作、场景与镜头，编辑表情/手势，按需要制作并复验物理缓存。`build` 后的工程可能仍是静态，必须将审核后的动画工程另存，并以实际 SHA256 声明 `render.source`。
+4. 用统一入口分批渲染、续渲和编码，分别记录技术检查、抽帧、连续观看及用户验收。每次更换输入或制作代码都使用新输出身份，不接纳仅尺寸相同的旧 PNG。
 
-CPU 动作转换可单独执行，不需要 Blender。按 motion-conversion 文档填写实际 `source_sha256`、作者、许可、附加限制和修改说明，把转换输出放在公开仓库之外的新目录：
-
-```powershell
-$env:PYTHONDONTWRITEBYTECODE = '1'
-python -B "$Skill/scripts/convert_glb_motion.py" --source $ReviewedGlb --provenance $RightsJson --output $NewMotionDirectory
-python -B "$Skill/scripts/verify_glb_motion.py" --output $NewCpuVerificationDirectory
-```
-
-存在多个动画时，转换命令须明确传 `--animation INDEX`。生成的动作、层级及许可报告可能继续受源条款约束，不能随通用代码自动公开。验证脚本生成自有临时数值 GLB，不需要下载或附带第三方资产。
-
-制作前阅读 production 和 execution 文档，准备 mmd_tools 源码及依赖、角色/故事 JSON、后处理配置和 LUT；启用 SMAA 时另提供匹配版本的 Area/Search 图。外部路径有各自的解析基准，按文档从外部项目根目录启动，并检查实际收集到的输入身份。
-
-在 PowerShell 中将下列变量设为实际路径；`$Skill` 指向此仓库的 skill 文件夹，`$Output` 使用仓库外的新输出目录。按所用流程另附身体、肘部、注视、时间映射或场景响应计划参数，具体合同见各引用文档：
+在仓库根目录用外部 Python 编排（项目配置示意路径需替换为自己的文件）：
 
 ```powershell
-python "$Skill/scripts/run_short.py" --blender $Blender --asset $Pmx --mmd-source $MmdSource --dependencies $Deps --character $CharacterJson --story $StoryJson --post-config $PostJson --lut $LutPng --output $Output --variant A --width 640 --height 360 --samples 16
+$Skill = Join-Path (Get-Location) 'blender-character-short'
+$Project = '../my-short/project.json'
+python -B "$Skill/scripts/short_project.py" version
+python -B "$Skill/scripts/short_project.py" doctor --project $Project
+python -B "$Skill/scripts/short_project.py" build --project $Project
+python -B "$Skill/scripts/short_project.py" check-look --project $Project
+# 另存审核过的动作/镜头/物理工程，并更新外部 render.source 后：
+python -B "$Skill/scripts/short_project.py" render --project $Project
+python -B "$Skill/scripts/short_project.py" render --project $Project --complete --max-seconds 1800
+python -B "$Skill/scripts/short_project.py" encode --project $Project
 ```
 
-先完成低成本预览并检查真实结果。默认输出无声视频；解码通过、抽帧检查、连续观看和试听是不同的验证步骤。`references/jobs.example.json` 是旧 PNG 队列的示例，不会执行新的外部后处理链。通用配置示例和公式夹具不能代替角色专用输入。
+`diagnostic` 只生成短的转头/眨眼/切镜技术夹具，不是库动作或剧情制作器。单次预算在完成帧边界停下；无回执 final/partial PNG 必须检查并采用单独恢复版本，不会自动接纳。场景图片需打包；当前保存工程路线拒绝未冻结的链接库和外部仿真缓存。唯一原生合成链使用 `saved-native`，不能再调用外部 Bloom/LUT/SMAA 链二次调色。
 
-已有依赖环境下，可在仓库根目录复查分发文件：
+历史动作转换、接触、手部、场景、原始 PMX 和源 AOV 路线仍保留，按需阅读[历史专门入口](blender-character-short/references/legacy-routes.md)。它们各自的限制仍适用，不作为当前统一入口的隐式步骤。
+
+## 验证
+
+在具备匹配依赖的环境：
 
 ```powershell
 python -B validation/validate_distribution.py --report release/validation.json
 python -B -m unittest discover -s validation -p 'test_*.py'
+python -B "$Skill/scripts/short_project.py" tests --project $Project
 ```
 
-分发检查编译脚本、解析 JSON、检查内部文档链接与敏感文件模式，并运行可在宿主 Python 执行的 CLI 帮助入口。原有聚焦测试检查身份、旋转解码、注视/调时边界和后处理恢复；`verify_glb_motion.py` 另执行自有合成 CPU 套件。依赖 `bpy` 的场景检查须在另行许可的 Blender 环境运行；本次发布不重新渲染。测试输出、原始及转换动作均不属于公开文件。
+分发检查核验清单、Python/JSON、文档链接、排除项、敏感模式、准确的示范媒体哈希和主机 CLI；不会加载角色或启动 Blender。原生测试入口使用外部项目报告目录保存临时夹具，不向公开仓库写入 Blender 产物。本次发布的实际检查结果见 [validation](release/validation.json)。
 
-## 历史v33限制与仍适用的边界
+## 已知限制与历史
 
-- 严格 HairHET/模板、透明深度与 MRT、环境贴图 HTTP 403，以及适用源 GPU 数值一致性仍未解决。
-- 助手连续正常速度视觉验收尚未完成；用户已报告V04成片人工验收通过。默认自动产物为静音。有限接触采样不能证明全网格、所有帧或子帧均无穿插。
-- 恢复签名不覆盖所有间接资源。mmd_tools/wheels、材质配置引用的 GLB、贴图、蓝图和清单需要另行冻结并校验。
-- v33只完成选定 Cesium 节点动作与 Nanami 原始骨架的配置适配；v43a另有单个已有控制器的许可捕捉动作证据；手指、通用 FBX/Mixamo、跨角色重定向、自然稳步与可信抓握均未完成。接近段有腾空，不能称为稳定步行。
-- 从原始 PMX 完整复用的证据只属于纸飞机剧情。主片使用私有编排；局部视线修正、技术检查和抽帧不等于连续观看或自然度通过。
-- v43a 代码发布时只复查代码、CPU 用例与分发文件，没有新增渲染或影片；上方示范属于后续单独重渲染。历史启动故障和后来成功运行按各版本记录区分；不把旧故障推断为当前应用状态。完整限制见 validation 文档。
+- 只验证了一个 MMD 角色；没有任意 PMX、任意骨名/轴向、跨角色或跨机器兼容保证。十个指尖 IK 控制器未逐一测试；已测试的是十指主控和双手 IK 等响应。
+- h07 迁移需要相符的几何/UV/法线/材质索引及审核过的外部材质工程。刘海投影、HET 与后处理仍含近似，不是任意 GLB→PMX 材质转换，也不是网站的 stencil/MRT/SMAA 等价实现。
+- 真实素材试验和短技术片不能证明新剧情、全身动作自然度、可信抓握、所有帧/子帧无穿插、完整物理或音频验收。完整故事的编排、许可资产选择和正常速度检查仍需完成。
+- 本包不包含角色、纹理、模型、动作/派生目标、场景、look donor、工程、插件/依赖二进制或本机路径。已有示范视频和封面是先前单独审核的例外，本次保持不变。
+- [v43a 清单](release/history/v43a-distribution-manifest.json)、[v43a 发布检查](release/history/v43a-validation.json)及 [v43a README](https://github.com/JiaT-T/blender-character-short-skill/blob/429b5745ad7e2868a54e3df5ef28dfe62126bd5c/README.md)保留其历史范围。v33 的 Nanami 纸飞机原始输入复用证据、v43a 的既有控制器动作证据，不自动升级为本版完整影片验收。
 
 ## 来源与使用权
 
-参见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。本次发布没有为来源权利尚未确认的代码添加统一开源许可证。仓库公开可读不代表对代码、第三方公式、模型或其他资源授予额外使用权。
+本次只更新通用 skill 代码和文档，保留既有示范与[借物表](docs/DEMO-CREDITS.md)。参见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)：不新增覆盖全部代码的开源许可证，不扩大上游代码、公式、模型或动作的权利。下载或公开可读不代表允许商用、改模、再分发或自动公开派生资产。

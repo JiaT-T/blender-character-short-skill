@@ -91,8 +91,8 @@ Half-frame or contact tests may be added when a specific shot needs them.
 ## Low-cost complete-motion preview
 
 `render_acting_preview.py` accepts `--blend`, external `--profile`, new `--out`,
-`--mode keys|video` and `--budget` (at most 360 seconds per invocation). It uses
-Cycles CPU, one thread and at most 640 pixels/4 samples; it never saves the
+`--mode keys|video` and `--budget` (at most 360 seconds per invocation). It preserves the input engine, prefers Eevee for new previews, and applies
+the [render device policy](render-devices.md), one CPU coordination thread and at most 640 pixels/4 samples; it never saves the
 source scene. Its signature binds saved-scene/profile/producer hashes and
 supports resuming matching completed frames. Use the shared execution lock and
 recheck the actual host workload before rendering alongside another task.

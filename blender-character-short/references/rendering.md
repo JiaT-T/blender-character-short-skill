@@ -1,8 +1,16 @@
+> v45 current route: a reviewed packed h07 look uses the saved native compositor once. Follow [current production](current-production.md). The raw-AOV/external chain below remains a separate specialized route; do not apply it again to saved-native frames.
+
 # Source rendering contract
+
+Prefer Eevee for new video production and previews; preserve the saved engine
+of existing projects. Read [engine and device selection](render-devices.md)
+before invoking any render. The explicit saved-Cycles path is a specialized
+route; a busy/unsupported GPU never implies an engine conversion.
+Historical CPU examples below remain evidence of their original producers.
 
 ## Separate editable acting-preview project
 
-For simplified acting previews, keep the original material project, external material/view profile, exact renderer producer and output movie together. An optional `render_acting_preview.py --mode scene --blend ORIGINAL --profile PROFILE --out NEW_REPORT_DIRECTORY --preview-blend NEW_COPY.blend` saves the configured preview materials, CPU settings and integer-frame camera keys into a separate local project. It requires a named configured `video_view`, an unconstrained orthographic inspection camera, packed file images and a new output path. It never saves the original scene.
+For simplified acting previews, keep the original material project, external material/view profile, exact renderer producer and output movie together. An optional `render_acting_preview.py --mode scene --blend ORIGINAL --profile PROFILE --out NEW_REPORT_DIRECTORY --preview-blend NEW_COPY.blend` saves the configured preview materials, device-policy settings and integer-frame camera keys into a separate local project. It requires a named configured `video_view`, an unconstrained orthographic inspection camera, packed file images and a new output path. It never saves the original scene.
 
 This export is not verification. Freshly reopen the new copy, check the original body and saved physics cache against the source, render selected original frames and compare the actual pixels. Check again after relocation before claiming a standalone project. Camera keys cover integer frames only; original shader equivalence, collisions, physical correctness and normal-speed acting approval are separate. Models and derived animation remain subject to their own licenses and must not enter a generic skill archive.
 

@@ -1,6 +1,6 @@
 # 来源与第三方权利
 
-本仓库当前整理 `blender-character-short` v43a 通用 skill。历史v33清单另存于release/history。发布副本的Python脚本未作功能修改，源 ZIP SHA-256 和文件级差异见 `release/distribution-manifest.json`。版本和历史验证记录保留在 skill 文档中。本次更新保留原公开版的许可处理方式，没有更换或扩大项目许可。
+本仓库当前整理 `blender-character-short` v45a 通用 skill，冻结生产者标识为 v45a-local。v43a 与 v33 的清单保存在 release/history；当前源 ZIP 身份和分发差异见 release/distribution-manifest.json。Python 脚本保持本地冻结包原字节，本次仅调整公开入口说明与发布文档，没有更换或扩大原有许可。
 
 部分材质、轮廓与后处理实现根据 Huaxu 模型查看器的源公式或运行观察整理，不应据此主张拥有其上游实现、数据或美术资产的权利。例如 `scripts/smaa_cpu.py` 自述为 Huaxu `C69G59uD2.js` 三段 SMAA 的 NumPy 翻译，并保留其 `SOURCE_SHA256`：
 
@@ -41,3 +41,12 @@ v33 的配置式身体适配继续要求外部源动作、匹配层级、转换�
 现有用户控制器修复调用Blender原生骨骼/约束接口，并要求外部角色映射。
 教程与已核查插件接口的引用见专门文档；自动生成失败、原物理崩溃和未完成验收均保留。
 代码、素材和插件的权利彼此独立，不因本次通用工具发布而取得第三方资源再分发权。
+
+
+## v45a 补充
+
+新增控制器基线、工程身份、通用 packed look 迁移、保存工程渲染与测试代码使用 Blender/Python 的公开接口；本次不打包 MMD Tools、MikuMikuRig、Rigify 的实现或 h07 的角色工程、材质资产和纹理。直接生成控制器调用另行安装的 MMR，不重新声称拥有插件代码。模型级控制配置仍在仓库外。
+
+Windows 硬件枚举使用 DXCore 公开接口标识与属性，不包含 Windows SDK 头文件。标识可核对 Microsoft [DirectX-Headers 的 dxcore_interface.h](https://github.com/microsoft/DirectX-Headers/blob/main/include/directx/dxcore_interface.h)；该上游项目声明 MIT，不能据此为本仓库其他来源代码授予统一许可。
+
+既有 README 示范、封面和借物说明没有修改或重新发布素材；本轮新增的技术片和全部工程保持本地。通用迁移器的发布不授予其外部 look donor 或角色材质的使用/再分发权。

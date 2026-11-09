@@ -1,3 +1,5 @@
+> v45 supplied-project production starts at [current production](current-production.md). The commands below retain the specialized original-PMX/source-AOV routes. The queue now requires source hashes and explicit saved-native mode; legacy size-only PNGs are not resume evidence.
+
 # Execution and recovery
 
 Record the actual native Blender exit code separately from its wrapper's

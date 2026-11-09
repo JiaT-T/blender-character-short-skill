@@ -1,4 +1,9 @@
-"""Bounded CPU flat-texture acting preview, explicitly separate from final shading."""
+"""Bounded device-policy flat-texture acting preview, explicitly separate from final shading."""
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
+from render_engine_policy import EEVEE, CYCLES, require_engine, apply_sampling
 from pathlib import Path
 import argparse,datetime,hashlib,json,sys,time
 sys.dont_write_bytecode=True
@@ -23,7 +28,7 @@ def configured_camera(scene,camera,spec):
     camera.rotation_euler=(target-camera.location).to_track_quat('-Z','Y').to_euler();camera.data.ortho_scale=spec['ortho_scale_m']
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__)
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--engine',choices=['eevee','cycles'],help='Assert the saved engine; does not convert existing materials')
     for k in ['blend','profile','out']:p.add_argument('--'+k,required=True,type=Path)
     p.add_argument('--mode',required=True,choices=['keys','video','scene']);p.add_argument('--preview-blend',type=Path);p.add_argument('--budget',type=float,default=300);a=p.parse_args(sys.argv[sys.argv.index('--')+1:]);cfg=json.loads(a.profile.read_text('utf-8'));width,height=cfg['size'];samples=cfg['samples']
     if a.mode=='scene':
@@ -32,13 +37,17 @@ def main():
     elif a.preview_blend:raise ValueError('--preview-blend is only valid for scene mode')
     denoise=cfg.get('denoise',False)
     if type(denoise) is not bool:raise ValueError('Explicit preview denoise flag must be boolean')
-    if any(type(v) is not int for v in [width,height,samples]) or not 32<=min(width,height)<=max(width,height)<=640 or not 1<=samples<=4 or not 0<a.budget<=360:raise ValueError('Small CPU preview bounds exceeded')
-    a.out.mkdir(parents=True,exist_ok=True);signature={'scene_sha256':sha(a.blend),'profile_sha256':sha(a.profile),'writer_sha256':sha(Path(__file__))};receipt=a.out/'inputs.json'
+    if any(type(v) is not int for v in [width,height,samples]) or not 32<=min(width,height)<=max(width,height)<=640 or not 1<=samples<=4 or not 0<a.budget<=360:raise ValueError('Small preview bounds exceeded')
+    bpy.ops.wm.open_mainfile(filepath=str(a.blend.resolve()),load_ui=False,use_scripts=False);scene=bpy.context.scene
+    if scene.camera is None:raise ValueError('Saved scene requires an inspection camera')
+    requested={'eevee':EEVEE,'cycles':CYCLES}.get(a.engine)
+    require_engine(scene,requested)
+    sampling=apply_sampling(scene,samples,denoise);denoise=sampling['denoise']
+    device_report=prepare_render(scene)
+    a.out.mkdir(parents=True,exist_ok=True);signature={'scene_sha256':sha(a.blend),'profile_sha256':sha(a.profile),'writer_sha256':sha(Path(__file__)),'device_policy_sha256':sha(Path(__file__).with_name('render_device_policy.py')),'engine_policy_sha256':sha(Path(__file__).with_name('render_engine_policy.py')),'sampling':sampling,'device':device_report};receipt=a.out/'inputs.json'
     if receipt.exists():
         if json.loads(receipt.read_text('utf-8'))!=signature:raise ValueError('Preview producer/input changed; choose a new output')
     else:receipt.write_text(json.dumps(signature,indent=2),'utf-8')
-    bpy.ops.wm.open_mainfile(filepath=str(a.blend.resolve()),load_ui=False,use_scripts=False);scene=bpy.context.scene
-    if scene.camera is None:raise ValueError('Saved scene requires an inspection camera')
     visible=[o for o in scene.objects if o.type=='MESH' and not o.hide_render];cache={};adapters=[]
     for obj in visible:
         for slot,old in enumerate(list(obj.data.materials)):
@@ -68,9 +77,9 @@ def main():
                 nt.links.new(mix.outputs[0],out.inputs[0])
             else:nt.links.new(emit.outputs[0],out.inputs[0])
             cache[old.name]=m;obj.data.materials[slot]=m;adapters.append({'source':old.name,'image':image.name if image else None,'image_alpha':bool(spec.get('use_image_alpha')),'opacity':opacity,'shader':shader,'mode':'Explicit emission preview or diffuse shadow receiver; not final source lighting/shader equivalence'})
-    scene.render.engine='CYCLES';scene.cycles.device='CPU';scene.cycles.samples=samples;scene.cycles.use_adaptive_sampling=False;scene.cycles.use_denoising=denoise
-    if denoise:scene.cycles.denoiser='OPENIMAGEDENOISE'
-    scene.cycles.max_bounces=8;scene.cycles.transparent_max_bounces=8;scene.render.threads_mode='FIXED';scene.render.threads=1;scene.render.use_persistent_data=True;scene.render.resolution_x=width;scene.render.resolution_y=height;scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.render.film_transparent=False;scene.render.use_compositing=False;scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=0;scene.view_settings.gamma=1
+    if scene.render.engine==CYCLES:
+        scene.cycles.max_bounces=8;scene.cycles.transparent_max_bounces=8
+    scene.render.threads_mode='FIXED';scene.render.threads=1;scene.render.use_persistent_data=True;scene.render.resolution_x=width;scene.render.resolution_y=height;scene.render.resolution_percentage=100;scene.render.image_settings.file_format='PNG';scene.render.film_transparent=False;scene.render.use_compositing=False;scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=0;scene.view_settings.gamma=1
     world=bpy.data.worlds.new('Flat acting preview background');world.use_nodes=True;world.node_tree.nodes['Background'].inputs['Color'].default_value=(*cfg['background'],1);world.node_tree.nodes['Background'].inputs['Strength'].default_value=1;scene.world=world
     camera=scene.camera;matrix=camera.matrix_world.copy();scale=camera.data.ortho_scale
     if scene.frame_end-scene.frame_start+1>480:raise ValueError('Preview interval exceeds 480 frames')
@@ -91,7 +100,7 @@ def main():
         scene.frame_set(scene.frame_start);bpy.context.view_layer.update();a.preview_blend.parent.mkdir(parents=True,exist_ok=True)
         if sha(a.blend)!=signature['scene_sha256']:raise ValueError('Source file changed')
         bpy.ops.wm.save_as_mainfile(filepath=str(a.preview_blend.resolve()),check_existing=False)
-        result={'at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'signature':signature,'preview_blend':str(a.preview_blend.resolve()),'preview_sha256':sha(a.preview_blend),'camera_frames':[scene.frame_start,scene.frame_end],'video_view':cfg['video_view'],'samples':samples,'denoise':denoise,'size':[width,height],'source_scene_saved':False,'normal_speed_continuous_viewing':False,'reopened_render_match_verified':False,'scope':'Separate packed preview-shading project with integer-frame camera bake. Fresh reopen, cache/body preservation and render agreement require independent checks.'}
+        result={'at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'signature':signature,'preview_blend':str(a.preview_blend.resolve()),'preview_sha256':sha(a.preview_blend),'camera_frames':[scene.frame_start,scene.frame_end],'video_view':cfg['video_view'],'device':device_report,'samples':samples,'denoise':denoise,'size':[width,height],'source_scene_saved':False,'normal_speed_continuous_viewing':False,'reopened_render_match_verified':False,'scope':'Separate packed preview-shading project with integer-frame camera bake. Fresh reopen, cache/body preservation and render agreement require independent checks.'}
         (a.out/'saved-preview-scene.json').write_text(json.dumps(result,ensure_ascii=False,indent=2),'utf-8');(a.out/'material-adapters.json').write_text(json.dumps(adapters,ensure_ascii=False,indent=2),'utf-8');print('SAVED_PREVIEW_SCENE',str(a.preview_blend));return
     jobs=[{'frame':f,'view':cfg.get('video_view','wide')} for f in range(scene.frame_start,scene.frame_end+1)] if a.mode=='video' else cfg['keys']
     if len(jobs)>480 or any(type(r['frame']) is not int or not scene.frame_start<=r['frame']<=scene.frame_end or r['view'] not in ['wide',*cfg.get('views',{}).keys()] for r in jobs):raise ValueError('Bounded known views/frames required')
@@ -112,8 +121,8 @@ def main():
         scene.frame_set(f);camera.matrix_world=matrix;camera.data.ortho_scale=scale
         if view in cfg.get('views',{}):
             configured_camera(scene,camera,cfg['views'][view])
-        scene.render.filepath=str(file.resolve());t=time.monotonic();bpy.ops.render.render(write_still=True);row={'frame':f,'view':view,'file':file.relative_to(a.out).as_posix(),'sha256':sha(file),'seconds':time.monotonic()-t};records.append(row);known[key]=row
-        report.write_text(json.dumps({'at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'signature':signature,'complete':len(known)==len(jobs),'fps':scene.render.fps/scene.render.fps_base,'size':[width,height],'samples':samples,'denoise':denoise,'frames':records,'normal_speed_continuous_viewing':False,'source_scene_saved':False,'mode':'Flat-texture CPU inspection'},indent=2),'utf-8');print('ACTING_PREVIEW_FRAME',f,view,flush=True)
+        scene.render.filepath=str(file.resolve());t=time.monotonic();render_with_policy(write_still=True);row={'frame':f,'view':view,'file':file.relative_to(a.out).as_posix(),'sha256':sha(file),'seconds':time.monotonic()-t};records.append(row);known[key]=row
+        report.write_text(json.dumps({'at_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'signature':signature,'complete':len(known)==len(jobs),'fps':scene.render.fps/scene.render.fps_base,'size':[width,height],'device':device_report,'samples':samples,'denoise':denoise,'frames':records,'normal_speed_continuous_viewing':False,'source_scene_saved':False,'mode':'Flat-texture device-policy inspection'},indent=2),'utf-8');print('ACTING_PREVIEW_FRAME',f,view,flush=True)
     if sha(a.blend)!=signature['scene_sha256']:raise ValueError('Source file changed')
     print('ACTING_PREVIEW_RESULT',len(known),len(jobs),flush=True)
 

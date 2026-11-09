@@ -1,11 +1,18 @@
 [
   {
-    "blend": "external-inputs/character-a/frozen.blend",
-    "output": "external-output/frames/character-a",
+    "blend": "assets/reviewed-saved-project.blend",
+    "source_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "output": "renders/new-version",
+    "engine": "BLENDER_EEVEE_NEXT",
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "samples": 32,
     "start": 1,
-    "end": 192,
-    "width": 960,
-    "height": 540,
-    "samples": 32
+    "end": 60,
+    "post_mode": "saved-native",
+    "batch_frames": 10,
+    "budget_seconds": 120,
+    "dependencies": []
   }
 ]

@@ -1,3 +1,5 @@
+> v45 update: the user supplied the direct original-MMD → Extras/Finger options → Build a controller workflow. It has one-model background generation and real-skin evidence when the external bone-name preset matches. See [current production](current-production.md). Earlier metarig-branch failures and denied attempts below remain historical; they are not blanket failures of the newly tested direct route.
+
 # MMD Tools and MikuMikuRig: verified setup, limited production evidence
 
 An addon used through project-local `sys.path` imports is not necessarily installed
@@ -175,3 +177,12 @@ for inspection, explicit missing-binding repair, captured FK action import and
 the separate MMD Tools physics route. No generation operator was rerun. Keep
 fresh-process physics verification separate from producer exit: same-process
 reload after saving a baked world crashed in constraint cleanup in this trial.
+
+
+## Historical controller-generation TODO (superseded for the qualified direct route)
+
+MMR controller generation itself is deferred until the user provides guidance.
+Use the supplied, already-generated controller project and the
+[existing-controller workflow](existing-controller-projects.md); do not rerun
+generation to address a missing binding or to prepare a new scene. Historical
+failed generation evidence above remains historical.

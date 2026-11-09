@@ -19,10 +19,37 @@ HOST_CLI = (
     "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
+    "short_project.py", "encode_saved_project.py",
 )
 
 
 MEDIA_PATHS = {"docs/media/nietiya-demo-1080p30.mp4", "docs/media/nietiya-demo-poster.jpg"}
+
+# Public SDK interface identifiers, checked against Microsoft's dxcore_interface.h.
+PUBLIC_DXCORE_GUIDS = {
+    "78ee5945-c36e-4b13-a669-005dd11c0f06", "526c7776-40e9-459b-b711-f32ad76dfc28",
+    "f0db4c7f-fe5a-42a2-bd62-f2a6cf6fc83e", "b69eb219-3ded-4464-979f-a00bd4687006",
+}
+GUID_PATHS = {"blender-character-short/scripts/render_device_policy.py", "validation/validate_distribution.py"}
+
+
+def validate_text_privacy(relative: str, text: str) -> None:
+    patterns = {
+        "credential": re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{24,})"),
+        "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
+        "machine-path": re.compile(r"\b[A-Za-z]:[\\/](?:Users|Documents|Program Files|Python|project)[\\/]|(?<![A-Za-z0-9_])/(?:root|home|Users|mnt|tmp)/[A-Za-z0-9_.-]+"),
+        "session-uuid": re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE),
+        "email": re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
+    }
+    for kind, pattern in patterns.items():
+        content = text
+        if kind == "email" and relative.endswith(".py"):
+            content = "\n".join(t.string for t in tokenize.generate_tokens(io.StringIO(text).readline)
+                                if t.type in (tokenize.STRING, tokenize.COMMENT))
+        for match in pattern.finditer(content):
+            if kind == "session-uuid" and relative in GUID_PATHS and match.group(0).lower() in PUBLIC_DXCORE_GUIDS:
+                continue
+            raise AssertionError(f"Review required for {kind}: {relative}")
 
 
 def validate_demo_media(root: Path) -> set[str]:
@@ -86,13 +113,6 @@ def validate(root: Path) -> dict:
     forbidden = {".pmx", ".pmd", ".blend", ".glb", ".gltf", ".png", ".jpg", ".jpeg", ".bmp",
                  ".tga", ".dds", ".ktx", ".exr", ".hdr", ".npz", ".npy", ".mp4", ".mov",
                  ".webm", ".avi", ".wav", ".mp3", ".ogg", ".zip", ".whl", ".exe", ".dll", ".pyc"}
-    patterns = {
-        "credential": re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{24,})"),
-        "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-        "machine-path": re.compile(r"\b[A-Za-z]:[\\/](?:Users|Documents|Program Files|Python|project)[\\/]|(?<![A-Za-z0-9_])/(?:root|home|Users|mnt|tmp)/[A-Za-z0-9_.-]+"),
-        "session-uuid": re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE),
-        "email": re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
-    }
     reviewed = 0
     for path in root.rglob("*"):
         if not path.is_file() or ".git" in path.parts:
@@ -102,13 +122,7 @@ def validate(root: Path) -> dict:
         assert path.suffix.lower() not in forbidden, f"Excluded artifact: {path.name}"
         assert path.suffix.lower() in {".py", ".md", ".json"} or path.name in {".gitignore", ".gitattributes"}, path.name
         text = path.read_text("utf-8-sig")
-        for kind, pattern in patterns.items():
-            content = text
-            if kind == "email" and path.suffix == ".py":
-                # Python's matrix operator can resemble an address; inspect literals and comments.
-                content = "\n".join(t.string for t in tokenize.generate_tokens(io.StringIO(text).readline)
-                                    if t.type in (tokenize.STRING, tokenize.COMMENT))
-            assert not pattern.search(content), f"Review required for {kind}: {path.relative_to(root)}"
+        validate_text_privacy(path.relative_to(root).as_posix(),text)
         reviewed += 1
 
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", PYTHONUTF8="1")
@@ -120,6 +134,10 @@ def validate(root: Path) -> dict:
         cli.append({"script": name, "returncode": proc.returncode})
 
     versions = {name: metadata.version(name) for name in ("numpy", "Pillow", "imageio-ffmpeg")}
+    evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
+    assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
+    assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
+    assert evidence["native_producer_sha256"] == sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
     return {
         "passed": True,
         "distribution_version": manifest["distribution_version"],
@@ -132,24 +150,25 @@ def validate(root: Path) -> dict:
         "json_fixtures_parsed": len(json_files),
         "internal_markdown_file_links_checked": links,
         "frontmatter_required_fields_checked": True,
-        "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
+        "skill_creator_quick_validate": "Passed for the local frozen source; publication validates required frontmatter fields and links",
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "This validator does not run Blender. Demo render/decode evidence, when supplied, is recorded separately in release/demo-media.json; historical v43a native131tests remain separate",
+        "blender_execution": "Not run for publication. Recorded v45a native202 and local integration evidence are separate, with exact frozen script identities",
         "skill_scripts_modified_for_publication": False,
         "publication_validator_updated": True,
-        "host_legacy_unittest_suite": "11 tests executed in restricted environment; fixture writes/cleanup encountered PermissionError. Not counted as passed; no permission changes or reroute",
-        "recorded_native_suite": {"tests": 131, "failures": 0, "errors": 0, "skips": 0},
-        "user_reported_video_acceptance_passed": True,
+        "recorded_native_suite": evidence["recorded_native_suite"],
+        "recorded_host_suite": evidence["recorded_host_suite"],
+        "public_api_guid_review": "Only four exact DXCore GUID constants in their two declared source files; all other UUIDs still rejected",
+        "historical_user_V04_acceptance": True,
         "assistant_normal_speed_continuous_viewing": False,
-        "independent_whole_package_v43a_production": "not performed",
+        "new_story_production": False,
         "continuous_interval_verified": False,
-        "recorded_raw_PMX_reuse": "Historical v33 paper-plane evidence retained. v43a uses a provided-controller source, not a complete independent raw-PMX rebuild",
+        "recorded_raw_PMX_reuse": "v45a direct MMR generation plus fresh reopen/skin response tested on one raw MMD baseline; no new complete story from raw input",
         "main_film_raw_PMX_rebuild": False,
-        "general_finger_or_cross_character_retargeting": "not completed; provided-controller, weighted-hand and permitted recorded-action routes are separately limited",
-        "naturalness_acceptance": "User accepted the V04 demonstration after watching; objective universal naturalness is not certified",
-        "continuous_visual_review": "Assistant not completed; user reports watching/acceptance, speed and continuity details not specified",
+        "general_finger_or_cross_character_retargeting": "not certified; one model and bounded actual skin probes only, not all fingertip IK controls",
+        "naturalness_acceptance": "Not certified for the new diagnostics; historical V04 user acceptance is separate",
+        "continuous_visual_review": "Sampled images only; no new normal-speed continuous acceptance",
         "audio_review": "not completed",
     }
 

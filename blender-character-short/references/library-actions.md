@@ -241,7 +241,8 @@ actual light and floor geometry in the saved scene; this option is not a source
 MMD-shader reproduction claim. Keep the ordinary default unchanged for older
 inspection profiles.
 
-An optional boolean `denoise` enables CPU OpenImageDenoise for a lightweight
+For the explicit Cycles route, an optional boolean `denoise` enables CPU
+OpenImageDenoise for a lightweight
 preview (default false). The frame receipt records both sample count and
 denoising choice. Inspect small finger/hair silhouettes separately; smoothing
 noise does not repair motion, contact or geometry.

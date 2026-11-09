@@ -1,4 +1,9 @@
 """Sequential frozen-scene render with raw AOV checkpoints or diagnostic boards."""
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
+from render_engine_policy import EEVEE, require_engine
 import argparse,hashlib,json,sys,time,traceback
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).parent))
@@ -11,7 +16,7 @@ def valid_npz(path,w,h,extra=()):
     except Exception:return False
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--blend',required=True);p.add_argument('--output',required=True);p.add_argument('--start',type=int,default=1);p.add_argument('--end',type=int);p.add_argument('--width',type=int,default=640);p.add_argument('--height',type=int,default=360);p.add_argument('--samples',type=int,default=16);p.add_argument('--board',action='store_true');p.add_argument('--max-seconds',type=float);p.add_argument('--extra-aov',action='append',default=[]);a=p.parse_args(sys.argv[sys.argv.index('--')+1:]);blend=Path(a.blend).resolve();out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(blend));scene=bpy.context.scene;end=a.end or scene.frame_end
+    p=argparse.ArgumentParser();p.add_argument('--blend',required=True);p.add_argument('--output',required=True);p.add_argument('--start',type=int,default=1);p.add_argument('--end',type=int);p.add_argument('--width',type=int,default=640);p.add_argument('--height',type=int,default=360);p.add_argument('--samples',type=int,default=16);p.add_argument('--board',action='store_true');p.add_argument('--max-seconds',type=float);p.add_argument('--extra-aov',action='append',default=[]);a=p.parse_args(sys.argv[sys.argv.index('--')+1:]);blend=Path(a.blend).resolve();out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=True);bpy.ops.wm.open_mainfile(filepath=str(blend));scene=bpy.context.scene;require_engine(scene,EEVEE);end=a.end or scene.frame_end
     signature={'blend_sha256':hashlib.sha256(blend.read_bytes()).hexdigest(),'renderer_script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),'width':a.width,'height':a.height,'samples':a.samples,'mode':'diagnostic-board' if a.board else 'raw-source-AOV','fps':scene.render.fps,'frame_end':scene.frame_end}
     job=out/'render-job.json'
     signature['extra_aovs']=a.extra_aov
@@ -35,7 +40,7 @@ def main():
                         im=bpy.data.images.load(str(path),check_existing=False);ok=tuple(im.size)==(a.width,a.height);bpy.data.images.remove(im)
                         if ok:skipped.append(f);continue
                     except Exception:pass
-            scene.frame_set(f);scene.render.filepath=str(path);t=time.monotonic();bpy.ops.render.render(write_still=a.board)
+            scene.frame_set(f);scene.render.filepath=str(path);t=time.monotonic();render_with_policy(write_still=a.board)
             if not a.board:
                 arrays={}
                 for name in passes:

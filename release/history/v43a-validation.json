@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "distribution_version": "v43a",
+  "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
+  "python": "3.14.7",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "Pillow": "13.0.0",
+    "imageio-ffmpeg": "0.6.0"
+  },
+  "skill_files": 169,
+  "skill_scripts_compiled_without_bytecode": 133,
+  "validation_scripts_compiled": 2,
+  "json_fixtures_parsed": 4,
+  "internal_markdown_file_links_checked": 90,
+  "frontmatter_required_fields_checked": true,
+  "skill_creator_quick_validate": "Not run for this update; required frontmatter fields checked locally without PyYAML",
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 179,
+  "host_cli_help": [
+    {
+      "script": "calibrate_character.py",
+      "returncode": 0
+    },
+    {
+      "script": "compare_videos.py",
+      "returncode": 0
+    },
+    {
+      "script": "convert_glb_motion.py",
+      "returncode": 0
+    },
+    {
+      "script": "encode_video.py",
+      "returncode": 0
+    },
+    {
+      "script": "execution_lock.py",
+      "returncode": 0
+    },
+    {
+      "script": "post_sequence.py",
+      "returncode": 0
+    },
+    {
+      "script": "run_short.py",
+      "returncode": 0
+    },
+    {
+      "script": "smaa_cpu.py",
+      "returncode": 0
+    },
+    {
+      "script": "source_post.py",
+      "returncode": 0
+    },
+    {
+      "script": "verify_glb_motion.py",
+      "returncode": 0
+    },
+    {
+      "script": "verify_post.py",
+      "returncode": 0
+    },
+    {
+      "script": "verify_post_budget.py",
+      "returncode": 0
+    },
+    {
+      "script": "video_qa.py",
+      "returncode": 0
+    }
+  ],
+  "blender_execution": "Not run for this publication. Recorded v43a native131tests and existing-controller runtime evidence are separate from publication CPU/distribution checks",
+  "skill_scripts_modified_for_publication": false,
+  "publication_validator_updated": true,
+  "host_legacy_unittest_suite": "11 tests executed in restricted environment; fixture writes/cleanup encountered PermissionError. Not counted as passed; no permission changes or reroute",
+  "recorded_native_suite": {
+    "tests": 131,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0
+  },
+  "user_reported_video_acceptance_passed": true,
+  "assistant_normal_speed_continuous_viewing": false,
+  "independent_whole_package_v43a_production": "not performed",
+  "continuous_interval_verified": false,
+  "recorded_raw_PMX_reuse": "Historical v33 paper-plane evidence retained. v43a uses a provided-controller source, not a complete independent raw-PMX rebuild",
+  "main_film_raw_PMX_rebuild": false,
+  "general_finger_or_cross_character_retargeting": "not completed; provided-controller, weighted-hand and permitted recorded-action routes are separately limited",
+  "naturalness_acceptance": "User accepted the V04 demonstration after watching; objective universal naturalness is not certified",
+  "continuous_visual_review": "Assistant not completed; user reports watching/acceptance, speed and continuity details not specified",
+  "audio_review": "not completed"
+}

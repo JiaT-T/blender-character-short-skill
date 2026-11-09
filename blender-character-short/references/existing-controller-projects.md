@@ -1,3 +1,5 @@
+> v45 provides the unified [current production](current-production.md) entry and a user-guided raw-MMD generation option. Prefer preserving a supplied rig. New generation is only for a separate unrigged source with a reviewed matching preset; the earlier failure below is preserved history.
+
 # Continue from a provided rendering project and controllers
 
 Use this route when the user has already generated controllers in a saved render
@@ -153,7 +155,7 @@ made, report that the correction/rebake cycle was **not** exercised.
 ## Preserve the saved look in bounded renders
 
 `render_cached_project.py` renders a saved Cycles scene using its existing
-materials, lights, compositor and marker cameras. It sets bounded CPU render
+materials, lights, compositor and marker cameras. It applies the [render device policy](render-devices.md) and bounded render
 settings, leaves the input file unchanged, hashes every PNG and resumes only
 matching producer/source/settings. It refuses silently replacing an unrecorded
 frame. Use the shared execution lock and a fresh process for each batch.

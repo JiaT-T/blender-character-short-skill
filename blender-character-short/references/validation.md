@@ -1,4 +1,57 @@
+> v45 current results are recorded in its local delivery receipt. Historical counts and limitations below remain scoped to their producer. New tests, true material integrations, sampled visual review and user film acceptance are separate. See [current production](current-production.md).
+
 # Validation and limits
+
+## Local v44c verified background GPU-context recovery
+
+The earlier v44/v44b background-query blocker was initialization order, not
+proof that Eevee cannot render in background mode. The corrected route uses
+Blender's documented GPU-context render-engine API for a blank diagnostic,
+then independently re-reads and matches the actual graphics device before
+allowing ordinary Eevee scene rendering. Hardware inventory alone never passes
+that check. New 9 recovery regressions plus the prior 26 policy tests pass on
+host Python. Actual RTX5060 / Vulkan identity, a synthetic Eevee output and
+actual scene key/1080p trial frames were observed. Production film, continuous
+viewing, source-website parity and licensing acceptance remain separate.
+
+
+## Local v44b engine preference correction
+
+New production/previews prefer Eevee independently of hardware policy. The
+acting preview and queue no longer override an existing project's engine.
+Eevee and Cycles receive their own sampling settings; the preserved-look Cycles
+entry remains explicitly Cycles-only. Engine mismatches are refused. The Eevee
+story builder now rejects a Cycles baseline before editing scene data.
+
+Twenty-six focused engine/device tests passed on host Python and in Blender
+4.5.15. Two synthetic empty-scene checks ran the actual acting-preview entry,
+confirming saved Eevee/Cycles engine preservation and engine-specific sampling.
+Device discovery was a labeled test double in those two entry checks, so they
+do not establish Eevee device identification or GPU rendering. This correction
+has not rendered a new frame; the full example stays paused. The prior v44
+background Eevee device-identification blocker remains unresolved, and no
+automatic Cycles conversion was introduced to work around it. Historical v44
+OptiX configuration evidence below applies to its unchanged device helper.
+
+
+## Current local device-policy update (v44)
+
+The complete new example is paused. This update changes device policy and MMD
+workflow documentation; it does not produce or publish a new film. All eleven
+actual render entrypoints now call the shared device guard. Cycles selects a
+compatible discrete GPU, with CPU rendering allowed only for positively
+identified integrated-only hardware. Unknown/unavailable hardware fails closed.
+
+Seventeen decision/failure regressions passed inside Blender 4.5.15. A fresh
+read-only reopen of the prior V04 project verified RTX 5060 / OptiX selected,
+CPU devices disabled and source SHA256 unchanged. The exact final policy hash
+was recorded with that native result. An actual GPU frame was not rendered:
+the board was already heavily occupied and the example remains paused.
+Eevee background graphics-device identification raised SystemError; that route
+is blocked, not passed. See [device policy](render-devices.md) for the engine
+boundary. Earlier render/test evidence below belongs to its original version;
+this update does not claim rerunning all historical suites or naturalness QA.
+
 
 ## Current v43a: provided controllers and permitted recorded actions
 

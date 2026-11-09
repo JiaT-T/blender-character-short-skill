@@ -1,4 +1,8 @@
 """Project diagnostic: test an existing binocular control without new rigging."""
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
 import argparse,sys,json,math
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).parent))
@@ -31,7 +35,7 @@ def main():
         for active in [False,True]:
             if active:record=eye_aim(arm,cfg,arm.matrix_world.inverted()@prop.matrix_world.translation)
             else:record={'control_rotation':list(control.rotation_quaternion)}
-            control.keyframe_insert('rotation_quaternion',frame=frame);before=list(control.rotation_quaternion);camera_name=s.camera.name;s.render.image_settings.file_format='PNG';s.render.filepath=str(out/f'{frame:04}_{"eyes" if active else "baseline"}.png');bpy.ops.render.render(write_still=True)
+            control.keyframe_insert('rotation_quaternion',frame=frame);before=list(control.rotation_quaternion);camera_name=s.camera.name;s.render.image_settings.file_format='PNG';s.render.filepath=str(out/f'{frame:04}_{"eyes" if active else "baseline"}.png');render_with_policy(write_still=True)
             after=list(control.rotation_quaternion)
             if max(abs(x-y) for x,y in zip(before,after))>1e-5 or s.camera.name!=camera_name:raise RuntimeError('Render evaluation replaced the diagnostic control or camera')
             record.update(frame=frame,enabled=active,path=s.render.filepath,control_before_render=before,control_after_render=after,camera=camera_name,camera_width=s.camera.data.ortho_scale);records.append(record)

@@ -1,4 +1,9 @@
 """Reopen a saved project, audit packed resources, optionally render one verification frame."""
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
+from render_engine_policy import apply_sampling
 import bpy,argparse,json,pathlib,sys,time,hashlib
 p=argparse.ArgumentParser();p.add_argument('--blend',required=True);p.add_argument('--report',required=True);p.add_argument('--preview');p.add_argument('--frame',type=int,default=1);p.add_argument('--width',type=int,default=640);p.add_argument('--samples',type=int,default=16);a=p.parse_args(sys.argv[sys.argv.index('--')+1:])
 source=pathlib.Path(a.blend).resolve();source_hash=hashlib.sha256(source.read_bytes()).hexdigest();bpy.ops.wm.open_mainfile(filepath=str(source),load_ui=False,use_scripts=False);s=bpy.context.scene
@@ -9,7 +14,7 @@ assert s.frame_start<=a.frame<=s.frame_end,'Verification frame outside saved ran
 assert not any(i['missing'] for i in images),'Missing image'
 report['source_sha256']=source_hash;report['saved_samples']=s.eevee.taa_render_samples
 if a.preview:
-    ratio=s.render.resolution_y/s.render.resolution_x;s.render.resolution_x=a.width;s.render.resolution_y=round(a.width*ratio);s.render.resolution_percentage=100;s.eevee.taa_render_samples=a.samples;s.render.image_settings.file_format='PNG';s.render.filepath=str(pathlib.Path(a.preview).resolve());s.frame_set(a.frame);t=time.time();bpy.ops.render.render(write_still=True);report['verification_render']={'frame':a.frame,'width':a.width,'seconds':time.time()-t,'path':s.render.filepath,'actual_render_camera':s.camera.name if s.camera else None,'actual_camera_world_location':list(s.camera.matrix_world.translation) if s.camera else None,'actual_ortho_scale':s.camera.data.ortho_scale if s.camera and s.camera.data.type=='ORTHO' else None}
+    ratio=s.render.resolution_y/s.render.resolution_x;s.render.resolution_x=a.width;s.render.resolution_y=round(a.width*ratio);s.render.resolution_percentage=100;apply_sampling(s,a.samples);s.render.image_settings.file_format='PNG';s.render.filepath=str(pathlib.Path(a.preview).resolve());s.frame_set(a.frame);t=time.time();render_with_policy(write_still=True);report['verification_render']={'frame':a.frame,'width':a.width,'seconds':time.time()-t,'path':s.render.filepath,'actual_render_camera':s.camera.name if s.camera else None,'actual_camera_world_location':list(s.camera.matrix_world.translation) if s.camera else None,'actual_ortho_scale':s.camera.data.ortho_scale if s.camera and s.camera.data.type=='ORTHO' else None}
 assert hashlib.sha256(source.read_bytes()).hexdigest()==source_hash,'Source scene changed during read-only verification'
 report['source_bytes_unchanged']=True
 pathlib.Path(a.report).write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');print('VERIFIED',report['blend'],report.get('verification_render'))

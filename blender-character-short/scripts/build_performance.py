@@ -3,6 +3,11 @@
 Character config owns names, proportions, palm/face axes and materials. Story
 config owns beats, targets, prop trajectory, cameras, environment and timing.
 """
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
+from render_engine_policy import EEVEE, CYCLES, require_engine, apply_sampling
 import argparse,json,math,sys,hashlib,time
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).parent))
@@ -99,7 +104,7 @@ def raw_compositor(scene):
 def main():
     p=argparse.ArgumentParser();p.add_argument('--baseline',required=True);p.add_argument('--character',required=True);p.add_argument('--story',required=True);p.add_argument('--output',required=True);p.add_argument('--variant',default='A');p.add_argument('--duration',type=float);p.add_argument('--width',type=int,default=640);p.add_argument('--height',type=int,default=360);p.add_argument('--samples',type=int,default=16);p.add_argument('--key-frames',default='');a=p.parse_args(sys.argv[sys.argv.index('--')+1:]);cfg=json.loads(Path(a.character).read_text('utf-8'));story=json.loads(Path(a.story).read_text('utf-8'));out=Path(a.output).resolve();out.mkdir(parents=True,exist_ok=True)
     if (out/'scene.blend').exists():raise FileExistsError('Version already exists; choose a new output directory')
-    bpy.ops.wm.open_mainfile(filepath=str(Path(a.baseline).resolve()));scene=bpy.context.scene;arms=[o for o in scene.objects if o.type=='ARMATURE'];
+    bpy.ops.wm.open_mainfile(filepath=str(Path(a.baseline).resolve()));scene=bpy.context.scene;require_engine(scene,EEVEE);arms=[o for o in scene.objects if o.type=='ARMATURE'];
     if len(arms)!=1:raise ValueError('Expected exactly one character armature; got '+str(len(arms)))
     arm=arms[0];meshes=[o for o in scene.objects if o.type=='MESH' and any(m.type=='ARMATURE' and m.object==arm for m in o.modifiers)]
     for o in list(scene.objects):
@@ -177,7 +182,7 @@ def main():
         start=frame(shot['start']);stop=frame(shot['end']);marker=scene.timeline_markers.new(shot['purpose'],frame=start);marker.camera=o;cameras.append(o)
         for f,mult in [(start,1),(stop,shot.get('end_scale',1))]:d.ortho_scale=shot['scale']*h*mult;d.keyframe_insert('ortho_scale',frame=f)
         shot_table.append({'shot':i+1,'start':start,'end':stop,'purpose':shot['purpose'],'camera':shot})
-    scene.camera=cameras[0];scene.render.engine='BLENDER_EEVEE_NEXT';scene.eevee.taa_render_samples=a.samples;scene.render.resolution_x=a.width;scene.render.resolution_y=a.height;scene.render.resolution_percentage=100;scene.render.film_transparent=False;scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=0;scene.view_settings.gamma=1;raw_compositor(scene)
+    scene.camera=cameras[0];scene.eevee.taa_render_samples=a.samples;scene.render.resolution_x=a.width;scene.render.resolution_y=a.height;scene.render.resolution_percentage=100;scene.render.film_transparent=False;scene.view_settings.view_transform='Standard';scene.view_settings.look='None';scene.view_settings.exposure=0;scene.view_settings.gamma=1;raw_compositor(scene)
     # Bake the animated head frame into named shader inputs. No runtime handler
     # or external script is needed when the saved project is reopened.
     face_mats=[m for m in mapped.values() if m.use_nodes and m.node_tree.nodes.get('FaceObjectY')];face_baked=0
@@ -204,7 +209,7 @@ def main():
     (out/'build-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8');(out/'character.json').write_text(json.dumps(cfg,ensure_ascii=False,indent=2),encoding='utf-8');(out/'story.json').write_text(json.dumps(story,ensure_ascii=False,indent=2),encoding='utf-8')
     timings=[]
     for f in [int(v) for v in a.key_frames.split(',') if v]:
-        scene.frame_set(f);scene.render.image_settings.file_format='PNG';scene.render.filepath=str(out/f'key-raw-{f:04}.png');t=time.monotonic();bpy.ops.render.render(write_still=True);timings.append([f,time.monotonic()-t])
+        scene.frame_set(f);scene.render.image_settings.file_format='PNG';scene.render.filepath=str(out/f'key-raw-{f:04}.png');t=time.monotonic();render_with_policy(write_still=True);timings.append([f,time.monotonic()-t])
     (out/'key-render-times.json').write_text(json.dumps(timings),encoding='utf-8');print('PERFORMANCE_BUILT',cfg['id'],end,face_baked,timings,flush=True)
 
 if __name__=='__main__':main()

@@ -22,6 +22,10 @@ The supplemental second-gate-on control is added only when its source case exist
 the production builder. That mode never reports Blender acceptance.
 No Blender run was performed when this extended draft was delivered.
 """
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
 
 import argparse
 import copy
@@ -690,7 +694,7 @@ def run_case(bpy, module, case, directory, args):
     if args.save_blends:
         bpy.ops.wm.save_as_mainfile(filepath=str(directory / 'formula-probe.blend'))
     started = time.monotonic()
-    bpy.ops.render.render(write_still=False)
+    render_with_policy(write_still=False)
     report.update(status='rendered', render_seconds=time.monotonic()-started)
     write_json(directory / 'report.json', report)
     arrays = {}

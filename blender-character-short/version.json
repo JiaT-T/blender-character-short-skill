@@ -1,0 +1,12 @@
+{
+  "version": "v45a-local",
+  "base_version": "v44c",
+  "base_archive_sha256": "e671ecae8df2dfb719a9f3cdd1771c8e77a0fbc463f15779fa55fd5e8cc96da5",
+  "remote_main_at_start": "429b5745ad7e2868a54e3df5ef28dfe62126bd5c",
+  "created_utc": "2026-11-09T09:51:13.960893+00:00",
+  "status": "local-production-build",
+  "target": "MMD PMX/PMD with reviewed existing MMR controllers",
+  "ui_automation": false,
+  "remote_publish": false,
+  "parent_version": "v45-local"
+}

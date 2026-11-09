@@ -1,6 +1,10 @@
 """Render a Character-branch GLB probe from external source profile/config.
 Runs in factory startup; existing scenes and baseline projects are never opened.
 """
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
 import argparse,json,sys,time,hashlib
 from pathlib import Path
 sys.path.insert(0,str(Path(__file__).parent))
@@ -39,7 +43,7 @@ def main():
     low=Vector([min(v[i] for v in coords) for i in range(3)]);high=Vector([max(v[i] for v in coords) for i in range(3)]);extent=high.z-low.z;center=(low+high)*.5;cd=bpy.data.cameras.new('Character source probe');cam=bpy.data.objects.new(cd.name,cd);scene.collection.objects.link(cam);cam.location=center+Vector(cfg['camera_offset'])*extent;target=center+Vector(cfg.get('target_offset',[0,0,0]))*extent;cam.rotation_euler=(target-cam.location).to_track_quat('-Z','Y').to_euler();cd.lens=cfg.get('lens',50);scene.camera=cam
     setup_raw(scene,out,passes);scene.render.image_settings.file_format='PNG';scene.render.image_settings.color_mode='RGBA';scene.render.filepath=str(out/'unprocessed-standard.png');bpy.ops.file.pack_all();bpy.ops.wm.save_as_mainfile(filepath=str(out/'probe.blend'));report={'asset_sha256':digest,'config':cfg,'runtime':runtime,'import':audit,'materials':reports,'omitted':omitted,'source_head_node':head,'source_head_name':doc['nodes'][head]['name'],'passes':passes,'strict_pass':False,'gaps':['source outline/AA absent','unmatched camera and runtime settings','HairHET stencil scheduling absent','XT weight-only passes absent','unimplemented effect families omitted'],'rendered':False}
     if a.render:
-        t=time.monotonic();bpy.ops.render.render(write_still=True);report['render_seconds']=time.monotonic()-t;arrays={}
+        t=time.monotonic();render_with_policy(write_still=True);report['render_seconds']=time.monotonic()-t;arrays={}
         for name in passes:
             im=bpy.data.images.load(str(out/(name+'_0001.exr')),check_existing=False);arr=np.empty(len(im.pixels),np.float32);im.pixels.foreach_get(arr);arrays[name]=arr.reshape(im.size[1],im.size[0],4)
         np.savez_compressed(out/'raw.npz',rgba=arrays['Image'],weight=arrays['HX_BloomWeight'][...,:1]);report['rendered']=True;report['rgba_max']=float(arrays['Image'].max());report['weight_max']=float(arrays['HX_BloomWeight'][...,0].max())

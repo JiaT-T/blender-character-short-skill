@@ -4,6 +4,10 @@ Consumes an external node blueprint and GLB, exports raw EXR/NPZ and editable
 project. Does not imply website parity: camera, outline, AA and coverage have
 separate acceptance checks. Third-party assets remain outside this script.
 """
+import sys as _device_sys
+from pathlib import Path as _DevicePath
+_device_sys.path.insert(0, str(_DevicePath(__file__).resolve().parent))
+from render_device_policy import render_with_policy, prepare_render
 import argparse,json,struct,sys,tempfile,hashlib,time
 from pathlib import Path
 import bpy
@@ -191,7 +195,7 @@ def main():
     report['outline']=outline_reports
     if outline_reports:report['strict_gaps'].remove('outline geometry absent')
     if a.render:
-        t=time.monotonic();bpy.ops.render.render(write_still=True);report['render_seconds']=time.monotonic()-t;arrays={}
+        t=time.monotonic();render_with_policy(write_still=True);report['render_seconds']=time.monotonic()-t;arrays={}
         for name in passes:
             im=bpy.data.images.load(str(out/(name+'_0001.exr')),check_existing=False);arr=np.empty(len(im.pixels),dtype=np.float32);im.pixels.foreach_get(arr);arrays[name]=arr.reshape(im.size[1],im.size[0],4)
         np.savez_compressed(out/'raw.npz',rgba=arrays['Image'],weight=arrays['HX_BloomWeight'][...,:1]);report['rendered']=True;report['raw_rgba_max']=float(arrays['Image'].max());report['weight_max']=float(arrays['HX_BloomWeight'][...,0].max())
