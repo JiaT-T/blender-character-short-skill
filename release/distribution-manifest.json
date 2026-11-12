@@ -1,23 +1,16 @@
 {
-  "distribution_version": "v45a",
+  "distribution_version": "v46",
   "frozen_producer_version": "v45a-local",
   "source_archive": "v45a-local-generic-skill.zip",
   "source_archive_sha256": "5f9f8da0b8cd922e6992e5da705f77bd498554a5a301d22dd1442fca80e5dff2",
   "source_archive_not_bundled": true,
   "source_delivery_receipt_and_zip_hashes_verified": true,
-  "source_file_count": 196,
-  "script_count": 155,
+  "source_file_count": 201,
+  "script_count": 158,
   "inventory_is_not_quality_acceptance": true,
-  "all_scripts_byte_identical_to_frozen_v45a": true,
-  "producer_version_json_byte_identical": true,
-  "repository_packaging_changes": [
-    {
-      "file": "blender-character-short/SKILL.md",
-      "source_sha256": "7232f66ffc22aeafccd532aa7f5d2bc25acfb7de520f775ffbd7406a8f52fc57",
-      "published_sha256": "c735fbc3aee87ef43ab252ffa4073c1983a8eecb814f1afe89f927becb4ba824",
-      "scope": "Public entry description and linked scene/compositing workflow notes; producer code and version.json unchanged"
-    }
-  ],
+  "all_scripts_byte_identical_to_frozen_v45a": false,
+  "producer_version_json_byte_identical": false,
+  "repository_packaging_changes": [],
   "files": {
     "blender-character-short/references/antialiasing.md": "5e05aeef4ba36579e8a06f8b7aa15c612f243260ca879cb975cdb221efe6eaf8",
     "blender-character-short/references/blueprint-inputs.md": "90a6e06ad096ca0477b013467935f895cecb8287569a131cb0331c92b83edd21",
@@ -26,7 +19,7 @@
     "blender-character-short/references/character-formula-additional-cases.json": "f5b1631b05d571a01ac1f043983aecbc9c04562a875fe19a79fafa5fd778f0be",
     "blender-character-short/references/character-formula-cases.json": "f202a1ea10dbff1f7868de4bbb9be58cd038bddf1ae7abeab333ab3875f12dd2",
     "blender-character-short/references/character-region-surfaces.md": "ddc3652856bfd30ddeeaf50b93e6ae906340319ee7e68248050a51fe80bc07d0",
-    "blender-character-short/references/current-production.md": "4bc502be3ec4a8ff0d5911ca25f7defd086e96bec3ab691379aa044b4ce2d6fe",
+    "blender-character-short/references/current-production.md": "2007b4da9b717f1b40ba5fdb3b20fc6bb145401b5b29ed2c4c88005624df1ec8",
     "blender-character-short/references/elbow-poles.md": "86848878f57afb5b66487215c7e49a8c023061fd81534a1026ac27cf10b69c81",
     "blender-character-short/references/execution.md": "0275acadf28b708bb97d0d3e48a9d58165807a95bfc933a5130df67bf356c92a",
     "blender-character-short/references/existing-controller-projects.md": "1d11bd1579fce6a0796d6bf2d8a5ad4171a7b0508eaa0968b191700635388290",
@@ -50,10 +43,12 @@
     "blender-character-short/references/rendering.md": "23edc9759926e8ada8a01f9fca441e98b4412f00a0e30faca410302770e7e702",
     "blender-character-short/references/scene-assets.md": "eb14319c29a5d813fe302b96324ea8e4fca45b66d03419031662349cf416f4e2",
     "blender-character-short/references/scene-feedback.md": "94220b1c8d1774249c959bca6b5b7458ac5d08ee1e9c847d56dc834e9c6178be",
+    "blender-character-short/references/scene-render-iteration.md": "cddb6785a0a05254a89a295ed71997cf632187173e54fc385cd6617d5613bbf3",
     "blender-character-short/references/scene-style.md": "4135cc728fcd2d5357d77dfea0a00292d5618ab50c7a298d4548394d32b72f4a",
     "blender-character-short/references/scene-tempo.md": "67c679a7c78a668e9c0ace49aa429e6f02dfc47985601bd1819606d33e1fc0c5",
     "blender-character-short/references/source-motion.md": "b24f8c481feba29f21b33c0e35ed441b8f091360e1938006f199ce1f4fed2de7",
     "blender-character-short/references/sphere-grasp.md": "e91f3c2706e3ffe7b174120b1efedb7dc87bc22fcc924a26316837e417841f56",
+    "blender-character-short/references/static-refinement.md": "ad70e5f695724067df6f7744f279f1932817536b7510a73f193f91f28c4abc85",
     "blender-character-short/references/story-framing.md": "e039fc186288188744a392482afb7807ea5761c9a334b002b988faaf48b30a7d",
     "blender-character-short/references/story-scenes.md": "04dfe43c068b114dc495b8eab5ce1547fbd3f8b5a5ba24e5b0d0f13068a63786",
     "blender-character-short/references/target-occlusion.md": "2dd79bf16391776a6ea93b5f021fcc4433aa5f62c0ccc4d53e1af092de6ebbf1",
@@ -142,6 +137,9 @@
     "blender-character-short/scripts/recorded_shoe_plan.py": "4913eb2ac0416bfcf25219591c78e05006922fafff7932801fbae29191f6dd6f",
     "blender-character-short/scripts/recorded_stance_math.py": "db301e8d9486b61d145630691671013229d32ce2f14ce514b28460dd3b8b87b0",
     "blender-character-short/scripts/recorded_stance_plan.py": "d1974fe7f6eba1d562701e54bae6839e4257038e6a7555f6e367e10411989838",
+    "blender-character-short/scripts/refine_compositor.py": "89d856c2593a938166cc7600fe60a67840975fd5ea41a1613ecf2d8d83ea82f1",
+    "blender-character-short/scripts/refine_saved_project.py": "2118f53e97fa068018b25c340e7b2eba022019c5b132a94150fd456737738dc3",
+    "blender-character-short/scripts/refine_scene.py": "255be3ba348c2dc9ca5b84a1933e9fa649ec0e76b208551669b3fded38d91b64",
     "blender-character-short/scripts/region_surface_plan.py": "504547feb9afd9ea917c24317bc97728e6f3005dc0d945eea3f3c80bbebd878d",
     "blender-character-short/scripts/remix_body_motion.py": "1c434ad45e0494af70a8edf9a47f1c4a1e8883a317e12d0993bda27aac64a24a",
     "blender-character-short/scripts/render_acting_preview.py": "beabac5f372216f598a0eb3f755be18758967613ecaab780190f8d0af1a98fad",
@@ -163,7 +161,7 @@
     "blender-character-short/scripts/scene_integrity.py": "5f70cbb02a7aa9f85351d14e45d9c3e3e94e37a667528399dedcd64f274ac736",
     "blender-character-short/scripts/scene_surface_style.py": "3acc24e93ea5ec2f709eb3581fc68f9d47c715d8bf3b110550f6b6c96e92050d",
     "blender-character-short/scripts/scene_tempo_plan.py": "2c1fa45f48496c8069a9836c7a3e5716ab10ea119b1f4a59da42c61fe00b7b1a",
-    "blender-character-short/scripts/short_project.py": "d43ac1c8eb86934db24325e46d9f9826ccd8d4b383ce7359ce90cc8a63aefef6",
+    "blender-character-short/scripts/short_project.py": "71720f1e883d07bce48f7f0765d2fe4728c4d230d141e273f40385d6b66a8a56",
     "blender-character-short/scripts/smaa_cpu.py": "1a6ca6ba144075ccc60d925dbaebe85bd6801c24864d5a895cbffa885b418169",
     "blender-character-short/scripts/source_motion.py": "f68bca02f619571beb385751baa6c6cdad1df54beec6ec83691e68202f5533f3",
     "blender-character-short/scripts/source_motion_layer.py": "fbfce575bd4e90d9a94ddbd0b35ab4674ac73c2c5cecb47bd9829af7fd2ee769",
@@ -213,8 +211,8 @@
     "blender-character-short/scripts/verify_story_parenting.py": "f8fad50a6e942221c9c25c2f67053d766a45f2ee6bca1ceb469c97b41a185218",
     "blender-character-short/scripts/verify_support_motion.py": "89d3c2eaccf2274b9ad16fe10ac242944d5b2e647a8f8d7eb10d06ac6f6f19c6",
     "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a",
-    "blender-character-short/SKILL.md": "c735fbc3aee87ef43ab252ffa4073c1983a8eecb814f1afe89f927becb4ba824",
-    "blender-character-short/version.json": "93b9b53b544dd7ad37e07910d93d787ca1de55f33af5bccf9c0494f825e27e43"
+    "blender-character-short/SKILL.md": "8c473380852cbfdf21425bcfe73e7770d0242fb2b34afcb9b12d655983d4c40b",
+    "blender-character-short/version.json": "c458c852882b5901f80ce7c1c2051eaa3064a399aa58ba5579810d28e14751dc"
   },
   "historical_v43a_manifest": "release/history/v43a-distribution-manifest.json",
   "historical_v33_manifest": "release/history/v33-distribution-manifest.json",
@@ -226,5 +224,21 @@
     "Addon/dependency sources, binaries, credentials and caches"
   ],
   "existing_demo_policy": "Preserve the exact previously published demo media and credits; no new media in this update.",
-  "documentation_update": "2026-11-12 scene/compositing and portable-handoff lessons; frozen producer unchanged"
+  "documentation_update": "v46 executable refinement contract and static evidence",
+  "base_distribution_version": "v45a",
+  "source_archive_role": "Historical base archive only; v46 additions and modifications are listed in this manifest",
+  "original_frozen_source_file_count": 196,
+  "current_producer_sha256": "9551c8fcef8ddbf379c71d08822ffcb2ef95bc11cea472865e5d2624fabe0ecc",
+  "refinement_evidence": "release/refinement-evidence-v46.json",
+  "v46_code_changes": {
+    "added": [
+      "refine_saved_project.py",
+      "refine_compositor.py",
+      "refine_scene.py"
+    ],
+    "modified": [
+      "short_project.py"
+    ],
+    "version_json": "v46"
+  }
 }

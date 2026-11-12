@@ -1,10 +1,11 @@
-# Blender Character Short Skill · v45a
+# Blender Character Short Skill · v46
 
-面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v45a-local`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v46`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
 
-## Workflow update (2026-11-12)
+## v46: executable static refinement
 
-See [scene and render iteration notes](docs/SCENE-RENDER-ITERATION.md) for external-scene matching, protected character baselines, selective reference compositing and private portable handoff. This is a documentation update over the v45a producer; local project improvements are not presented as new automated features. No model, texture, Blender project or private archive is added.
+The new [`refine` production stage](blender-character-short/references/static-refinement.md) automates hash-bound backup, Huaxu-compatible coverage-aware bloom/GPU compositing, explicit scene-only material and linked-light adjustments, save-as and fresh-reopen protection checks. Scene/style choices remain reviewed external inputs; model assets and private plans are not published. Static matched renders reproduced the prior character result at 720p/32 samples and V05 stage result at 720p/48 samples with zero pixel difference in the checked views. See [v46 evidence](release/refinement-evidence-v46.json); these are bounded still-frame tests, not general or dynamic acceptance. Existing animation/production stages retain their v45a behavior. The v45a evidence below is historical, not a claim that all old suites were rerun on v46.
+
 
 ## 示范视频
 

@@ -1,4 +1,4 @@
-# Current local production entry (v45a)
+# Current local production entry (v46, based on v45a)
 
 Use the selected package's `scripts/short_project.py`. All commands require an
 external reviewed project JSON except `version`. A project owns its runtime,
@@ -139,3 +139,10 @@ MMD character and a short diagnostic timeline. It does not certify a fresh
 story, arbitrary MMD rigs, every finger-IK control, physical grip, perfect
 collision, continuous naturalness or another machine. Keep users' approvals
 bound to the exact film/version they reviewed.
+
+## Static refinement (v46 addition)
+
+Declare an external `refine_plan`, run doctor for the current runtime, then use
+`short_project.py refine --project PROJECT.json`. See the
+[full refinement contract](static-refinement.md). Existing stages retain their
+previous contracts; old producer-bound frame receipts must not be reused.

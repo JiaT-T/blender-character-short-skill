@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "producer_sha256": "9551c8fcef8ddbf379c71d08822ffcb2ef95bc11cea472865e5d2624fabe0ecc",
+  "static_only": true,
+  "source_assets_distributed": false,
+  "blender_version": "4.5.15 LTS",
+  "host_tests": {
+    "run": 44,
+    "passed": 38,
+    "skipped_native": 6
+  },
+  "native_scene_tests": {
+    "run": 10,
+    "passed": 10
+  },
+  "character_static_match": {
+    "resolution": [
+      1280,
+      720
+    ],
+    "samples": 32,
+    "rgba_mae": 0,
+    "maximum_absolute_channel_difference": 0,
+    "exact_pixel_fraction": 1.0,
+    "source": "reviewed pre-refinement character backup",
+    "reference": "previously accepted technical Astra static project; not user visual acceptance"
+  },
+  "scene_static_match": {
+    "status": "passed",
+    "resolution": [
+      1280,
+      720
+    ],
+    "samples": 48,
+    "rgb_mae": 0,
+    "rgb_rmse": 0,
+    "maximum_absolute_channel_difference": 0,
+    "exact_pixel_fraction": 1.0,
+    "reference": "previous V05 static scene",
+    "character_look_preserved": true,
+    "limitation": "Matches existing broad soft contact shadow; does not claim to solve it"
+  },
+  "scope_limits": [
+    "No dynamic or temporal validation",
+    "No autonomous scene selection or aesthetic scoring",
+    "Existing MMD/MMR and source-look input required",
+    "No general retargeting claim",
+    "Historical v45a full native suite not rerun"
+  ],
+  "historical_v45a_evidence": "release/runtime-evidence-v45a.json",
+  "fresh_reopen_integration": {
+    "character": {
+      "accepted": true,
+      "backup_sha256": "b0c7bcd4beb7c31ad02604aea4579b2e733aa1cc021f9bf1ec18c8c80b88e8bf",
+      "output_sha256": "20387f9c1746d6298bb094cdfc13e29a4f407d1c0ed3503538ab45221a484517",
+      "source_unchanged": true,
+      "reopened": true,
+      "protected_sha256": "ae4c23de26af64f36eeee6d150efb7c820312248865afdd9856a2b1fb1324971",
+      "protected_equal": true,
+      "saved_refinement_equal": true,
+      "plan_sha256": "61e00cd9894e8a16ab5df2a368b42dab354cedf0c24b679176143c94130d9539",
+      "source_sha256": "b0c7bcd4beb7c31ad02604aea4579b2e733aa1cc021f9bf1ec18c8c80b88e8bf"
+    },
+    "scene": {
+      "accepted": true,
+      "backup_sha256": "cd380fd0ebb28a604bd2813fcc72d43a5adef790c70e5ddfd81bd244b3211995",
+      "output_sha256": "6d38f07dceebb150325d7f7335b1ba2881a877847bc92e9aab4bf501e4bcf62c",
+      "source_unchanged": true,
+      "reopened": true,
+      "protected_sha256": "6deb6f29d9529875ddf7e72b36230c9dd4e3a477d33dfe4da5d9c04dd2a3ee3f",
+      "protected_equal": true,
+      "saved_refinement_equal": true,
+      "plan_sha256": "a1d1ebc687e22835e5a263aafe7611d0fa0de8cd62f5c63434724cd53ae5263a",
+      "source_sha256": "cd380fd0ebb28a604bd2813fcc72d43a5adef790c70e5ddfd81bd244b3211995"
+    }
+  },
+  "canonical_entry_integration": {
+    "doctor": "passed",
+    "refine": "passed",
+    "shared_lock_used": true,
+    "background_no_ui": true
+  },
+  "exact_matched_render_scope": "Character pixel match used the same refinement modules and settings before additional guard checks; final wrapper outputs passed complete fresh-reopen identity checks."
+}

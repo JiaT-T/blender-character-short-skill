@@ -19,7 +19,7 @@ HOST_CLI = (
     "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
-    "short_project.py", "encode_saved_project.py",
+    "short_project.py", "encode_saved_project.py", "refine_saved_project.py",
 )
 
 
@@ -136,8 +136,15 @@ def validate(root: Path) -> dict:
     versions = {name: metadata.version(name) for name in ("numpy", "Pillow", "imageio-ffmpeg")}
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
-    assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
-    assert evidence["native_producer_sha256"] == sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
+    producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
+    if manifest["distribution_version"] == "v46":
+        assert manifest["current_producer_sha256"] == producer_hash
+        current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
+        assert current_evidence["producer_sha256"] == producer_hash
+        assert current_evidence["static_only"] and current_evidence["source_assets_distributed"] is False
+    else:
+        assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
+        assert evidence["native_producer_sha256"] == producer_hash
     return {
         "passed": True,
         "distribution_version": manifest["distribution_version"],
@@ -154,11 +161,12 @@ def validate(root: Path) -> dict:
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "Not run for publication. Recorded v45a native202 and local integration evidence are separate, with exact frozen script identities",
-        "skill_scripts_modified_for_publication": False,
+        "blender_execution": "This distribution checker does not run Blender; current v46 static integration evidence and historical v45a suites are separately identified",
+        "skill_scripts_modified_for_publication": manifest["distribution_version"] == "v46",
+        "current_refinement_evidence": manifest.get("refinement_evidence"),
         "publication_validator_updated": True,
-        "recorded_native_suite": evidence["recorded_native_suite"],
-        "recorded_host_suite": evidence["recorded_host_suite"],
+        "historical_v45a_native_suite": evidence["recorded_native_suite"],
+        "historical_v45a_host_suite": evidence["recorded_host_suite"],
         "public_api_guid_review": "Only four exact DXCore GUID constants in their two declared source files; all other UUIDs still rejected",
         "historical_user_V04_acceptance": True,
         "assistant_normal_speed_continuous_viewing": False,

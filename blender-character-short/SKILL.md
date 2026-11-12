@@ -79,5 +79,9 @@ build. Review the individual licenses and publication scope separately.
 
 For external-scene matching, frozen character protection, selective reference
 compositing, performance measurement and portable private handoff, read
-[scene/render iteration notes](../docs/SCENE-RENDER-ITERATION.md). These are
+[scene/render iteration notes](references/scene-render-iteration.md). These are
 workflow lessons from local projects, not new executable producer capabilities.
+
+## Executable static refinement (v46)
+
+Use the [saved-project refinement stage](references/static-refinement.md) to apply reviewed compositor and stage-only material/light plans, with a source hash, backup, separate output and fresh-reopen protection checks. This updates existing saved projects; it does not automatically select assets, judge style, or certify animation.

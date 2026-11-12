@@ -1,8 +1,6 @@
 # Scene and render iteration notes (2026-11-12)
 
-This update records reusable workflow lessons from local projects. The executable
-producer remains **v45a-local**: no new scene generator, shader implementation or
-animation validation is claimed. Private projects, models, textures and reference
+These notes originally recorded reusable workflow lessons from local projects. The subsequent v46 [executable refinement stage](../blender-character-short/references/static-refinement.md) now implements the bounded compositor and scene-only operations described there. The historical statements below refer to the earlier documentation-only publication. The initial documentation-only publication retained the v45a producer. Version v46 now adds bounded, plan-driven static refinement; it still does not claim automatic scene generation or animation validation. Private projects, models, textures and reference
 images are not distributed. The original v45a runtime evidence remains historical.
 
 ## Select and protect the baseline
@@ -83,6 +81,5 @@ character archives, raw assets and local file paths out of this repository.
 - No continuous animation or temporal-stability acceptance was performed for
   these latest revisions. Physics operation remains separately scoped.
 
-These notes describe observed local outcomes, not additional automated features
-in the v45a producer. Default new-video output remains 1280x720 at 24 fps unless
+These notes describe local outcomes; use the v46 refinement contract for the precise automated subset and required inputs. Default new-video output remains 1280x720 at 24 fps unless
 higher specifications are explicitly requested; preserve existing project timing.

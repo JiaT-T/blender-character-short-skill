@@ -53,7 +53,7 @@ def render(project,base,complete=False,max_seconds=1800):
         if state['complete'] or not complete:return state
         if time.monotonic()-started>=max_seconds:raise RuntimeError('Foreground render budget reached; matching frames retained')
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic','refine']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
     if a.stage=='version':
         codes=producer_identity(SCRIPTS);print(json.dumps({'skill':str(SCRIPTS.parent),'version':json.loads((SCRIPTS.parent/'version.json').read_text('utf-8')),'script_count':len(codes),'producer_identity_sha256':digest(codes)},indent=2));return
     if a.project is None:p.error('--project required')
@@ -75,6 +75,9 @@ def main():
     if a.stage=='encode':
         from encode_saved_project import encode
         print(json.dumps(encode(base/project['render']['output'],base/project['movie']),indent=2))
+    if a.stage=='refine':
+        plan=(base/project['refine_plan']).resolve()
+        run_native(project,base,'refine_saved_project.py',['--plan',plan],'refine-saved-project')
     if a.stage=='tests':run_native(project,base,'native_validation.py',['--report',base/project['reports']/'native-tests.json'],'native-tests')
     if a.stage=='check-look':
         cfg=dict(project['look_checks'])
