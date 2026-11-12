@@ -74,3 +74,10 @@ Do not use foreground UI or browser automation unless the user explicitly
 authorizes it. This workflow works through background Blender Python/API.
 No upload, public push or third-party asset redistribution is part of a local
 build. Review the individual licenses and publication scope separately.
+
+## Latest scene and compositing workflow notes
+
+For external-scene matching, frozen character protection, selective reference
+compositing, performance measurement and portable private handoff, read
+[scene/render iteration notes](../docs/SCENE-RENDER-ITERATION.md). These are
+workflow lessons from local projects, not new executable producer capabilities.

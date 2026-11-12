@@ -2,6 +2,10 @@
 
 面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v45a-local`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
 
+## Workflow update (2026-11-12)
+
+See [scene and render iteration notes](docs/SCENE-RENDER-ITERATION.md) for external-scene matching, protected character baselines, selective reference compositing and private portable handoff. This is a documentation update over the v45a producer; local project improvements are not presented as new automated features. No model, texture, Blender project or private archive is added.
+
 ## 示范视频
 
 [![涅缇娅短片示范](docs/media/nietiya-demo-poster.jpg)](docs/media/nietiya-demo-1080p30.mp4)

@@ -14,8 +14,8 @@
     {
       "file": "blender-character-short/SKILL.md",
       "source_sha256": "7232f66ffc22aeafccd532aa7f5d2bc25acfb7de520f775ffbd7406a8f52fc57",
-      "published_sha256": "1f388951f40399d64a1835b8141087971ce71eb5c66ed25723125042ff7cc092",
-      "scope": "Public entry description; producer code and version.json unchanged"
+      "published_sha256": "c735fbc3aee87ef43ab252ffa4073c1983a8eecb814f1afe89f927becb4ba824",
+      "scope": "Public entry description and linked scene/compositing workflow notes; producer code and version.json unchanged"
     }
   ],
   "files": {
@@ -213,7 +213,7 @@
     "blender-character-short/scripts/verify_story_parenting.py": "f8fad50a6e942221c9c25c2f67053d766a45f2ee6bca1ceb469c97b41a185218",
     "blender-character-short/scripts/verify_support_motion.py": "89d3c2eaccf2274b9ad16fe10ac242944d5b2e647a8f8d7eb10d06ac6f6f19c6",
     "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a",
-    "blender-character-short/SKILL.md": "1f388951f40399d64a1835b8141087971ce71eb5c66ed25723125042ff7cc092",
+    "blender-character-short/SKILL.md": "c735fbc3aee87ef43ab252ffa4073c1983a8eecb814f1afe89f927becb4ba824",
     "blender-character-short/version.json": "93b9b53b544dd7ad37e07910d93d787ca1de55f33af5bccf9c0494f825e27e43"
   },
   "historical_v43a_manifest": "release/history/v43a-distribution-manifest.json",
@@ -225,5 +225,6 @@
     "New videos/audio/images, raw and derived animation",
     "Addon/dependency sources, binaries, credentials and caches"
   ],
-  "existing_demo_policy": "Preserve the exact previously published demo media and credits; no new media in this update."
+  "existing_demo_policy": "Preserve the exact previously published demo media and credits; no new media in this update.",
+  "documentation_update": "2026-11-12 scene/compositing and portable-handoff lessons; frozen producer unchanged"
 }

@@ -12,10 +12,10 @@
   "skill_scripts_compiled_without_bytecode": 155,
   "validation_scripts_compiled": 3,
   "json_fixtures_parsed": 6,
-  "internal_markdown_file_links_checked": 108,
+  "internal_markdown_file_links_checked": 110,
   "frontmatter_required_fields_checked": true,
   "skill_creator_quick_validate": "Passed for the local frozen source; publication validates required frontmatter fields and links",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 213,
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 214,
   "demo_media_verified": [
     "docs/media/nietiya-demo-1080p30.mp4",
     "docs/media/nietiya-demo-poster.jpg"
