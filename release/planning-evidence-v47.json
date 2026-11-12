@@ -1,7 +1,7 @@
 {
   "version": "v47-candidate",
   "base_commit": "f2b0d46d95d5670f1996d17a36ad3e7dad440034",
-  "publication": "separate feature branch; not merged or activated for current film",
+  "publication": "Developed and tested on an isolated branch; adopted after the previous film completed. Isolation facts below describe development.",
   "isolation": {
     "separate_clone": true,
     "no_shared_worktree_or_hardlinked_git_objects": true,
@@ -38,5 +38,13 @@
     "Low-resolution image-change cues require human review",
     "Lighting candidates require native guards and still preview before adoption",
     "Standalone quick validator unavailable because PyYAML is absent; distribution frontmatter/link checks passed"
-  ]
+  ],
+  "release_version": "v47",
+  "adoption": {
+    "prior_render_receipt": "finished, returncode 0",
+    "prior_workflow": "complete",
+    "no_related_render_encode_process_at_check": true,
+    "verified_v46_1_source_snapshot_files": 203,
+    "previous_film_inputs_or_frames_modified": false
+  }
 }

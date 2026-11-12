@@ -1,7 +1,7 @@
 {
-  "version": "v47-candidate",
+  "version": "v47",
   "base_version": "v45a-local",
-  "status": "isolated-shot-review-lighting-candidate",
+  "status": "shot-review-lighting-tools",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
   "ui_automation": false,
   "features": [
@@ -17,6 +17,6 @@
     "no automatic aesthetic or naturalness acceptance",
     "no automatic camera animation from shot plan",
     "no bundled private assets",
-    "candidate not adopted by in-progress films"
+    "do not replace producer during active renders"
   ]
 }

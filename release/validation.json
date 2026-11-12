@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v47-candidate",
+  "distribution_version": "v47",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -102,7 +102,7 @@
       "returncode": 0
     }
   ],
-  "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 candidate adds synthetic planning/review tests",
+  "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 adds synthetic planning/review tests",
   "skill_scripts_modified_for_publication": false,
   "historical_v46_refinement_evidence": "release/refinement-evidence-v46.json",
   "publication_validator_updated": true,

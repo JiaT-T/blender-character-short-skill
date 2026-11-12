@@ -3,7 +3,7 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short - v47 candidate
+# Blender character short - v47
 
 Start new shorts with the [six-step production workflow](references/production-workflow.md).
 Require the user's MMD character, scene model and basic story prompt unless the

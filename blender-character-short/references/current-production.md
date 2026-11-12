@@ -1,4 +1,4 @@
-# Current local production entry (v46.1, based on v45a)
+# Current local production entry (v47, based on v45a)
 
 Use the selected package's `scripts/short_project.py`. All commands require an
 external reviewed project JSON except `version`. The host-only `workflow` stage uses only the brief/report contract and does not require a runtime receipt. A project owns its runtime,
@@ -151,6 +151,6 @@ previous contracts; old producer-bound frame receipts must not be reused.
 
 Follow [production workflow](production-workflow.md) before technical stages. `workflow` records readiness and stage evidence without changing assets or starting Blender. Story, retrieval, shader fallback and shot authoring remain explicit agent work, not an automatic `build` side effect.
 
-## Optional planning/review tools (v47 candidate)
+## Optional planning/review tools (v47)
 
 The [shot contract and movie-review tools](shot-review.md) and [stage lighting candidates](lighting-candidates.md) run independently on the host. They do not change the existing production-stage contract, dispatch Blender, or apply choices automatically. Do not replace the producer used by a running job to install them.

@@ -1,5 +1,5 @@
 {
-  "distribution_version": "v47-candidate",
+  "distribution_version": "v47",
   "frozen_producer_version": "v45a-local",
   "source_archive": "v45a-local-generic-skill.zip",
   "source_archive_sha256": "5f9f8da0b8cd922e6992e5da705f77bd498554a5a301d22dd1442fca80e5dff2",
@@ -19,7 +19,7 @@
     "blender-character-short/references/character-formula-additional-cases.json": "f5b1631b05d571a01ac1f043983aecbc9c04562a875fe19a79fafa5fd778f0be",
     "blender-character-short/references/character-formula-cases.json": "f202a1ea10dbff1f7868de4bbb9be58cd038bddf1ae7abeab333ab3875f12dd2",
     "blender-character-short/references/character-region-surfaces.md": "ddc3652856bfd30ddeeaf50b93e6ae906340319ee7e68248050a51fe80bc07d0",
-    "blender-character-short/references/current-production.md": "60f6ecf25bcf91019c9163f8a4a0787fcdddd4add2e21e3bca370f149dcd0a70",
+    "blender-character-short/references/current-production.md": "7d67afd04d3fbff67b5bd7b529cb4dd85e9c55950d0af59dbd38bf6830b02f2b",
     "blender-character-short/references/elbow-poles.md": "86848878f57afb5b66487215c7e49a8c023061fd81534a1026ac27cf10b69c81",
     "blender-character-short/references/execution.md": "0275acadf28b708bb97d0d3e48a9d58165807a95bfc933a5130df67bf356c92a",
     "blender-character-short/references/existing-controller-projects.md": "1d11bd1579fce6a0796d6bf2d8a5ad4171a7b0508eaa0968b191700635388290",
@@ -218,8 +218,8 @@
     "blender-character-short/scripts/verify_story_parenting.py": "f8fad50a6e942221c9c25c2f67053d766a45f2ee6bca1ceb469c97b41a185218",
     "blender-character-short/scripts/verify_support_motion.py": "89d3c2eaccf2274b9ad16fe10ac242944d5b2e647a8f8d7eb10d06ac6f6f19c6",
     "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a",
-    "blender-character-short/SKILL.md": "9fdd00dc6e6907c9cf0bade76ae3ca6f4f3a2b486ac523d4f2efd7fd4f6d66fc",
-    "blender-character-short/version.json": "537cabac3787e888a6af3c5ce85de36fc322e1ce1641bb1d4d8bf690435715c7"
+    "blender-character-short/SKILL.md": "ec55e697b8eeb62330f74ec281f127d6d1d6e326c1894ff037a18230f716878e",
+    "blender-character-short/version.json": "ea93e33aa37dd53dd6a74d6974fd9b2e9614afee382b95964f702bf38077aa16"
   },
   "historical_v43a_manifest": "release/history/v43a-distribution-manifest.json",
   "historical_v33_manifest": "release/history/v33-distribution-manifest.json",
