@@ -3,7 +3,17 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short - v47
+# Blender character short - v48
+
+For Blender execution, inspect the current setup first and follow the executable
+[component setup and recovery](references/mcp-setup.md) when dependencies are
+missing. Preserve working services. Authorized missing components may be set up
+through the supplied install/configure/register/health commands; stop for any
+additional required permission. Never claim connection from installation alone.
+Use the [asynchronous execution companion](references/mcp-execution.md) for long
+canonical stages; keep short scene inspection/editing on the existing bridge.
+Keep the MCP/host session alive, query the same job after uncertain outcomes,
+and never automatically repeat work or replace a live service.
 
 Start new shorts with the [six-step production workflow](references/production-workflow.md).
 Require the user's MMD character, scene model and basic story prompt unless the

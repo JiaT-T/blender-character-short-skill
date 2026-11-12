@@ -1,6 +1,23 @@
-# Blender Character Short Skill · v47
+# Blender Character Short Skill · v48
 
-面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v47`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v48`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+
+## v48: optional asynchronous Blender execution
+
+The [local MCP companion](blender-character-short/references/mcp-execution.md)
+adds persistent allowlisted jobs, status/log/result queries, idempotent requests
+and stage-boundary cancellation while reusing the canonical scripts. Existing
+blender-mcp interactive editing remains separate. The [setup workflow](blender-character-short/references/mcp-setup.md)
+includes missing-component installation, non-overwriting configuration, optional
+client registration and health checks. It does not silently replace an active
+service. A client that kills its process tree can stop workers; persisted state
+prevents blind retries, not OS-level termination. New physics routing requires
+an explicitly assembled saved project and reviewed plan.
+
+Tests cover CPU orchestration, real stdio interaction and a native background
+doctor. No new full render/bake or GUI bridge acceptance is claimed. Installing
+and enabling optional services on a user's active client remains a separate
+operation under its permissions.
 
 ## v47: shot planning, review and scene lighting
 

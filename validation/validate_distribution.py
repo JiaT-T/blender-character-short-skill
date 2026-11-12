@@ -16,7 +16,7 @@ from hashlib import sha256
 
 
 HOST_CLI = (
-    "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
+    "mcp_jobs.py", "mcp_service.py", "mcp_setup.py", "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
     "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py", "shot_plan.py", "planned_video_review.py", "scene_lighting_candidates.py",
@@ -137,7 +137,7 @@ def validate(root: Path) -> dict:
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
     producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
-    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47"):
+    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47", "v48"):
         assert manifest["current_producer_sha256"] == producer_hash
         current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
         if manifest["distribution_version"] == "v46":
@@ -164,7 +164,7 @@ def validate(root: Path) -> dict:
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 adds synthetic planning/review tests",
+        "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 adds synthetic planning/review tests; v48 job/setup and native doctor evidence is separate",
         "skill_scripts_modified_for_publication": manifest["distribution_version"] == "v46",
         "historical_v46_refinement_evidence": manifest.get("refinement_evidence"),
         "publication_validator_updated": True,

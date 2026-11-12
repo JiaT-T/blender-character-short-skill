@@ -1,12 +1,12 @@
 {
-  "distribution_version": "v47",
+  "distribution_version": "v48",
   "frozen_producer_version": "v45a-local",
   "source_archive": "v45a-local-generic-skill.zip",
   "source_archive_sha256": "5f9f8da0b8cd922e6992e5da705f77bd498554a5a301d22dd1442fca80e5dff2",
   "source_archive_not_bundled": true,
   "source_delivery_receipt_and_zip_hashes_verified": true,
-  "source_file_count": 208,
-  "script_count": 162,
+  "source_file_count": 213,
+  "script_count": 165,
   "inventory_is_not_quality_acceptance": true,
   "all_scripts_byte_identical_to_frozen_v45a": false,
   "producer_version_json_byte_identical": false,
@@ -32,6 +32,8 @@
     "blender-character-short/references/legacy-routes.md": "c42ed798b4b9a50dd9244bcb397f0e9ca242444229917d185b0f2a737611628c",
     "blender-character-short/references/library-actions.md": "3e9fbb01282d3aec5c8e19180635b76b5aa540bc7653c09d54cc8317ba6925d9",
     "blender-character-short/references/lighting-candidates.md": "4e3ef86638e45b9254e0e5b7affd0a9b9265bc851f0b64b727da7a05ae5750e1",
+    "blender-character-short/references/mcp-execution.md": "f678e66415bab19f486d1662256d7803ab7d9136d29bb680fcc448592678d0f9",
+    "blender-character-short/references/mcp-setup.md": "178906c9438dd06a3523c8055454bbd9bd8719bf5a96f72fa28068737bd31373",
     "blender-character-short/references/mmd-plugins.md": "1e339c6c0aa934b915b2d502ca1be3215cb95c23087c07b59c14affc67ab1337",
     "blender-character-short/references/motion-conversion.md": "7fa2d26e6d1a05d93349c2ae85c397a1b4696c7d6490fcab42db22992c82510a",
     "blender-character-short/references/moving-gaze.md": "4a085de01bdde25275864ac081ccb4f41b027bd6690b58bd9bb10d9d6329fad7",
@@ -124,6 +126,9 @@
     "blender-character-short/scripts/make_look_diagnostic.py": "62c56bf8902ff29b6756508e15fa4638eab8174efb2c9e615996750b553bc68b",
     "blender-character-short/scripts/marker_height_math.py": "fc361b40ce49495f597513edb78c0a3a5e9a02db276f6860f124667927966ebb",
     "blender-character-short/scripts/match_recorded_stance.py": "7f8a37b05934013bd4823d199eb06d245c961bde1dba1e057a5da2d5d146a99f",
+    "blender-character-short/scripts/mcp_jobs.py": "ee818f1285567d626f6db489f120167082f9853bf164c4c3f600f7ade050fbe3",
+    "blender-character-short/scripts/mcp_service.py": "38ad2851001af7830fd92a6a88d1d1e0e0e12f941120b0c36e05eba5d62f7f24",
+    "blender-character-short/scripts/mcp_setup.py": "d680328b00b340daa4966cf0ff31933e615b83be3a00fa54009fc9f76a15e5a3",
     "blender-character-short/scripts/mmd_baseline.py": "aa672116ae4699e4eaec44aef96fb965841262070eca319bab5802e4c78dcdcb",
     "blender-character-short/scripts/mmd_physics.py": "0bdc6c186432b736eb099e45dc36643d89e03f1460f8b42b562f5ccd81666da3",
     "blender-character-short/scripts/native_validation.py": "f3107dd5e5977881463674108d52cc47ddca84e9f9fc533a68f9a19c9e1b8acf",
@@ -167,7 +172,7 @@
     "blender-character-short/scripts/scene_lighting_candidates.py": "978136e704b4472e4fc71a19d754530cce9e81e442b71808cd449ac5eeb15232",
     "blender-character-short/scripts/scene_surface_style.py": "3acc24e93ea5ec2f709eb3581fc68f9d47c715d8bf3b110550f6b6c96e92050d",
     "blender-character-short/scripts/scene_tempo_plan.py": "2c1fa45f48496c8069a9836c7a3e5716ab10ea119b1f4a59da42c61fe00b7b1a",
-    "blender-character-short/scripts/short_project.py": "c96a295bd543e67669e9edd8828ff6d8ecf9f2d0c3c1a71be9634f531d4b08e5",
+    "blender-character-short/scripts/short_project.py": "99155b124ab726f816735e7c823d90bf52f9588f8d25eebded427515e14bd38f",
     "blender-character-short/scripts/shot_plan.py": "c623254e54b68c714cedfe1d0e43ecb03be63b05a34ceee6c7f30eac7e78dd18",
     "blender-character-short/scripts/smaa_cpu.py": "1a6ca6ba144075ccc60d925dbaebe85bd6801c24864d5a895cbffa885b418169",
     "blender-character-short/scripts/source_motion.py": "f68bca02f619571beb385751baa6c6cdad1df54beec6ec83691e68202f5533f3",
@@ -218,8 +223,8 @@
     "blender-character-short/scripts/verify_story_parenting.py": "f8fad50a6e942221c9c25c2f67053d766a45f2ee6bca1ceb469c97b41a185218",
     "blender-character-short/scripts/verify_support_motion.py": "89d3c2eaccf2274b9ad16fe10ac242944d5b2e647a8f8d7eb10d06ac6f6f19c6",
     "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a",
-    "blender-character-short/SKILL.md": "ec55e697b8eeb62330f74ec281f127d6d1d6e326c1894ff037a18230f716878e",
-    "blender-character-short/version.json": "ea93e33aa37dd53dd6a74d6974fd9b2e9614afee382b95964f702bf38077aa16"
+    "blender-character-short/SKILL.md": "7115dae0015164b9d744597ca9fcde8daa6f7f2101a622bc1292f300d7d9dc8f",
+    "blender-character-short/version.json": "a78c584308a9de0557445f6fbe60433452092b23a8dcf8859b70e54598f184ef"
   },
   "historical_v43a_manifest": "release/history/v43a-distribution-manifest.json",
   "historical_v33_manifest": "release/history/v33-distribution-manifest.json",
@@ -235,7 +240,7 @@
   "base_distribution_version": "v45a",
   "source_archive_role": "Historical base archive only; v46 additions and modifications are listed in this manifest",
   "original_frozen_source_file_count": 196,
-  "current_producer_sha256": "e8312e9afae535e992d8b275fe4ee6eec29c5ec488cb136c728111f1e9f1ecab",
+  "current_producer_sha256": "a204a6b9853c67ffc5263749852334f903b7bcfd70542fc7fb5f9857afe5c81f",
   "refinement_evidence": "release/refinement-evidence-v46.json",
   "v46_code_changes": {
     "added": [
@@ -248,5 +253,6 @@
     ],
     "version_json": "v46"
   },
-  "historical_v46_producer_sha256": "9551c8fcef8ddbf379c71d08822ffcb2ef95bc11cea472865e5d2624fabe0ecc"
+  "historical_v46_producer_sha256": "9551c8fcef8ddbf379c71d08822ffcb2ef95bc11cea472865e5d2624fabe0ecc",
+  "mcp_evidence": "release/v48-mcp-evidence.json"
 }

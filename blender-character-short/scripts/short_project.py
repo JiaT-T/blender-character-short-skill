@@ -52,8 +52,29 @@ def render(project,base,complete=False,max_seconds=1800):
         state=json.loads((base/job['output']/'progress.json').read_text('utf-8'))
         if state['complete'] or not complete:return state
         if time.monotonic()-started>=max_seconds:raise RuntimeError('Foreground render budget reached; matching frames retained')
+
+def physics(project,base):
+    """Bake an explicitly assembled project and verify in a second process."""
+    cfg=project['physics'];source=declared_file(cfg['source'],base)
+    plan=(base/cfg['plan']).resolve();data=json.loads(plan.read_text('utf-8'))
+    if data['source_sha256']!=source['sha256']:raise ValueError('Physics plan/source mismatch')
+    output=(base/cfg['output']).resolve();report=(base/cfg['report']).resolve()
+    verify_report=(base/cfg['verify_report']).resolve();verify_plan=verify_report.with_name(verify_report.stem+'-plan.json')
+    targets=[output,report,verify_report,verify_plan]
+    if len(set(targets))!=4 or any(p.exists() for p in targets):raise ValueError('New distinct physics outputs required')
+    if Path(source['path']) in targets or plan in targets:raise ValueError('Physics outputs must not overwrite source/plan')
+    run_native(project,base,'cache_existing_physics.py',['--mode','bake','--source',source['path'],'--plan',plan,'--output',output,'--report',report],'physics-bake')
+    baked=json.loads(report.read_text('utf-8'))
+    if not baked['cache_baked'] or baked['output_sha256']!=sha(output) or baked['source_sha256']!=source['sha256'] or sha(source['path'])!=source['sha256']:raise ValueError('Physics bake/source evidence differs')
+    data['source_sha256']=sha(output);verify_plan.parent.mkdir(parents=True,exist_ok=True)
+    with verify_plan.open('x',encoding='utf-8') as f:json.dump(data,f,indent=2)
+    run_native(project,base,'cache_existing_physics.py',['--mode','verify','--source',output,'--plan',verify_plan,'--report',verify_report],'physics-fresh-verify')
+    verified=json.loads(verify_report.read_text('utf-8'))
+    if not verified['fresh_process_reopen_verified'] or not verified['cache_baked'] or verified['source_sha256']!=sha(output):raise ValueError('Physics fresh verification differs')
+    return verify_report
+
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic','refine','workflow']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic','refine','workflow','physics']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
     if a.stage=='version':
         codes=producer_identity(SCRIPTS);print(json.dumps({'skill':str(SCRIPTS.parent),'version':json.loads((SCRIPTS.parent/'version.json').read_text('utf-8')),'script_count':len(codes),'producer_identity_sha256':digest(codes)},indent=2));return
     if a.project is None:p.error('--project required')
@@ -83,6 +104,7 @@ def main():
     if a.stage=='encode':
         from encode_saved_project import encode
         print(json.dumps(encode(base/project['render']['output'],base/project['movie']),indent=2))
+    if a.stage=='physics':physics(project,base)
     if a.stage=='refine':
         plan=(base/project['refine_plan']).resolve()
         run_native(project,base,'refine_saved_project.py',['--plan',plan],'refine-saved-project')

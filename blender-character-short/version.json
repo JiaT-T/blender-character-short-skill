@@ -1,7 +1,7 @@
 {
-  "version": "v47",
+  "version": "v48",
   "base_version": "v45a-local",
-  "status": "shot-review-lighting-tools",
+  "status": "optional-durable-mcp-execution",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
   "ui_automation": false,
   "features": [
@@ -11,12 +11,19 @@
     "host-only production brief and state workflow",
     "external shot continuity contract",
     "plan-driven video review flags",
-    "scene-only lighting candidates"
+    "scene-only lighting candidates",
+    "optional persistent MCP job adapter",
+    "idempotent resource-guarded stage execution",
+    "cooperative batch-boundary cancellation",
+    "isolated dependency setup and health checks"
   ],
   "limits": [
     "no automatic aesthetic or naturalness acceptance",
     "no automatic camera animation from shot plan",
     "no bundled private assets",
-    "do not replace producer during active renders"
+    "do not replace producer during active renders",
+    "client process-tree termination can interrupt workers; no automatic uncertain-job replay",
+    "new physics adapter has mocked routing tests, not a new full bake acceptance",
+    "optional bridge installation and client registration need supported permission and connectivity"
   ]
 }

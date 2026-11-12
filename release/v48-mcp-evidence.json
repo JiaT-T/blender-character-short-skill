@@ -1,0 +1,32 @@
+{
+  "version": "v48",
+  "producer_sha256": "a204a6b9853c67ffc5263749852334f903b7bcfd70542fc7fb5f9857afe5c81f",
+  "host_suite": {
+    "tests": 125,
+    "passed": 119,
+    "skipped": 6,
+    "skips": "Blender-native tests requiring explicit fixtures; not silently accepted"
+  },
+  "integration": [
+    "real MCP stdio initialization, five tools, canonical CPU workflow execution, completed-job reconnect and idempotent resubmission",
+    "fresh isolated pinned dependency installation, repeated setup and configuration health",
+    "native Blender 4.5.15 background doctor through job adapter with live CLI supervisor"
+  ],
+  "mocks": [
+    "physics bake and reopen adapter routing only",
+    "optional client registration and bridge setup paths"
+  ],
+  "not_verified": [
+    "new full physics bake/render through adapter",
+    "fresh optional blender-mcp package installation: network policy blocked package index; existing installation untouched",
+    "new optional interactive bridge launch/handshake and actual client registration"
+  ],
+  "limits": [
+    "client or executor process-tree cleanup may stop active workers; persisted state is not an independent operating-system service",
+    "uncertain jobs retain reservation; no blind replay or automatic stale-lock clearing",
+    "cancel is cooperative between stages/render batches, not a force-kill",
+    "no new visual or naturalness acceptance"
+  ],
+  "production_client_modified": false,
+  "private_assets_distributed": false
+}
