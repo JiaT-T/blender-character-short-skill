@@ -3,7 +3,7 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short - v46.1
+# Blender character short - v47 candidate
 
 Start new shorts with the [six-step production workflow](references/production-workflow.md).
 Require the user's MMD character, scene model and basic story prompt unless the
@@ -90,3 +90,17 @@ workflow lessons from local projects, not new executable producer capabilities.
 ## Executable static refinement (v46)
 
 Use the [saved-project refinement stage](references/static-refinement.md) to apply reviewed compositor and stage-only material/light plans, with a source hash, backup, separate output and fresh-reopen protection checks. This updates existing saved projects; it does not automatically select assets, judge style, or certify animation.
+
+## Shot planning and review aids
+
+For a new film, use the [shot contract and planned-video review](references/shot-review.md)
+to make timing, action endpoints and declared continuity explicit. The video scan
+only locates suspicious intervals for viewing; planned cuts, still holds and flashes
+can be intentional. It does not certify natural motion, collision or visual quality.
+For optional stage-only light alternatives, read [lighting candidates](references/lighting-candidates.md).
+Candidates are not approved refinement plans and must not change the character or world.
+
+Do not update an in-progress film's producer package to adopt these helpers.
+Use a separate checkout and new project/output identity after the current job,
+or apply read-only review without modifying its inputs. A documentation or script
+addition can invalidate producer-bound frames even when render code is unchanged.

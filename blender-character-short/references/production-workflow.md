@@ -16,13 +16,13 @@ Record the original prompt and non-negotiable character, setting, event and tone
 
 ## 3. Initial look and motion search
 
-Shade the character and scene and render cheap representative stills while searching online for suitable existing motions. Preserve the Huaxu-based character material target; use existing reviewed look/refine routes where their matching requirements hold. Do not copy the rejected distance-dependent fringe shadow. Prefer Eevee, restrained bloom and depth of field, and measured compositing cost. Do not run dynamic validation unless requested.
+Shade the character and scene and render cheap representative stills while searching online for suitable existing motions. Preserve the Huaxu-based character material target; use existing reviewed look/refine routes where their matching requirements hold. Do not copy the rejected distance-dependent fringe shadow. Prefer Eevee, restrained bloom and depth of field, and measured compositing cost. For a static-only task, do not add dynamic validation. A film-production task can include scoped sequence review; earlier static-task exclusions are not a permanent prohibition.
 
 If motion retrieval requires login, **stop that dependent step and wait for user authorization**. Do not retry credentials, bypass authentication or claim a download. Independent local static-look work may continue. Use supplied suitable motions where available; internet search and style assessment are agent tasks, not features of the CLI.
 
 ## 4. Storyboard
 
-Define every shot's narrative purpose, duration, action, expression, camera and transition. Respect available motion and scene scale. Make a low-cost preview before polishing. Do not require a new user approval for every routine shot choice unless the user reserved that decision.
+Use the [shot contract](shot-review.md) to record each shot's narrative purpose, inclusive frame range, action endpoints, camera and declared spatial/prop continuity. Define expressions and transitions as needed. Respect available motion and scene scale. Make a low-cost preview before polishing. Do not require a new user approval for every routine shot choice unless the user reserved that decision.
 
 ## 5. Production
 
@@ -32,7 +32,7 @@ Before render, check frame range, cameras, physics cache and output settings. Ne
 
 ## 6. Delivery
 
-Deliver the movie, saved project, required dependencies and actual validation limits within the requested delivery scope. Distinguish code tests, still-frame review, full playback and user acceptance. Do not call an asset-dependent visual target guaranteed. Push/upload only what the user authorized; don't bundle restricted model/texture files with the public skill.
+When useful, run [plan-driven review](shot-review.md) on the final movie and inspect flagged times; flags are not automatic failures or repairs. Deliver the movie, saved project, required dependencies and actual validation limits within the requested delivery scope. Distinguish code tests, still-frame review, full playback and user acceptance. Do not call an asset-dependent visual target guaranteed. Push/upload only what the user authorized; don't bundle restricted model/texture files with the public skill.
 
 ## Executable brief/state helper
 

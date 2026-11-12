@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v46.1",
+  "distribution_version": "v47-candidate",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -8,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 203,
-  "skill_scripts_compiled_without_bytecode": 159,
-  "validation_scripts_compiled": 7,
+  "skill_files": 208,
+  "skill_scripts_compiled_without_bytecode": 162,
+  "validation_scripts_compiled": 9,
   "json_fixtures_parsed": 6,
-  "internal_markdown_file_links_checked": 119,
+  "internal_markdown_file_links_checked": 128,
   "frontmatter_required_fields_checked": true,
-  "skill_creator_quick_validate": "Passed for the local frozen source; publication validates required frontmatter fields and links",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 227,
+  "skill_creator_quick_validate": "Standalone quick validator unavailable (PyYAML missing); publication validates required frontmatter fields and links",
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 235,
   "demo_media_verified": [
     "docs/media/nietiya-demo-1080p30.mp4",
     "docs/media/nietiya-demo-poster.jpg"
@@ -88,9 +88,21 @@
     {
       "script": "production_workflow.py",
       "returncode": 0
+    },
+    {
+      "script": "shot_plan.py",
+      "returncode": 0
+    },
+    {
+      "script": "planned_video_review.py",
+      "returncode": 0
+    },
+    {
+      "script": "scene_lighting_candidates.py",
+      "returncode": 0
     }
   ],
-  "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks",
+  "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 candidate adds synthetic planning/review tests",
   "skill_scripts_modified_for_publication": false,
   "historical_v46_refinement_evidence": "release/refinement-evidence-v46.json",
   "publication_validator_updated": true,

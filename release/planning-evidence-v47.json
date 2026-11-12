@@ -1,0 +1,42 @@
+{
+  "version": "v47-candidate",
+  "base_commit": "f2b0d46d95d5670f1996d17a36ad3e7dad440034",
+  "publication": "separate feature branch; not merged or activated for current film",
+  "isolation": {
+    "separate_clone": true,
+    "no_shared_worktree_or_hardlinked_git_objects": true,
+    "active_package_source_files_verified_unchanged": 203,
+    "active_repo_head_unchanged": true,
+    "active_repo_clean": true,
+    "runtime_bytecode_excluded": "Three generated Python 3.11 cache files appeared in the active package; all source files unchanged. These are excluded from producer identity.",
+    "blender_or_gpu_started": false,
+    "current_film_or_task_modified": false
+  },
+  "host_tests": {
+    "run": 85,
+    "passed": 79,
+    "skipped_native": 6,
+    "new_shot_review_tests": 16,
+    "new_lighting_tests": 13
+  },
+  "synthetic_video": {
+    "size": [
+      32,
+      32
+    ],
+    "frames": 12,
+    "fps": 24,
+    "cpu_encode_decode": "passed"
+  },
+  "visual_claims": {
+    "lighting_appearance_verified": false,
+    "current_film_reviewed": false,
+    "automatic_quality_acceptance": false
+  },
+  "limits": [
+    "Declared continuity only; not geometry proof",
+    "Low-resolution image-change cues require human review",
+    "Lighting candidates require native guards and still preview before adoption",
+    "Standalone quick validator unavailable because PyYAML is absent; distribution frontmatter/link checks passed"
+  ]
+}

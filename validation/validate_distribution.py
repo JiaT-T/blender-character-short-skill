@@ -19,7 +19,7 @@ HOST_CLI = (
     "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
-    "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py",
+    "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py", "shot_plan.py", "planned_video_review.py", "scene_lighting_candidates.py",
 )
 
 
@@ -137,7 +137,7 @@ def validate(root: Path) -> dict:
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
     producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
-    if manifest["distribution_version"] in ("v46", "v46.1"):
+    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate"):
         assert manifest["current_producer_sha256"] == producer_hash
         current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
         if manifest["distribution_version"] == "v46":
@@ -160,11 +160,11 @@ def validate(root: Path) -> dict:
         "json_fixtures_parsed": len(json_files),
         "internal_markdown_file_links_checked": links,
         "frontmatter_required_fields_checked": True,
-        "skill_creator_quick_validate": "Passed for the local frozen source; publication validates required frontmatter fields and links",
+        "skill_creator_quick_validate": "Standalone quick validator unavailable (PyYAML missing); publication validates required frontmatter fields and links",
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks",
+        "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks; v47 candidate adds synthetic planning/review tests",
         "skill_scripts_modified_for_publication": manifest["distribution_version"] == "v46",
         "historical_v46_refinement_evidence": manifest.get("refinement_evidence"),
         "publication_validator_updated": True,

@@ -1,18 +1,22 @@
 {
-  "version": "v46.1",
+  "version": "v47-candidate",
   "base_version": "v45a-local",
-  "status": "static-refinement-production",
+  "status": "isolated-shot-review-lighting-candidate",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
   "ui_automation": false,
   "features": [
     "hash-bound backup and fresh reopen",
     "selective Huaxu compositor refinement",
     "declarative scene-only material and light refinement",
-    "host-only production brief and state workflow"
+    "host-only production brief and state workflow",
+    "external shot continuity contract",
+    "plan-driven video review flags",
+    "scene-only lighting candidates"
   ],
   "limits": [
-    "no automatic style judgement",
-    "no animation validation",
-    "no bundled private assets"
+    "no automatic aesthetic or naturalness acceptance",
+    "no automatic camera animation from shot plan",
+    "no bundled private assets",
+    "candidate not adopted by in-progress films"
   ]
 }

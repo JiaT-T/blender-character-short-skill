@@ -150,3 +150,7 @@ previous contracts; old producer-bound frame receipts must not be reused.
 ## New-short workflow
 
 Follow [production workflow](production-workflow.md) before technical stages. `workflow` records readiness and stage evidence without changing assets or starting Blender. Story, retrieval, shader fallback and shot authoring remain explicit agent work, not an automatic `build` side effect.
+
+## Optional planning/review tools (v47 candidate)
+
+The [shot contract and movie-review tools](shot-review.md) and [stage lighting candidates](lighting-candidates.md) run independently on the host. They do not change the existing production-stage contract, dispatch Blender, or apply choices automatically. Do not replace the producer used by a running job to install them.
