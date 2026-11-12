@@ -19,7 +19,7 @@ HOST_CLI = (
     "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
-    "short_project.py", "encode_saved_project.py", "refine_saved_project.py",
+    "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py",
 )
 
 
@@ -137,10 +137,13 @@ def validate(root: Path) -> dict:
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
     producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
-    if manifest["distribution_version"] == "v46":
+    if manifest["distribution_version"] in ("v46", "v46.1"):
         assert manifest["current_producer_sha256"] == producer_hash
         current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
-        assert current_evidence["producer_sha256"] == producer_hash
+        if manifest["distribution_version"] == "v46":
+            assert current_evidence["producer_sha256"] == producer_hash
+        else:
+            assert current_evidence["producer_sha256"] == manifest["historical_v46_producer_sha256"]
         assert current_evidence["static_only"] and current_evidence["source_assets_distributed"] is False
     else:
         assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
@@ -161,9 +164,9 @@ def validate(root: Path) -> dict:
         "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": reviewed,
         "demo_media_verified": sorted(demo_media),
         "host_cli_help": cli,
-        "blender_execution": "This distribution checker does not run Blender; current v46 static integration evidence and historical v45a suites are separately identified",
+        "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks",
         "skill_scripts_modified_for_publication": manifest["distribution_version"] == "v46",
-        "current_refinement_evidence": manifest.get("refinement_evidence"),
+        "historical_v46_refinement_evidence": manifest.get("refinement_evidence"),
         "publication_validator_updated": True,
         "historical_v45a_native_suite": evidence["recorded_native_suite"],
         "historical_v45a_host_suite": evidence["recorded_host_suite"],

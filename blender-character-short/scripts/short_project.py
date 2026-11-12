@@ -53,7 +53,7 @@ def render(project,base,complete=False,max_seconds=1800):
         if state['complete'] or not complete:return state
         if time.monotonic()-started>=max_seconds:raise RuntimeError('Foreground render budget reached; matching frames retained')
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic','refine']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['version','doctor','baseline','look','build','render','encode','tests','check-look','diagnostic','refine','workflow']);p.add_argument('--project',type=Path);p.add_argument('--complete',action='store_true');p.add_argument('--reference',action='store_true');p.add_argument('--max-seconds',type=float,default=1800);a=p.parse_args()
     if a.stage=='version':
         codes=producer_identity(SCRIPTS);print(json.dumps({'skill':str(SCRIPTS.parent),'version':json.loads((SCRIPTS.parent/'version.json').read_text('utf-8')),'script_count':len(codes),'producer_identity_sha256':digest(codes)},indent=2));return
     if a.project is None:p.error('--project required')
@@ -61,6 +61,14 @@ def main():
     if project.get('schema')!=1:raise ValueError('Project schema1 required')
     import re
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,48}',project.get('id','production')):raise ValueError('Project id must be a short filename-safe identifier')
+    if a.stage=='workflow':
+        from production_workflow import evaluate
+        brief=(base/project['workflow_brief']).resolve()
+        result=evaluate(json.loads(brief.read_text('utf-8')),brief.parent)
+        report=(base/project['workflow_report']).resolve()
+        report.parent.mkdir(parents=True,exist_ok=True)
+        with report.open('x',encoding='utf-8') as stream:json.dump(result,stream,ensure_ascii=False,indent=2)
+        print(json.dumps(result,ensure_ascii=False));return
     if a.stage not in ['doctor','build']:
         runtime=json.loads((base/project['reports']/'runtime.json').read_text('utf-8'))
         if not runtime['accepted'] or runtime.get('runtime_spec_sha256')!=digest(project['runtime']) or runtime.get('binary_sha256')!=sha((base/project['runtime']['blender']).resolve()):raise ValueError('Run doctor for this reviewed runtime before production')

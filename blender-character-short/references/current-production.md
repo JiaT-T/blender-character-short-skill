@@ -1,7 +1,7 @@
-# Current local production entry (v46, based on v45a)
+# Current local production entry (v46.1, based on v45a)
 
 Use the selected package's `scripts/short_project.py`. All commands require an
-external reviewed project JSON except `version`. A project owns its runtime,
+external reviewed project JSON except `version`. The host-only `workflow` stage uses only the brief/report contract and does not require a runtime receipt. A project owns its runtime,
 baseline/role plans, look donor and output paths. Relative paths are based on
 that project or the explicitly referenced plan, not the assistant's cwd.
 
@@ -146,3 +146,7 @@ Declare an external `refine_plan`, run doctor for the current runtime, then use
 `short_project.py refine --project PROJECT.json`. See the
 [full refinement contract](static-refinement.md). Existing stages retain their
 previous contracts; old producer-bound frame receipts must not be reused.
+
+## New-short workflow
+
+Follow [production workflow](production-workflow.md) before technical stages. `workflow` records readiness and stage evidence without changing assets or starting Blender. Story, retrieval, shader fallback and shot authoring remain explicit agent work, not an automatic `build` side effect.

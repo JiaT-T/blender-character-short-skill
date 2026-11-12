@@ -3,15 +3,20 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short · v45a
+# Blender character short - v46.1
+
+Start new shorts with the [six-step production workflow](references/production-workflow.md).
+Require the user's MMD character, scene model and basic story prompt unless the
+user explicitly requests an exception. Optional motion/props/mood/light inputs
+are not prerequisites. Simplify missing auxiliary maps while preserving basic
+stylized toon/mobile-game appearance; disclose unrecoverable key details.
+Use `short_project.py workflow` to record input readiness and progress, then
+use the existing production stages. This planner does not generate a film.
 
 Use `scripts/short_project.py` as the local production entry. Read
-[current production](references/current-production.md) for the external project
-contract, stages and recovery. `version.json` preserves the tested producer
-identity (`v45a-local`); the public distribution manifest records this publication.
-The source build metadata is not an upload authorization. Git history and the
-release history retain older versions. Local projects select their own external
-configuration and output directories.
+[current production](references/current-production.md) for external project
+contracts, stages and recovery. Version metadata and publication inventory
+identify this package; older validation results remain version-scoped.
 
 Target MMD PMX/PMD deform skeletons. Prefer a supplied **unanimated** MMR project
 and preserve its original file, skin, shape keys, controllers and constraints.
@@ -73,7 +78,7 @@ complete new-story or cross-machine pass from a technical diagnostic clip.
 Do not use foreground UI or browser automation unless the user explicitly
 authorizes it. This workflow works through background Blender Python/API.
 No upload, public push or third-party asset redistribution is part of a local
-build. Review the individual licenses and publication scope separately.
+build. Publication must respect known restrictions and the user's scope; this is not a separate production prerequisite.
 
 ## Latest scene and compositing workflow notes
 

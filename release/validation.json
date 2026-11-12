@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v46",
+  "distribution_version": "v46.1",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -8,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 201,
-  "skill_scripts_compiled_without_bytecode": 158,
-  "validation_scripts_compiled": 6,
+  "skill_files": 203,
+  "skill_scripts_compiled_without_bytecode": 159,
+  "validation_scripts_compiled": 7,
   "json_fixtures_parsed": 6,
-  "internal_markdown_file_links_checked": 116,
+  "internal_markdown_file_links_checked": 119,
   "frontmatter_required_fields_checked": true,
   "skill_creator_quick_validate": "Passed for the local frozen source; publication validates required frontmatter fields and links",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 223,
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 227,
   "demo_media_verified": [
     "docs/media/nietiya-demo-1080p30.mp4",
     "docs/media/nietiya-demo-poster.jpg"
@@ -84,11 +84,15 @@
     {
       "script": "refine_saved_project.py",
       "returncode": 0
+    },
+    {
+      "script": "production_workflow.py",
+      "returncode": 0
     }
   ],
-  "blender_execution": "This distribution checker does not run Blender; current v46 static integration evidence and historical v45a suites are separately identified",
-  "skill_scripts_modified_for_publication": true,
-  "current_refinement_evidence": "release/refinement-evidence-v46.json",
+  "blender_execution": "This distribution checker does not run Blender; historical v46 static integration evidence and historical v45a suites are separately identified; v46.1 adds host workflow checks",
+  "skill_scripts_modified_for_publication": false,
+  "historical_v46_refinement_evidence": "release/refinement-evidence-v46.json",
   "publication_validator_updated": true,
   "historical_v45a_native_suite": {
     "tests": 202,

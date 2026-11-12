@@ -1,6 +1,10 @@
-# Blender Character Short Skill · v46
+# Blender Character Short Skill · v46.1
 
 面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v46`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+
+## v46.1: production workflow
+
+[Six-step workflow](blender-character-short/references/production-workflow.md): require MMD character, scene and basic story unless explicitly exempted; preserve intent while adding detail; simplify missing maps while retaining basic toon style; shade/render stills and search motions; storyboard; produce and deliver. Login-dependent work pauses for authorization. No separate asset/license-check gate is added. The new host-only `workflow` command validates brief/state/evidence references and reports missing inputs, fallback plans and next stage. It does **not** automate internet retrieval, artistic judgment, shader fallbacks or movie authoring. Existing v46 static-render evidence below is historical; no new render/dynamic validation was run for this workflow-only change.
 
 ## v46: executable static refinement
 

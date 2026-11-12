@@ -1,5 +1,5 @@
 {
-  "version": "v46",
+  "version": "v46.1",
   "base_version": "v45a-local",
   "status": "static-refinement-production",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
@@ -7,7 +7,8 @@
   "features": [
     "hash-bound backup and fresh reopen",
     "selective Huaxu compositor refinement",
-    "declarative scene-only material and light refinement"
+    "declarative scene-only material and light refinement",
+    "host-only production brief and state workflow"
   ],
   "limits": [
     "no automatic style judgement",

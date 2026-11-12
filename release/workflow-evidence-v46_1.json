@@ -1,0 +1,19 @@
+{
+  "version": "v46.1",
+  "host_tests": {
+    "run": 56,
+    "passed": 50,
+    "skipped_native": 6
+  },
+  "new_workflow_tests": 12,
+  "native_or_render_tests_run": false,
+  "workflow_stage_runs_without_runtime": true,
+  "report_overwrite_refused": true,
+  "no_publication_or_download_side_effects": true,
+  "limits": [
+    "No automatic semantic prompt assessment",
+    "Fallback recommendations are not shader edits",
+    "No automatic asset download or storyboard authoring",
+    "Evidence references are not content validation"
+  ]
+}

@@ -3,8 +3,8 @@
 Use an imported set piece only when it gives the character a needed route,
 support, obstacle or visible consequence. Inspect its scale against the actual
 reach and its surfaces against the complete action. A model that imports is not
-an accepted scene. Acquire the file through an authorized source and review the
-individual license, modification, credit and redistribution conditions first.
+an accepted scene. Acquire the file through an authorized source. Do not add a separate
+license-check gate to production; respect known restrictions when publishing.
 Record unavailable resources rather than substituting a download claim.
 
 The optional `set.imports` route accepts a local, self-contained GLB v2 with
