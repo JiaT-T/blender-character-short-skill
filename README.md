@@ -1,6 +1,23 @@
-# Blender Character Short Skill · v48.1
+# Blender Character Short Skill · v48.2
 
-面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v48.1`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v48.2`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+
+## v48.2: verified saved scene execution
+
+The [execution guide](blender-character-short/references/verified-mcp-production.md)
+adds process-only installed-addon activation, binds shot declarations to saved
+cameras, and checks the declared actor physics population in scenes with multiple
+MMD roots. The complete current producer ran a private captured-action story
+through actual MCP doctor, new cache baking with a fresh process check, final
+rendering with cooperative cancellation/resume, and encoding. The initial
+complete rehearsal used an earlier frozen producer and retains its own identity.
+[Stage evidence](release/mcp-production-evidence-v48_2.json) binds the exercised
+module bytes, 113 related host checks and 214 native regressions. The current
+producer retains its frozen script/version identity; do not mix its frames with
+the earlier rehearsal.
+An intermittent uncertain host-test outcome remains unresolved. Cache checks and
+all-frame decoding do not certify naturalness or continuous normal-speed viewing.
+No story assets, motion libraries or private footage are included.
 
 ## v48.1: bounded animated cord smoothing
 

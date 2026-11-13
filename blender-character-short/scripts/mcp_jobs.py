@@ -1,6 +1,6 @@
 """Persistent, local-only job adapter for the reviewed short_project stages.
 
-No arbitrary commands, sockets, process killing, automatic retries or installs.
+No arbitrary commands, sockets, process killing, stage retries or installs.
 Cancellation is cooperative between stages/render batches. Uncertain jobs retain
 project reservations until an operator verifies their descendants and outputs.
 """
@@ -23,6 +23,8 @@ STAGES = frozenset(('doctor', 'baseline', 'look', 'build', 'render', 'encode',
                     'tests', 'check-look', 'diagnostic', 'refine', 'workflow', 'physics'))
 TERMINAL = frozenset(('completed', 'failed', 'cancelled'))
 KEY = re.compile(r'^[A-Za-z0-9_-]{1,80}$')
+# One fsynced metadata temp, at most six replacement attempts, 0.31 s backoff.
+METADATA_REPLACE_DELAYS = (.01, .02, .04, .08, .16)
 
 
 def digest(data):
@@ -49,7 +51,26 @@ def write(path, data):
         json.dump(data, f, indent=2, allow_nan=False)
         f.flush()
         os.fsync(f.fileno())
-    os.replace(tmp, path)
+    for attempt in range(len(METADATA_REPLACE_DELAYS) + 1):
+        try:
+            os.replace(tmp, path)
+            return
+        except OSError as exc:
+            if os.name != 'nt' or getattr(exc, 'winerror', None) not in (5, 32, 33):
+                raise
+            retry = attempt < len(METADATA_REPLACE_DELAYS)
+            delay = METADATA_REPLACE_DELAYS[attempt] if retry else 0
+            try:
+                sys.stderr.write(json.dumps(dict(event='metadata_replace_retry' if retry else 'metadata_replace_failed',
+                                                 path=str(path), attempt=attempt + 1,
+                                                 max_attempts=len(METADATA_REPLACE_DELAYS) + 1,
+                                                 winerror=exc.winerror, delay_seconds=delay)) + '\n')
+                sys.stderr.flush()
+            except Exception:
+                pass  # Diagnostics cannot replace the original publication error.
+            if not retry:
+                raise
+            time.sleep(delay)
 
 
 @contextmanager
@@ -84,10 +105,12 @@ def producer(scripts):
     return {p.name: sha(p) for p in sorted(scripts.glob('*.py'))}
 
 
-def inputs(project):
-    """Bind the mutable project and canonical external plan files at submission."""
-    p = read(project)
-    paths = [project]
+def input_snapshot(project):
+    """Derive plans, lock resource and project hash from the same project bytes."""
+    raw = project.read_bytes()
+    p = json.loads(raw.decode('utf-8'))
+    bound = {str(project): hashlib.sha256(raw).hexdigest()}
+    paths = []
     for key in ('baseline_plan', 'refine_plan', 'workflow_brief'):
         if key in p:
             path = (project.parent / p[key]).resolve()
@@ -96,7 +119,13 @@ def inputs(project):
             paths.append(path)
     if 'physics' in p:
         paths.append((project.parent / p['physics']['plan']).resolve(strict=True))
-    return {str(path): sha(path) for path in paths}
+    bound.update({str(path): sha(path) for path in paths})
+    return p, bound
+
+
+def inputs(project):
+    """Bind the mutable project and canonical external plan files at submission."""
+    return input_snapshot(Path(project))[1]
 
 
 class Jobs:
@@ -132,13 +161,13 @@ class Jobs:
         path = Path(project).resolve(strict=True)
         if path.suffix.lower() != '.json' or not any(under(path, root) for root in self.roots):
             raise ValueError('Project must be a JSON within configured project roots')
-        data = read(path)
+        data, bound_inputs = input_snapshot(path)
         if data.get('schema') != 1:
             raise ValueError('Project schema 1 required')
         resource = (path.parent / data.get('execution_lock', path.name)).resolve()
         request = dict(schema=1, project=str(path), stage=stage,
                        resource=str(resource), request_id=request_id, complete=complete, max_batches=max_batches,
-                       inputs=inputs(path), producer=producer(self.scripts),
+                       inputs=bound_inputs, producer=producer(self.scripts),
                        config_sha256=sha(self.config), scripts=str(self.scripts))
         identity = digest(request)
         job_id = 'job-' + hashlib.sha256(request_id.encode()).hexdigest()[:32]
@@ -146,17 +175,56 @@ class Jobs:
         guard = resource.with_name(resource.name + '.mcp-owner.json')
         with mutex(self.store / '.submit.lock'):
             if folder.exists():
-                if read(folder / 'request.json')['identity'] != identity:
+                try:
+                    previous = read(folder / 'request.json')
+                    previous_state = read(folder / 'state.json')
+                    previous_identity = previous['identity']
+                    previous_status = previous_state['status']
+                except (OSError, ValueError, KeyError, TypeError) as exc:
+                    raise RuntimeError('Incomplete job metadata; inspect original submission; no replay: ' + str(folder)) from exc
+                if previous_identity != identity:
                     raise ValueError('Request id already bound to different inputs; no job started')
+                # Only this durable pre-launch phase proves that Popen was never
+                # reached. Recover to a failed receipt, never launch on retry.
+                if (previous_status == 'prepared' or
+                        (previous_status == 'failed' and previous_state.get('submission_phase') == 'not_launched')):
+                    with mutex(resource.with_name(resource.name + '.mcp.lock')):
+                        owner = dict(job_id=job_id, store=str(self.store), identity=identity)
+                        if guard.exists() and read(guard) != owner:
+                            raise RuntimeError('Reservation differs; inspect original submission; no replay')
+                        if previous_state['status'] == 'prepared':
+                            previous_state.update(status='failed', heartbeat=time.time(),
+                                                  submission_phase='not_launched',
+                                                  error='Submission interrupted before worker launch; no stage started')
+                            write(folder / 'state.json', previous_state)
+                        if guard.exists():
+                            guard.unlink()
                 return self.status(job_id)
             with mutex(resource.with_name(resource.name + '.mcp.lock')):
                 if guard.exists():
                     raise RuntimeError('Project reserved; inspect original job before recovery: ' + str(guard))
-                folder.mkdir()
-                write(folder / 'request.json', dict(request, identity=identity))
-                write(folder / 'state.json', dict(job_id=job_id, status='queued', created=time.time(),
-                                                heartbeat=time.time(), identity=identity))
+                if any(sha(p) != value for p, value in bound_inputs.items()):
+                    raise ValueError('Project or plan changed while submitting; no job started')
+                # Publish both receipts together. An interrupted metadata write
+                # cannot leave the request key bound to a half-written directory.
+                pending = self.store / ('.prepare-' + job_id + '-' + secrets.token_hex(8))
+                pending.mkdir()
+                state = dict(job_id=job_id, status='prepared', submission_phase='prepared', created=time.time(),
+                             heartbeat=time.time(), identity=identity)
+                try:
+                    write(pending / 'request.json', dict(request, identity=identity))
+                    write(pending / 'state.json', state)
+                    os.replace(pending, folder)
+                finally:
+                    if pending.exists():
+                        for item in pending.iterdir():
+                            item.unlink()
+                        pending.rmdir()
                 write(guard, dict(job_id=job_id, store=str(self.store), identity=identity))
+                # A queued receipt means launch may have happened. Never recover
+                # it automatically, even if launch.json or the PID is absent.
+                state.update(status='queued', submission_phase='launch_possible', heartbeat=time.time())
+                write(folder / 'state.json', state)
                 flags = (subprocess.CREATE_NO_WINDOW | subprocess.DETACHED_PROCESS |
                          subprocess.CREATE_NEW_PROCESS_GROUP) if os.name == 'nt' else 0
                 try:
@@ -168,7 +236,7 @@ class Jobs:
                                                  close_fds=True)
                 except OSError as exc:
                     state = read(folder / 'state.json')
-                    state.update(status='failed', error='Worker not launched: ' + str(exc))
+                    state.update(status='failed', submission_phase='not_launched', error='Worker not launched: ' + str(exc))
                     write(folder / 'state.json', state)
                     guard.unlink()
                     raise
@@ -183,11 +251,29 @@ class Jobs:
 
     def status(self, job_id):
         folder = self.directory(job_id)
-        state = read(folder / 'state.json')
-        if state['status'] not in TERMINAL and time.time() - state.get('heartbeat', 0) > 60:
+        try:
+            state = read(folder / 'state.json')
+            if not isinstance(state, dict) or not isinstance(state.get('status'), str):
+                raise ValueError('Invalid state receipt')
+        except (OSError, ValueError) as exc:
+            return dict(job_id=job_id, status='uncertain',
+                        recovery='Job metadata incomplete; inspect original submission; no replay or automatic unlock',
+                        cancel_requested=(folder / 'cancel.json').exists(), reservation_inspection_required=True,
+                        metadata_read_error=dict(error_type=type(exc).__name__, errno=getattr(exc, 'errno', None),
+                            winerror=getattr(exc, 'winerror', None), message=str(exc).replace('\n', ' ')[:240]))
+        if state['status'] == 'prepared':
+            state['recovery'] = 'Pre-launch receipt: repeat the same request to record failure without launching a stage'
+        elif state['status'] not in TERMINAL and time.time() - state.get('heartbeat', 0) > 60:
             state = dict(state, status='uncertain', last_recorded_status=state['status'],
                          recovery='Do not resubmit; inspect original worker, descendants and artifacts')
         state['cancel_requested'] = (folder / 'cancel.json').exists()
+        try:
+            resource = Path(read(folder / 'request.json')['resource'])
+            state['reservation_retained'] = resource.with_name(resource.name + '.mcp-owner.json').exists()
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            state['reservation_inspection_required'] = True
+            state['reservation_read_error'] = dict(error_type=type(exc).__name__, errno=getattr(exc, 'errno', None),
+                winerror=getattr(exc, 'winerror', None), message=str(exc).replace('\n', ' ')[:240])
         return state
 
     def logs(self, job_id, offset=0, limit=32768):
@@ -273,6 +359,8 @@ class Jobs:
                     progress = read((project.parent / p['render']['output']).resolve() / 'progress.json')
                     state['render_complete'] = progress['complete']
                     if req['complete'] and not progress['complete']:
+                        if (folder / 'cancel.json').exists():
+                            state['status'] = 'cancelled'; break
                         if count >= req['max_batches']:
                             raise RuntimeError('Batch budget reached; frames retained; complete render not claimed')
                         continue

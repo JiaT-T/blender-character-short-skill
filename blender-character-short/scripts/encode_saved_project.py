@@ -18,7 +18,9 @@ def encode(root,output):
     decode=subprocess.run([ff,'-hide_banner','-nostdin','-xerror','-i',str(output),'-map','0:v:0','-an','-f','framemd5','-'],capture_output=True,text=True,encoding='utf-8',errors='replace',creationflags=flags);output.with_suffix('.decode.log').write_text(decode.stderr,'utf-8');decode.check_returncode();decoded=[r for r in decode.stdout.splitlines() if r and not r.startswith('#')]
     count,seconds=imageio_ffmpeg.count_frames_and_secs(str(output));stream=imageio_ffmpeg.read_frames(str(output));meta=next(stream);stream.close()
     if count!=len(rows) or len(decoded)!=len(rows) or tuple(meta['size'])!=(sig['width'],sig['height']) or not math.isclose(meta['fps'],fps,abs_tol=.005) or abs(seconds-len(rows)/fps)>.06:raise ValueError('Decoded movie specifications differ')
-    result={'accepted':True,'movie':str(output),'sha256':sha(output),'size':list(meta['size']),'fps':meta['fps'],'saved_fps_numerator':sig['fps_numerator'],'saved_fps_base':sig['fps_base'],'frames':count,'duration':seconds,'full_decode_exit':decode.returncode,'framemd5_rows':len(decoded),'frame_signature':state['signature_sha256'],'normal_speed_visual_acceptance':False,'audio':'silent','post_mode':sig['post_mode']};write_json(output.with_suffix('.verification.json'),result);return result
+    result={'accepted':True,'movie':str(output),'sha256':sha(output),'size':list(meta['size']),'fps':meta['fps'],'saved_fps_numerator':sig['fps_numerator'],'saved_fps_base':sig['fps_base'],'frames':count,'duration':seconds,'full_decode_exit':decode.returncode,'framemd5_rows':len(decoded),'frame_signature':state['signature_sha256'],'normal_speed_visual_acceptance':False,'audio':'silent','post_mode':sig['post_mode']}
+    if 'saved_shot_contract' in sig:result['saved_shot_contract']=sig['saved_shot_contract']
+    write_json(output.with_suffix('.verification.json'),result);return result
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--frames',required=True);p.add_argument('--output',required=True);a=p.parse_args();print(json.dumps(encode(a.frames,a.output),indent=2))
 if __name__=='__main__':main()

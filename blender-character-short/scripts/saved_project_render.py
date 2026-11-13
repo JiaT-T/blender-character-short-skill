@@ -26,7 +26,15 @@ def render_job(job,base):
     if bpy.data.cache_files or (world and (getattr(world.point_cache,'use_disk_cache',False) or getattr(world.point_cache,'use_external',False))):raise ValueError('External simulation caches must be frozen separately; this route accepts embedded caches only')
     if job.get('require_cache') and (not world or not world.point_cache.is_baked or world.point_cache.frame_start>first or world.point_cache.frame_end<last):raise ValueError('Reviewed baked physics cache must cover display range')
     dependencies=[declared_file(r,base) for r in job.get('dependencies',[])]
+    shot_contract=None
+    if 'shot_plan' in job:
+        from saved_shot_contract import validate_scene_shots
+        declared_shots=declared_file(job['shot_plan'],base)
+        plan=json.loads(Path(declared_shots['path']).read_text('utf-8'))
+        shot_contract=validate_scene_shots(scene,plan,display_range=(first,last))
+        if declared_shots not in dependencies:dependencies.append(declared_shots)
     signature={'source':source,'dependencies':dependencies,'producer':producer_identity(Path(__file__).parent),'version_sha256':sha(Path(__file__).parents[1]/'version.json'),'blender_binary_sha256':sha(bpy.app.binary_path),'blender_version':bpy.app.version_string,'engine':engine,'width':width,'height':height,'samples':samples,'fps_numerator':scene.render.fps,'fps_base':scene.render.fps_base,'effective_fps':fps,'range':[first,last],'post_mode':'saved-native','use_compositing':scene.render.use_compositing,'compositor_device':getattr(scene.render,'compositor_device',None),'camera':scene.camera.name,'cuts':[[m.frame,m.camera.name if m.camera else None] for m in scene.timeline_markers],'require_cache':bool(job.get('require_cache'))}
+    if shot_contract is not None:signature['saved_shot_contract']=dict(source=declared_shots,validation=shot_contract)
     with output_lock(root):
         done=validate_frames(root,signature,first,last);initial=len(done)
         if initial==last-first+1:

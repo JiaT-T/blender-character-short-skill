@@ -100,3 +100,7 @@ submission. A native background Blender doctor was run through the adapter in
 an isolated project. The physics adapter has mocked routing/identity tests; no
 new full bake, render, GUI bridge or artistic acceptance is claimed. Setup's
 verified scope is separate. Existing production evidence is historical.
+
+## Later saved-scene execution evidence
+
+The v48 checks above remain historical. The [saved scene execution guide](verified-mcp-production.md) describes the selectively adopted runtime, shot binding and explicit actor-cache changes. Actual private-story MCP render, encode, cancellation/resume and new bake/fresh verification are version-scoped in the distribution evidence. The intermittent uncertain host-test outcome is still unresolved; no GUI bridge or process-tree survival claim is added.

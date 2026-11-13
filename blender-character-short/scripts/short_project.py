@@ -2,13 +2,16 @@
 from pathlib import Path
 import argparse,datetime,json,os,subprocess,sys,time,importlib.metadata
 from production_contract import sha,digest,write_json,declared_file,producer_identity,require_baseline_binding,require_look_binding
+from runtime_addons import ENVIRONMENT_KEY,load_project,runtime_spec
 SCRIPTS=Path(__file__).resolve().parent
 def run_native(project,base,script,args,stage):
     runtime=project['runtime'];binary=(base/runtime['blender']).resolve()
     if not binary.is_file():raise FileNotFoundError('Reviewed Blender executable missing')
+    addon_spec=runtime_spec(runtime)
     stamp=str(time.time_ns());reports=(base/project['reports']).resolve();reports.mkdir(parents=True,exist_ok=True);log=reports/(stage+'-'+stamp+'.log');receipt=reports/(stage+'-'+stamp+'.job.json');lock=(base/project['execution_lock']).resolve()
-    command=[str(binary),'--background','--disable-autoexec','--offline-mode','--threads',str(runtime.get('threads',1)),'--python-exit-code','1','--python-expr','import sys;sys.dont_write_bytecode=True','--python',str(SCRIPTS/script),'--',*map(str,args)]
+    command=[str(binary),'--background','--disable-autoexec','--offline-mode','--threads',str(runtime.get('threads',1)),'--python-exit-code','1','--python-expr','import sys;sys.dont_write_bytecode=True','--python',str(SCRIPTS/'runtime_addons.py'),'--python',str(SCRIPTS/script),'--',*map(str,args)]
     wrapper=[sys.executable,str(SCRIPTS/'execution_lock.py'),'--lock',str(lock),'--',*command];env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',PYTHONUTF8='1',OMP_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1',MKL_NUM_THREADS='1')
+    env[ENVIRONMENT_KEY]=json.dumps(addon_spec,sort_keys=True,allow_nan=False)
     data={'command':command,'wrapper':wrapper,'stage':stage,'started_utc':datetime.datetime.now(datetime.timezone.utc).isoformat(),'status':'starting','ui_used':False}
     write_json(receipt,data)
     flags=(subprocess.CREATE_NO_WINDOW|subprocess.BELOW_NORMAL_PRIORITY_CLASS) if os.name=='nt' else 0
@@ -78,7 +81,7 @@ def main():
     if a.stage=='version':
         codes=producer_identity(SCRIPTS);print(json.dumps({'skill':str(SCRIPTS.parent),'version':json.loads((SCRIPTS.parent/'version.json').read_text('utf-8')),'script_count':len(codes),'producer_identity_sha256':digest(codes)},indent=2));return
     if a.project is None:p.error('--project required')
-    file=a.project.resolve();base=file.parent;project=json.loads(file.read_text('utf-8'))
+    file=a.project.resolve();base=file.parent;project=load_project(file)
     if project.get('schema')!=1:raise ValueError('Project schema1 required')
     import re
     if not re.fullmatch(r'[A-Za-z0-9_-]{1,48}',project.get('id','production')):raise ValueError('Project id must be a short filename-safe identifier')

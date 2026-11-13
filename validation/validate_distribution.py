@@ -33,6 +33,33 @@ PUBLIC_DXCORE_GUIDS = {
 GUID_PATHS = {"blender-character-short/scripts/render_device_policy.py", "validation/validate_distribution.py"}
 
 
+def validate_execution_counts(actual: dict) -> None:
+    """Bind resumed frames to the current movie, independently of old rehearsals."""
+    for key in ("retained_frames", "final_frames", "initial_rehearsal_frames"):
+        assert type(actual[key]) is int and actual[key] > 0, "Positive integer execution counts required"
+    assert actual["retained_frames"] < actual["final_frames"], "Retained frames must fit inside the current final render"
+    assert actual["final_size"] == [1280, 720] and actual["fps"] == 24, "Declared native production size/rate differs"
+    assert type(actual["full_encoded_decode_exit"]) is int and actual["full_encoded_decode_exit"] == 0, "Successful full decode required"
+
+
+def validate_native_stage_exits(execution: dict) -> None:
+    """A reported readable cache never replaces separate successful processes."""
+    jobs = execution["independent_physics_native_stage_exits"]
+    assert set(jobs) == {"physics-bake", "physics-fresh-verify"}, "Separate bake and reader receipts required"
+    hashes = set()
+    for name, exit_field in (("physics-bake", "bake_process_exitcode"),
+                             ("physics-fresh-verify", "fresh_verify_process_exitcode")):
+        row = jobs[name]
+        assert row["status"] == "completed", "Native physics stage must complete"
+        assert type(row["returncode"]) is int and row["returncode"] == 0, "Native physics stage must exit zero"
+        value = execution["actual_existing_physics"][exit_field]
+        assert type(value) is int and value == 0, "Independent reported native exit must be zero"
+        digest = row["job_receipt_sha256"]
+        assert isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest), "Valid receipt identity required"
+        hashes.add(digest)
+    assert len(hashes) == 2, "Bake and fresh reader must have distinct receipts"
+
+
 def validate_text_privacy(relative: str, text: str) -> None:
     patterns = {
         "credential": re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{24,})"),
@@ -137,7 +164,7 @@ def validate(root: Path) -> dict:
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
     producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
-    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47", "v48", "v48.1"):
+    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47", "v48", "v48.1", "v48.2"):
         assert manifest["current_producer_sha256"] == producer_hash
         current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
         if manifest["distribution_version"] == "v46":
@@ -145,9 +172,10 @@ def validate(root: Path) -> dict:
         else:
             assert current_evidence["producer_sha256"] == manifest["historical_v46_producer_sha256"]
         assert current_evidence["static_only"] and current_evidence["source_assets_distributed"] is False
-        if manifest["distribution_version"] == "v48.1":
+        if manifest["distribution_version"] in ("v48.1", "v48.2"):
             curve = json.loads((root / manifest["curve_smoothing_evidence"]).read_text("utf-8"))
-            assert curve["distribution_version"] == "v48.1" and curve["producer_sha256"] == producer_hash
+            curve_producer = producer_hash if manifest["distribution_version"] == "v48.1" else manifest["previous_producer_sha256"]
+            assert curve["distribution_version"] == "v48.1" and curve["producer_sha256"] == curve_producer
             assert curve["source_assets_distributed"] is False
             assert curve["host_regressions"]["passed"] and curve["host_regressions"]["tests_run"] >= 12
             fixture = curve["native_fixture"]
@@ -157,7 +185,7 @@ def validate(root: Path) -> dict:
                 assert sha256((skill / "scripts" / name).read_bytes()).hexdigest() == expected
             assert sha256((skill / "scripts/curve_native_fixture.py").read_bytes()).hexdigest() == fixture["entry_sha256"]
             assert curve["continuous_normal_speed_acceptance"] is False
-            if manifest.get("publication_guard_evidence"):
+            if manifest["distribution_version"] == "v48.1" and manifest.get("publication_guard_evidence"):
                 guards = json.loads((root / manifest["publication_guard_evidence"]).read_text("utf-8"))
                 assert guards["passed"] and guards["tests_run"] >= 8
                 assert guards["production_scripts_changed"] is False and guards["source_assets_distributed"] is False
@@ -165,6 +193,33 @@ def validate(root: Path) -> dict:
                 assert set(guards["validated_files_sha256"]) == {"validation/validate_distribution.py", "validation/test_distribution_guards.py"}
                 for name, expected in guards["validated_files_sha256"].items():
                     assert sha256((root / name).read_bytes()).hexdigest() == expected
+        if manifest["distribution_version"] == "v48.2":
+            execution = json.loads((root / manifest["mcp_production_evidence"]).read_text("utf-8"))
+            assert execution["distribution_version"] == "v48.2" and execution["producer_sha256"] == producer_hash
+            assert execution["frozen_execution_producer_sha256"] == producer_hash
+            assert execution["production_version_sha256"] == sha256((skill / "version.json").read_bytes()).hexdigest()
+            assert execution["source_assets_distributed"] is False
+            expected_modules = {"mcp_jobs.py", "runtime_addons.py", "short_project.py", "saved_shot_contract.py",
+                                "saved_project_render.py", "encode_saved_project.py", "cache_existing_physics.py"}
+            assert set(execution["changed_production_modules"]) == expected_modules
+            for name, expected in execution["changed_production_modules"].items():
+                assert sha256((skill / "scripts" / name).read_bytes()).hexdigest() == expected
+            assert execution["host_regressions"]["passed"] and execution["host_regressions"]["tests_run"] >= 113
+            native = execution["native_regressions"]
+            assert native["passed"] and native["tests_run"] >= 214 and native["skips"] == 0
+            actual_execution = execution["actual_mcp"]
+            assert all(actual_execution[k] is True for k in ("doctor", "render", "encode", "cooperative_cancel_and_identity_bound_resume"))
+            validate_execution_counts(actual_execution)
+            validate_native_stage_exits(execution)
+            physical = execution["actual_existing_physics"]
+            assert all(physical[k] is True for k in ("bake_completed", "fresh_process_reopen_verified",
+                       "all_integer_rigid_controller_native_finite", "stored_assets_actions_and_rig_unchanged",
+                       "separate_appearance_comparison_passed"))
+            assert physical["scene_mmd_root_count"] >= 2 and physical["passive_body_count"] >= 1
+            assert physical["collision_or_naturalness_acceptance"] is False
+            assert execution["intermittent_uncertain_root_cause_resolved"] is False
+            assert execution["normal_speed_continuous_viewing"] is False
+            assert execution["client_process_tree_survival_verified"] is False
     else:
         assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
         assert evidence["native_producer_sha256"] == producer_hash

@@ -1,7 +1,7 @@
 {
-  "version": "v48.1",
+  "version": "v48.2",
   "base_version": "v45a-local",
-  "status": "optional-bounded-curve-smoothing-and-native-readback",
+  "status": "saved-scene-MCP-execution-and-existing-physics",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
   "ui_automation": false,
   "features": [
@@ -18,7 +18,11 @@
     "isolated dependency setup and health checks",
     "bounded animated cord smoothing with fixed endpoint and unit-weight channels",
     "shared author/readback sampling budgets and original-knot coverage",
-    "independent integrated/native curve length verification and two-process fixture"
+    "independent integrated/native curve length verification and two-process fixture",
+    "process-only activation of exact installed addon versions",
+    "saved camera and shot-plan binding in frame and movie receipts",
+    "declared actor ROOT and explicit passive physics population",
+    "bounded metadata replacement and durable prelaunch submission recovery"
   ],
   "limits": [
     "no automatic aesthetic or naturalness acceptance",
@@ -26,10 +30,11 @@
     "no bundled private assets",
     "do not replace producer during active renders",
     "client process-tree termination can interrupt workers; no automatic uncertain-job replay",
-    "new physics adapter has mocked routing tests, not a new full bake acceptance",
     "optional bridge installation and client registration need supported permission and connectivity",
     "curve route requires a plain open POLY coordinate Action with unit scale and weights",
-    "sampled curve verification does not certify physical contact or continuous visual acceptance"
+    "sampled curve verification does not certify physical contact or continuous visual acceptance",
+    "existing physics requires a separate actual bake/reopen and collision review",
+    "intermittent uncertain process-test outcome remains unresolved"
   ],
-  "previous_distribution_version": "v48"
+  "previous_distribution_version": "v48.1"
 }

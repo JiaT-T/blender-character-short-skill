@@ -1,6 +1,6 @@
 {
   "passed": true,
-  "distribution_version": "v48",
+  "distribution_version": "v48.2",
   "scope": "Distribution checks only; no PMX import, Blender render, video production, continuous viewing or listening",
   "python": "3.14.7",
   "dependencies": {
@@ -8,14 +8,14 @@
     "Pillow": "13.0.0",
     "imageio-ffmpeg": "0.6.0"
   },
-  "skill_files": 213,
-  "skill_scripts_compiled_without_bytecode": 165,
-  "validation_scripts_compiled": 13,
+  "skill_files": 225,
+  "skill_scripts_compiled_without_bytecode": 175,
+  "validation_scripts_compiled": 20,
   "json_fixtures_parsed": 6,
-  "internal_markdown_file_links_checked": 133,
+  "internal_markdown_file_links_checked": 140,
   "frontmatter_required_fields_checked": true,
   "skill_creator_quick_validate": "Standalone quick validator unavailable (PyYAML missing); publication validates required frontmatter fields and links",
-  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 245,
+  "files_reviewed_for_excluded_artifacts_and_sensitive_patterns": 267,
   "demo_media_verified": [
     "docs/media/nietiya-demo-1080p30.mp4",
     "docs/media/nietiya-demo-poster.jpg"
@@ -111,6 +111,10 @@
     },
     {
       "script": "scene_lighting_candidates.py",
+      "returncode": 0
+    },
+    {
+      "script": "curve_native_fixture.py",
       "returncode": 0
     }
   ],

@@ -3,7 +3,11 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short - v48.1
+# Blender character short - v48.2
+
+Use the [saved scene MCP execution guide](references/verified-mcp-production.md)
+for installed-addon activation, saved-camera binding, explicit actor physics
+populations and the limits of interruption recovery.
 
 For Blender execution, inspect the current setup first and follow the executable
 [component setup and recovery](references/mcp-setup.md) when dependencies are

@@ -31,7 +31,7 @@ raise SystemExit(d.get('exit_code',0))
 
 class JobsTests(unittest.TestCase):
     def setUp(self):
-        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
+        self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name).resolve()
         self.scripts=self.root/'skill'/'scripts';self.scripts.mkdir(parents=True)
         shutil.copy2(SCRIPTS/'mcp_jobs.py',self.scripts/'mcp_jobs.py')
         (self.scripts/'short_project.py').write_text(STUB,encoding='utf-8')
@@ -169,6 +169,45 @@ class JobsTests(unittest.TestCase):
         with mutex(lock):
             with self.assertRaises(OSError):
                 with mutex(lock):pass
+
+    def test_status_metadata_read_diagnostic_preserves_state_and_reservation(self):
+        job='job-metadata-diagnostic';folder=self.jobs.store/job;folder.mkdir()
+        state_path=folder/'state.json'
+        write(state_path,{'job_id':job,'status':'running','heartbeat':time.time(),'identity':'1'*64})
+        write(folder/'request.json',{'resource':str(self.project)})
+        guard=self.project.with_name(self.project.name+'.mcp-owner.json')
+        write(guard,{'job_id':job,'store':str(self.jobs.store),'identity':'1'*64})
+        before_state,before_guard=state_path.read_bytes(),guard.read_bytes()
+        error=PermissionError(13,'fixture metadata read refused\n'+'x'*300);error.winerror=32
+        def failing(path):
+            if Path(path)==state_path:raise error
+            return read(path)
+        with patch('mcp_jobs.read',side_effect=failing):state=self.jobs.status(job)
+        self.assertEqual(state['status'],'uncertain')
+        self.assertTrue(state['reservation_inspection_required'])
+        diagnostic=state['metadata_read_error']
+        self.assertEqual((diagnostic['error_type'],diagnostic['errno'],diagnostic['winerror']),('PermissionError',13,32))
+        self.assertLessEqual(len(diagnostic['message']),240);self.assertNotIn('\n',diagnostic['message'])
+        self.assertEqual(state_path.read_bytes(),before_state);self.assertEqual(guard.read_bytes(),before_guard)
+
+    def test_status_reservation_read_diagnostic_does_not_reclassify_running_state(self):
+        job='job-reservation-diagnostic';folder=self.jobs.store/job;folder.mkdir()
+        state_path=folder/'state.json';request_path=folder/'request.json'
+        write(state_path,{'job_id':job,'status':'running','heartbeat':time.time(),'identity':'1'*64})
+        write(request_path,{'resource':str(self.project)})
+        guard=self.project.with_name(self.project.name+'.mcp-owner.json')
+        write(guard,{'job_id':job,'store':str(self.jobs.store),'identity':'1'*64})
+        before_state,before_guard=state_path.read_bytes(),guard.read_bytes()
+        def failing(path):
+            if Path(path)==request_path:raise FileNotFoundError(2,'fixture reservation metadata unavailable')
+            return read(path)
+        with patch('mcp_jobs.read',side_effect=failing):state=self.jobs.status(job)
+        self.assertEqual(state['status'],'running');self.assertNotIn('metadata_read_error',state)
+        self.assertTrue(state['reservation_inspection_required'])
+        diagnostic=state['reservation_read_error']
+        self.assertEqual((diagnostic['error_type'],diagnostic['errno'],diagnostic['winerror']),('FileNotFoundError',2,None))
+        self.assertIn('fixture reservation metadata unavailable',diagnostic['message'])
+        self.assertEqual(state_path.read_bytes(),before_state);self.assertEqual(guard.read_bytes(),before_guard)
 
 
 if __name__=='__main__':unittest.main()

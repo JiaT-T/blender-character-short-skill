@@ -17,7 +17,7 @@ class PhysicsAdapter(unittest.TestCase):
 
     def test_existing_cache_bake_then_fresh_verification(self):
         with tempfile.TemporaryDirectory() as td:
-            root=Path(td);project=self.fixture(root);stages=[]
+            root=Path(td).resolve();project=self.fixture(root);stages=[]
             def native(project,base,script,args,stage):
                 stages.append(stage);self.assertEqual(script,'cache_existing_physics.py')
                 if stage=='physics-bake':
@@ -32,14 +32,14 @@ class PhysicsAdapter(unittest.TestCase):
 
     def test_existing_outputs_refused(self):
         with tempfile.TemporaryDirectory() as td:
-            root=Path(td);p=self.fixture(root);(root/'new.blend').write_bytes(b'existing')
+            root=Path(td).resolve();p=self.fixture(root);(root/'new.blend').write_bytes(b'existing')
             with patch('short_project.run_native') as native:
                 with self.assertRaises(ValueError):physics(p,root)
                 native.assert_not_called()
 
     def test_plan_source_mismatch_refused(self):
         with tempfile.TemporaryDirectory() as td:
-            root=Path(td);p=self.fixture(root);(root/'plan.json').write_text(json.dumps({'source_sha256':'0'*64}))
+            root=Path(td).resolve();p=self.fixture(root);(root/'plan.json').write_text(json.dumps({'source_sha256':'0'*64}))
             with self.assertRaises(ValueError):physics(p,root)
 
 if __name__=='__main__':unittest.main()

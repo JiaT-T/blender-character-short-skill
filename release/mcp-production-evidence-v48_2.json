@@ -1,0 +1,156 @@
+{
+  "schema": 1,
+  "distribution_version": "v48.2",
+  "producer_sha256": "ba921182305e02120a2199ceb9b7f5b22ddde5f03ca0ae721bd77d50c00d638c",
+  "source_assets_distributed": false,
+  "changed_production_modules": {
+    "mcp_jobs.py": "61afba1cad35741be8d012e5a9f9023825e2dbdddde5a54466e813ca13db579e",
+    "runtime_addons.py": "27edf59ed7c4f2faa92d6c8e16e4d48a4fe0119da902a1453c4a46da1633a41e",
+    "short_project.py": "eeda72b7ff656b77d78d3fbebfefe32fee6b14b30e02f976bfd168e693f878e3",
+    "saved_shot_contract.py": "4552b1ce25791bb75216c24c79d85f86ddcb76cfa510800b906ee26eb8e697c7",
+    "saved_project_render.py": "c5af130d9701b6d91443bf86c5d805a8dbd10a7b7cc3f9a4044a8acb1f778b14",
+    "encode_saved_project.py": "927b3a2e4450c3a46750857499e9801326acd8c238c893e54f0027aa840dde5a",
+    "cache_existing_physics.py": "d08f2f2e3e94394d8b5cfc15d995546f8dd17077a8be07c4b93b811eff68f144"
+  },
+  "host_regressions": {
+    "passed": true,
+    "tests_run": 113,
+    "runs": [
+      {
+        "tests": 111,
+        "report_sha256": "d7b730d68f0d18564b4a82fdc2fe059468cf0f0d5bbe3d69f4bfa6e40916501e"
+      },
+      {
+        "tests": 2,
+        "report_sha256": "df1eba9e54fc78536724201a6270fbb7a3a17cac4daeddfa66255144c6e65ee4"
+      }
+    ],
+    "scope": "CPU orchestration, fault injection and actual isolated stdio fixtures; two disjoint runs, not one113case run. Production module bytes are bound in both runs."
+  },
+  "native_regressions": {
+    "passed": true,
+    "tests_run": 214,
+    "skips": 0,
+    "report_sha256": "27f6a4c4ab0ca0d1518b92f935746a1f9f6f38c210a3dc991db5d305a6dec976",
+    "scope": "Asset-free native suite on the exact current script set."
+  },
+  "native_exit_guard_regressions": {
+    "passed": true,
+    "tests_run": 4,
+    "report_sha256": "420dc12dfeea219303c4e796250233c0c2a45cf588d906412b35e2e45508a0d5",
+    "test_sha256": "4d8dbf1b833d76a40057c0a7f123ee0ba81e47fdae7d90c7a3ee8e16b24a8976",
+    "module_sha256": "eeda72b7ff656b77d78d3fbebfefe32fee6b14b30e02f976bfd168e693f878e3",
+    "scope": "Four CPU fake-Popen controls: report true cannot overrule failed bake37 or fresh reader41; separate zero-exit receipts; failed outputs preserved without replay. No native process, actual cache or shared lock."
+  },
+  "publication_guard_regressions": {
+    "passed": true,
+    "tests_run": 23,
+    "validated_files_sha256": {
+      "validation/validate_distribution.py": "26a55ec0a07cc629ff72b3e03f1eeb01555ece1b1e0a2a6e084f8d9a044a2aaf",
+      "validation/test_distribution_guards.py": "230baa484fa1af8473c26db9319de891f9cd80895421b50b1d24a083773b25c0",
+      "validation/test_execution_evidence.py": "2af69e066c863ea735f6f493a373137b78a7f3b8f4d63c3fcf9c59ad9c62a67c"
+    },
+    "report_sha256": "e2f2ea3af2c0d5bfbb389e73b4da538c29bea456c8fdc2b95fb7d61fc53b1235",
+    "scope": "CPU privacy, current-vs-historical render counts, and independent native exit/receipt negative controls, and actual release inventory reporting with subprocesses mocked; no new native or aesthetic acceptance."
+  },
+  "actual_mcp": {
+    "sdk_version": "1.30.0",
+    "doctor": true,
+    "render": true,
+    "encode": true,
+    "cooperative_cancel_and_identity_bound_resume": true,
+    "retained_frames": 24,
+    "initial_rehearsal_frames": 288,
+    "final_frames": 278,
+    "final_size": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "full_encoded_decode_exit": 0,
+    "normal_speed_continuous_viewing": false,
+    "cancellation_scope": "The current175script/version final render was cooperatively cancelled after its first natural batch, then continued with identical prior frame bytes. The older168script complete rehearsal is separate history."
+  },
+  "actual_existing_physics": {
+    "bake_completed": true,
+    "bake_process_exitcode": 0,
+    "fresh_verify_process_exitcode": 0,
+    "fresh_process_reopen_verified": true,
+    "cache_frames": [
+      1,
+      302
+    ],
+    "physics_population": {
+      "actor_rigid_bodies": 933,
+      "original_joints": 1615,
+      "world_bodies": 934,
+      "world_constraints": 16748
+    },
+    "scene_mmd_root_count": 2,
+    "passive_body_count": 1,
+    "all_integer_rigid_controller_native_finite": true,
+    "stored_assets_actions_and_rig_unchanged": true,
+    "separate_appearance_comparison_passed": true,
+    "collision_or_naturalness_acceptance": false
+  },
+  "production_evidence_scope": "Actual new cache, fresh verification, final render with cancellation/resume, encode and doctor used the complete current175script identity and version bytes. Initial rehearsal used a distinct168script producer; its frames are not reused. Import and action authoring used reviewed native CLI entries, not MCP stages.",
+  "production_version_sha256": "e63f763ddb6801406969c37628cdb7dd0a9a4f7317d3ca2462b28df114a70ce8",
+  "independent_physics_native_stage_exits": {
+    "physics-bake": {
+      "job_receipt_sha256": "c24c7fc9c733905b5918ba4e44d013dd931bd5dd64f9d9165337b878f47889f1",
+      "status": "completed",
+      "returncode": 0
+    },
+    "physics-fresh-verify": {
+      "job_receipt_sha256": "facc60cac41eff2a46f3d410fd713845c278b6e87588ca236a257c2d550adb6c",
+      "status": "completed",
+      "returncode": 0
+    }
+  },
+  "historical_rehearsal_producer_sha256": "0e9b5f303e62d982310f6b6a240cb9e46301bba35e889e307cbd5f1983c7c4e5",
+  "frozen_execution_producer_sha256": "ba921182305e02120a2199ceb9b7f5b22ddde5f03ca0ae721bd77d50c00d638c",
+  "report_sha256": {
+    "mcp-current-doctor-v01.json": "f757a630fb0e3e79ed21963be16f9153cf6fd1dd01c06dbf2c55e806f099dfab",
+    "mcp-physics-doctor-v01.json": "2f39f57638f62f5885d6c6b8fd433e086bb89db9c50551d5cc0779d0bdd2ccf6",
+    "mcp-final-doctor-v01.json": "7c1791fbedef70d8c9f58b82ae09db939cf405969b17b343337ebde909d90051",
+    "mcp-baked-uncut-doctor-v04.json": "ce6990d8cdabdfcaacd91e95d765078fe8895f729e7e3477f40759ce5e513835",
+    "mcp-baked-uncut-render-v04.json": "224f4c83fd96c6c44fed08fb9e46de058ade0c37d8d3351599bf22f3b06423df",
+    "mcp-baked-uncut-encode-v04.json": "177e88a5f4e0706391dc504f6f441709f30db71e74a0cf54d6cb1e7669d906d9",
+    "mcp-board-rehearsal-v01.json": "04659822e65b8fccb276f659533fd1772ff0f6d3a98ab8edff437b60273b6b7f",
+    "mcp-board-encode-v01.json": "2a26306b596793e245c513f80d2b13580e97f473f79e6f0e5902d384a262bfcc",
+    "mcp-physics-v02.json": "09c6e8ce1a3a3035238077ee9c2378a5da2ba9a24c4889cc66f35a36bb3beadd",
+    "mcp-final-render-v01.json": "43d5df80d12905ebe5ac74430f051add8a63fa80b4085d41029efb277532f9d3",
+    "mcp-final-encode-v01.json": "81a3087739b876633b591a475ad2777be6bf26c973302ff9d1426fbf7828a7fc",
+    "physics-bake-v01.json": "e2ec716d86f08c37f1dbc3851dd4d4036653a1635f6c1034dc05c6903c422c6b",
+    "physics-fresh-verify-v01.json": "f73ba5e7293ebef752445c254cfc2b9613c8a590d0a01301bf7a18bfd0a3e478",
+    "baked-appearance-v01.json": "f378c9766d9480cc6b3e4e0c2ef2026a19794485f1d32b8e46fe29f38d5d8ac0"
+  },
+  "pre_native_missing_doctor_failure": {
+    "preserved": true,
+    "report_sha256": "25efe2e2426947cf58a18798873368ef0170e73fd73ec6a58c812c272efa90f8",
+    "explicit_recovery_sha256": "15a3ae2df6ff88ed657abcc9c9e9d7bb576f7427eec0d02989ed14b9d7a07944",
+    "new_project_doctor_sha256": "2f39f57638f62f5885d6c6b8fd433e086bb89db9c50551d5cc0779d0bdd2ccf6",
+    "scope": "One known missing runtime report failed before any native bake. Retained original uncertainty record; inspected host descendants and absent output, archived exact reservation under existing locks, then ran project doctor and a new explicit request. Does not explain the earlier intermittent host test."
+  },
+  "preserved_candidate_host_failure": {
+    "report_sha256": "09ab25aaf85d473656642b9890657bec1fee48d2f6864fca42008acc9a31d42f",
+    "tests_run": 113,
+    "uncertain_case": "test_complete_persisted_duplicate",
+    "scope": "Original full-context candidate run retained. Temporary path-alias fixture issues were corrected separately; the intermittent uncertain outcome itself has no established cause or fix."
+  },
+  "intermittent_uncertain_root_cause_resolved": false,
+  "normal_speed_continuous_viewing": false,
+  "excluded_candidate_features": [
+    "bridge setup changes",
+    "controller twist solver"
+  ],
+  "client_process_tree_survival_verified": false,
+  "publication_inventory_regression": {
+    "original_report_sha256": "b96ddcfe436f8eb8443991f8f62fdb6e8d0eae242b65706c09bfc81b9e624a12",
+    "original_report_file_count": 13,
+    "expected_inventory_file_count": 225,
+    "failure_reproduced_before_fix": true,
+    "red_test_log_sha256": "0c0fd5a40b904ac19d6857444315ac13260de2f4590bb7b94526bdab78cb9583",
+    "scope": "The full file/hash gate already passed. A reused local execution variable incorrectly replaced the inventory only in the returned count. Rename that local; the new regression exercises the complete release branch with subprocesses mocked. No production script or version byte changed."
+  }
+}
