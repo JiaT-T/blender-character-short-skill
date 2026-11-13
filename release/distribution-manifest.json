@@ -278,5 +278,6 @@
     ],
     "modified_existing_production_scripts": false,
     "native_fixture_outputs_distributed": false
-  }
+  },
+  "publication_guard_evidence": "release/publication-path-guards-v48_1b.json"
 }

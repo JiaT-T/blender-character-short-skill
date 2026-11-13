@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "passed": true,
+  "tests_run": 8,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "test_environment": "Host Python3.14.7; no Blender or external service required.",
+  "validated_files_sha256": {
+    "validation/validate_distribution.py": "57873f341efd6e3ccd81f97b4bde78c8d6a60d419ecf717ba2b66a8bdcf0ac78",
+    "validation/test_distribution_guards.py": "230baa484fa1af8473c26db9319de891f9cd80895421b50b1d24a083773b25c0"
+  },
+  "producer_sha256": "88a070fcb45b4e1a17fca1476bf9ff52f1a0962c9957520a46397b3eb2b05ee2",
+  "production_scripts_changed": false,
+  "source_assets_distributed": false,
+  "problem": "The previous machine-path check missed arbitrary Windows workspace roots and escaped JSON/Python representations.",
+  "behavior": "Reject absolute Windows drive paths with one or more separators, including extended drive prefixes. Keep ordinary HTTPS URLs and relative asset references valid.",
+  "validation_scope": "Eight focused publication regressions; no change to production scripts, native fixture evidence, rendering, motion or physical acceptance.",
+  "unrelated_mcp_limitation": "The previously recorded intermittent MCP process regression is unchanged and remains unresolved."
+}

@@ -37,7 +37,7 @@ def validate_text_privacy(relative: str, text: str) -> None:
     patterns = {
         "credential": re.compile(r"(?:gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{24,})"),
         "private-key": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-        "machine-path": re.compile(r"\b[A-Za-z]:[\\/](?:Users|Documents|Program Files|Python|project)[\\/]|(?<![A-Za-z0-9_])/(?:root|home|Users|mnt|tmp)/[A-Za-z0-9_.-]+"),
+        "machine-path": re.compile(r"(?<![A-Za-z0-9_])[A-Za-z]:[\\/]+|(?<![A-Za-z0-9_])/(?:root|home|Users|mnt|tmp)/[A-Za-z0-9_.-]+"),
         "session-uuid": re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.IGNORECASE),
         "email": re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"),
     }
@@ -157,6 +157,14 @@ def validate(root: Path) -> dict:
                 assert sha256((skill / "scripts" / name).read_bytes()).hexdigest() == expected
             assert sha256((skill / "scripts/curve_native_fixture.py").read_bytes()).hexdigest() == fixture["entry_sha256"]
             assert curve["continuous_normal_speed_acceptance"] is False
+            if manifest.get("publication_guard_evidence"):
+                guards = json.loads((root / manifest["publication_guard_evidence"]).read_text("utf-8"))
+                assert guards["passed"] and guards["tests_run"] >= 8
+                assert guards["production_scripts_changed"] is False and guards["source_assets_distributed"] is False
+                assert guards["producer_sha256"] == producer_hash
+                assert set(guards["validated_files_sha256"]) == {"validation/validate_distribution.py", "validation/test_distribution_guards.py"}
+                for name, expected in guards["validated_files_sha256"].items():
+                    assert sha256((root / name).read_bytes()).hexdigest() == expected
     else:
         assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
         assert evidence["native_producer_sha256"] == producer_hash
