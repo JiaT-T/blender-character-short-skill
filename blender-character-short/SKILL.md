@@ -3,7 +3,7 @@ name: blender-character-short
 description: Make local Blender shorts for MMD PMX/PMD characters, preferably from existing MMR controllers. Prepare a skin-verified baseline, transfer a reviewed packed look, use Eevee and the saved frame rate with identity-bound render resumes, then encode and report actual acceptance.
 ---
 
-# Blender character short - v48
+# Blender character short - v48.1
 
 For Blender execution, inspect the current setup first and follow the executable
 [component setup and recovery](references/mcp-setup.md) when dependencies are
@@ -102,6 +102,11 @@ workflow lessons from local projects, not new executable producer capabilities.
 Use the [saved-project refinement stage](references/static-refinement.md) to apply reviewed compositor and stage-only material/light plans, with a source hash, backup, separate output and fresh-reopen protection checks. This updates existing saved projects; it does not automatically select assets, judge style, or certify animation.
 
 ## Shot planning and review aids
+
+For visible corners in an existing animated cord, use the optional
+[bounded curve smoothing and independent read-back route](references/curve-smoothing.md).
+Keep its external plans and generated projects outside this skill. Verify actual
+serialized geometry before rendering; retain separate contact and playback gates.
 
 For a new film, use the [shot contract and planned-video review](references/shot-review.md)
 to make timing, action endpoints and declared continuity explicit. The video scan

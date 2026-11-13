@@ -19,7 +19,7 @@ HOST_CLI = (
     "mcp_jobs.py", "mcp_service.py", "mcp_setup.py", "calibrate_character.py", "compare_videos.py", "convert_glb_motion.py", "encode_video.py",
     "execution_lock.py", "post_sequence.py", "run_short.py", "smaa_cpu.py",
     "source_post.py", "verify_glb_motion.py", "verify_post.py", "verify_post_budget.py", "video_qa.py",
-    "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py", "shot_plan.py", "planned_video_review.py", "scene_lighting_candidates.py",
+    "short_project.py", "encode_saved_project.py", "refine_saved_project.py", "production_workflow.py", "shot_plan.py", "planned_video_review.py", "scene_lighting_candidates.py", "curve_native_fixture.py",
 )
 
 
@@ -137,7 +137,7 @@ def validate(root: Path) -> dict:
     evidence = json.loads((root / manifest["runtime_evidence"]).read_text("utf-8"))
     assert evidence["source_generic_zip_sha256"] == manifest["source_archive_sha256"]
     producer_hash = sha256(json.dumps({p.name:sha256(p.read_bytes()).hexdigest() for p in scripts},sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False).encode()).hexdigest()
-    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47", "v48"):
+    if manifest["distribution_version"] in ("v46", "v46.1", "v47-candidate", "v47", "v48", "v48.1"):
         assert manifest["current_producer_sha256"] == producer_hash
         current_evidence = json.loads((root / manifest["refinement_evidence"]).read_text("utf-8"))
         if manifest["distribution_version"] == "v46":
@@ -145,6 +145,18 @@ def validate(root: Path) -> dict:
         else:
             assert current_evidence["producer_sha256"] == manifest["historical_v46_producer_sha256"]
         assert current_evidence["static_only"] and current_evidence["source_assets_distributed"] is False
+        if manifest["distribution_version"] == "v48.1":
+            curve = json.loads((root / manifest["curve_smoothing_evidence"]).read_text("utf-8"))
+            assert curve["distribution_version"] == "v48.1" and curve["producer_sha256"] == producer_hash
+            assert curve["source_assets_distributed"] is False
+            assert curve["host_regressions"]["passed"] and curve["host_regressions"]["tests_run"] >= 12
+            fixture = curve["native_fixture"]
+            assert fixture["author_completed"] and fixture["fresh_reader_completed"] and fixture["different_processes"]
+            assert fixture["passed"] and all(fixture["checks"].values())
+            for name, expected in fixture["module_sha256"].items():
+                assert sha256((skill / "scripts" / name).read_bytes()).hexdigest() == expected
+            assert sha256((skill / "scripts/curve_native_fixture.py").read_bytes()).hexdigest() == fixture["entry_sha256"]
+            assert curve["continuous_normal_speed_acceptance"] is False
     else:
         assert manifest["all_scripts_byte_identical_to_frozen_v45a"]
         assert evidence["native_producer_sha256"] == producer_hash

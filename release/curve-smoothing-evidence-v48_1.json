@@ -1,0 +1,92 @@
+{
+  "schema": 1,
+  "distribution_version": "v48.1",
+  "producer_sha256": "88a070fcb45b4e1a17fca1476bf9ff52f1a0962c9957520a46397b3eb2b05ee2",
+  "source_assets_distributed": false,
+  "host_regressions": {
+    "tests_run": 12,
+    "failures": 0,
+    "errors": 0,
+    "skips": 0,
+    "passed": true
+  },
+  "native_fixture": {
+    "author_completed": true,
+    "fresh_reader_completed": true,
+    "different_processes": true,
+    "passed": true,
+    "checks": {
+      "native_length": true,
+      "integrated_length": true,
+      "independent_quadrature": true,
+      "native_pair_agrees": true,
+      "displacement": true,
+      "evaluated_endpoints_identical": true,
+      "endpoint_channels_identical": true,
+      "world_matrix_identical": true,
+      "source_preserved": true,
+      "candidate_preserved": true,
+      "plan_preserved": true
+    },
+    "module_sha256": {
+      "curve_smoothing.py": "ba45c308abf09a134f862a6b8bb5c2332ea7cd889110039ff563c916f032a672",
+      "curve_verification.py": "ceb9e544f90db3880ce6e08ef4e5ef5ea406f1e0deb8f604e8bf3f70b87de8ca",
+      "curve_native_metrics.py": "8e9c762440f8f4d34dfb35645e6a7637f42822b26c4cbd72646f2f36fc7ca02f",
+      "smooth_curve.py": "46c0848d53e1587834e196809dac9cda8ffd79f5631393cdf6ebfe9fd9d1d360",
+      "verify_smoothed_curve.py": "a3dbec043d458fb70d53570a8d4bf9a7412ad4a74cf6599a3c40905371a8c72f"
+    },
+    "entry_sha256": "1d1957d0dccbc9a168393423b103a59ee33f60b9a3de37db62ab257d34c04566",
+    "blender_version": "4.5.15 LTS",
+    "host_platform": "Windows",
+    "action_api": "legacy Action.fcurves",
+    "control_count": 13,
+    "coordinate_channels": 52,
+    "sample_count": 257,
+    "required_times": 17,
+    "saved_knots": 65,
+    "original_knots": 33,
+    "maximum_native_length_error": 5.483627318891848e-08,
+    "maximum_integrated_length_error": 8.051004085629643e-09,
+    "maximum_native_quadrature_error": 5.1957083829767825e-08,
+    "maximum_native_resolution_delta": 6.705522537231445e-08,
+    "maximum_control_shift": 0.0001376774162054062,
+    "maximum_endpoint_error": 0.0,
+    "native_resolutions_used": [
+      24,
+      28,
+      32,
+      36,
+      40
+    ]
+  },
+  "extended_host_suite": {
+    "tests_run": 181,
+    "passed": true,
+    "failures": 0,
+    "errors": 0,
+    "skips": 5,
+    "native_only_modules_not_run": [
+      "test_arm_rotation_plan",
+      "test_existing_controller_action_inputs",
+      "test_foot_reference",
+      "test_mmd_physics",
+      "test_recorded_body_plan",
+      "test_sphere_grasp_math"
+    ]
+  },
+  "inherited_mcp_suite": {
+    "tests_run": 125,
+    "failures": 1,
+    "errors": 0,
+    "skips": 6,
+    "passed": false,
+    "observed_failure": "test_complete_persisted_duplicate returned uncertain instead of completed",
+    "followup": "Six isolated repetitions passed; intermittent failure remains unresolved and original failure record is retained locally.",
+    "production_mcp_changed": false,
+    "production_mcp_acceptance": false
+  },
+  "continuous_normal_speed_acceptance": false,
+  "continuous_time_proof": false,
+  "physical_contact_proof": false,
+  "scope": "Optional bounded animated POLY-to-cubic conversion and independent native readback. Full-story, dynamics, other Blender APIs/platforms and MCP reliability require separate acceptance."
+}

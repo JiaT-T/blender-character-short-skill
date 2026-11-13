@@ -1,6 +1,17 @@
-# Blender Character Short Skill · v48
+# Blender Character Short Skill · v48.1
 
-面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v48`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+面向 **MMD PMX/PMD 骨架**的本地 Blender 短片制作 skill。优先使用已生成的 MMR 控制器，将角色映射、模型、动作、材质资产与通用代码分开。当前制作入口为 [`short_project.py`](blender-character-short/scripts/short_project.py)，完整合同见[当前流程](blender-character-short/references/current-production.md)。生产者标识保留为 `v48.1`，公开版本与分发差异见[发布清单](release/distribution-manifest.json)。
+
+## v48.1: bounded animated cord smoothing
+
+The optional [curve smoothing route](blender-character-short/references/curve-smoothing.md)
+replaces visible POLY corners with a bounded cubic curve, preserves original
+endpoint and weight channels, and independently checks the saved result against
+all original knots and declared contact times. Shared verification budgets fail
+before mutation. Native length measurements must agree with independent cubic
+integration. A portable two-process fixture exercises the real Blender writer and
+reader; [stage evidence](release/curve-smoothing-evidence-v48_1.json) records the
+measured scope. Contact and normal-speed visual acceptance remain separate gates.
 
 ## v48: optional asynchronous Blender execution
 

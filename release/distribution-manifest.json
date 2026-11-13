@@ -1,12 +1,12 @@
 {
-  "distribution_version": "v48",
+  "distribution_version": "v48.1",
   "frozen_producer_version": "v45a-local",
   "source_archive": "v45a-local-generic-skill.zip",
   "source_archive_sha256": "5f9f8da0b8cd922e6992e5da705f77bd498554a5a301d22dd1442fca80e5dff2",
   "source_archive_not_bundled": true,
   "source_delivery_receipt_and_zip_hashes_verified": true,
-  "source_file_count": 213,
-  "script_count": 165,
+  "source_file_count": 222,
+  "script_count": 173,
   "inventory_is_not_quality_acceptance": true,
   "all_scripts_byte_identical_to_frozen_v45a": false,
   "producer_version_json_byte_identical": false,
@@ -20,6 +20,7 @@
     "blender-character-short/references/character-formula-cases.json": "f202a1ea10dbff1f7868de4bbb9be58cd038bddf1ae7abeab333ab3875f12dd2",
     "blender-character-short/references/character-region-surfaces.md": "ddc3652856bfd30ddeeaf50b93e6ae906340319ee7e68248050a51fe80bc07d0",
     "blender-character-short/references/current-production.md": "7d67afd04d3fbff67b5bd7b529cb4dd85e9c55950d0af59dbd38bf6830b02f2b",
+    "blender-character-short/references/curve-smoothing.md": "e545c0376ddbfb0b5f58f4e3bd655a6deb60a8bc906e310e1d7fa3af280d4b9c",
     "blender-character-short/references/elbow-poles.md": "86848878f57afb5b66487215c7e49a8c023061fd81534a1026ac27cf10b69c81",
     "blender-character-short/references/execution.md": "0275acadf28b708bb97d0d3e48a9d58165807a95bfc933a5130df67bf356c92a",
     "blender-character-short/references/existing-controller-projects.md": "1d11bd1579fce6a0796d6bf2d8a5ad4171a7b0508eaa0968b191700635388290",
@@ -100,6 +101,10 @@
     "blender-character-short/scripts/compose_recorded_actions.py": "f1cf47f2beb5b50c5a0ea1e5a6609dec128bf18fc4b66634d3d324a9b66cb461",
     "blender-character-short/scripts/contact_motion.py": "d3371bf1fcfa77de1f8f1412a62e970708b64b1104f21e9fdcbf17c2168735c2",
     "blender-character-short/scripts/convert_glb_motion.py": "991169d1b63b200dc55359455911859f647c902040a6817f58c0a63a3d5b22b6",
+    "blender-character-short/scripts/curve_native_fixture.py": "1d1957d0dccbc9a168393423b103a59ee33f60b9a3de37db62ab257d34c04566",
+    "blender-character-short/scripts/curve_native_metrics.py": "8e9c762440f8f4d34dfb35645e6a7637f42822b26c4cbd72646f2f36fc7ca02f",
+    "blender-character-short/scripts/curve_smoothing.py": "ba45c308abf09a134f862a6b8bb5c2332ea7cd889110039ff563c916f032a672",
+    "blender-character-short/scripts/curve_verification.py": "ceb9e544f90db3880ce6e08ef4e5ef5ea406f1e0deb8f604e8bf3f70b87de8ca",
     "blender-character-short/scripts/elbow_pole_plan.py": "f4dd56c3aae072ae7f42b13be1ff5286a3161800e9e86fd27beeedc73d469233",
     "blender-character-short/scripts/encode_saved_project.py": "0fd209a4157765848e13ac6d5f89893bf8f6b2a9808a45866d1adeeabf8925ff",
     "blender-character-short/scripts/encode_video.py": "63c1c1583f23ababc2484692464049c638627512f556982bcef5b2b531717a6a",
@@ -175,6 +180,7 @@
     "blender-character-short/scripts/short_project.py": "99155b124ab726f816735e7c823d90bf52f9588f8d25eebded427515e14bd38f",
     "blender-character-short/scripts/shot_plan.py": "c623254e54b68c714cedfe1d0e43ecb03be63b05a34ceee6c7f30eac7e78dd18",
     "blender-character-short/scripts/smaa_cpu.py": "1a6ca6ba144075ccc60d925dbaebe85bd6801c24864d5a895cbffa885b418169",
+    "blender-character-short/scripts/smooth_curve.py": "46c0848d53e1587834e196809dac9cda8ffd79f5631393cdf6ebfe9fd9d1d360",
     "blender-character-short/scripts/source_motion.py": "f68bca02f619571beb385751baa6c6cdad1df54beec6ec83691e68202f5533f3",
     "blender-character-short/scripts/source_motion_layer.py": "fbfce575bd4e90d9a94ddbd0b35ab4674ac73c2c5cecb47bd9829af7fd2ee769",
     "blender-character-short/scripts/source_outline.py": "a18256a6b32dd343c8225778fd07f2a0db5d4edb3cdb16c4c5135a81d7a37f52",
@@ -188,6 +194,8 @@
     "blender-character-short/scripts/test_arm_rotation_plan.py": "cf81dbf49abc94b185c855b4ab20dea68b0b1dc868ea3c3fa1e9d631b2484842",
     "blender-character-short/scripts/test_artifact_binding.py": "80838d23c26e651198bd95f8a8375acbfae3ef8c0f5857c81cf3913860ef6146",
     "blender-character-short/scripts/test_bvh_source_plan.py": "f438281253926d849bf6e6b07dfecde7cc1b8078bdfb0a2b7206513092946446",
+    "blender-character-short/scripts/test_curve_smoothing.py": "be85e3a6510d801e70ed820f077b08388714444c43c71f2bfb502c7f971e277a",
+    "blender-character-short/scripts/test_curve_verification.py": "32c2c13cd8d632dcbb4a71cdbeee5d7dd5b33388d60d62ff25752cc0abf6315d",
     "blender-character-short/scripts/test_existing_controller_action_inputs.py": "d71780af03c03d5fa311c7d2896ea9dc0b2680bcb22cbb752d95bb095eace88d",
     "blender-character-short/scripts/test_existing_controller_plan.py": "55241352e5fd05affe6d0921a38e995d8d0872f3cb580c1eb07b167f1f91b0e2",
     "blender-character-short/scripts/test_foot_reference.py": "52a9e9b850b19098084f699e599d8fc91cef1a9c89d89aaf431275eeadde4374",
@@ -218,13 +226,14 @@
     "blender-character-short/scripts/verify_scene.py": "0f1da48e2989ed7a9a7406cf7261f3395bda5d2affe12f3158dd7946ae87fc3a",
     "blender-character-short/scripts/verify_scene_feedback.py": "df3ec3861a5e6a24382a614abc24f8d1fdd48a108e6405c79c99d69f3f76e41a",
     "blender-character-short/scripts/verify_scene_tempo.py": "9389fef5b1c4b772fff7ba4a75fcfaae5e8b49acbaf3f2a4a39462335075317a",
+    "blender-character-short/scripts/verify_smoothed_curve.py": "a3dbec043d458fb70d53570a8d4bf9a7412ad4a74cf6599a3c40905371a8c72f",
     "blender-character-short/scripts/verify_source_motion.py": "18f24584e2c123e95ec51d2c59557d12ad376caf1927a6d91c0cd33caafc9af0",
     "blender-character-short/scripts/verify_source_outline.py": "2712f627dec753ea0c98555f6ece780522bc478fbcd3a5e716845581ab69e104",
     "blender-character-short/scripts/verify_story_parenting.py": "f8fad50a6e942221c9c25c2f67053d766a45f2ee6bca1ceb469c97b41a185218",
     "blender-character-short/scripts/verify_support_motion.py": "89d3c2eaccf2274b9ad16fe10ac242944d5b2e647a8f8d7eb10d06ac6f6f19c6",
     "blender-character-short/scripts/video_qa.py": "0257cf99a132e7d8ee6e3685a7d3c3498771c6bf43dad7e5d68407d46f3d273a",
-    "blender-character-short/SKILL.md": "7115dae0015164b9d744597ca9fcde8daa6f7f2101a622bc1292f300d7d9dc8f",
-    "blender-character-short/version.json": "a78c584308a9de0557445f6fbe60433452092b23a8dcf8859b70e54598f184ef"
+    "blender-character-short/SKILL.md": "2a2d2c4e702a53aac4be2504bc7bf327bfc01bc6e453cd56c0350fc09a75d28e",
+    "blender-character-short/version.json": "4afa874ad4bb65f6177501eeace5d0939d5e41e896b08b20a48a7198ac5dbe08"
   },
   "historical_v43a_manifest": "release/history/v43a-distribution-manifest.json",
   "historical_v33_manifest": "release/history/v33-distribution-manifest.json",
@@ -236,11 +245,11 @@
     "Addon/dependency sources, binaries, credentials and caches"
   ],
   "existing_demo_policy": "Preserve the exact previously published demo media and credits; no new media in this update.",
-  "documentation_update": "v46 executable refinement contract and static evidence",
+  "documentation_update": "v48.1 optional bounded animated curve smoothing and separately measured native readback",
   "base_distribution_version": "v45a",
-  "source_archive_role": "Historical base archive only; v46 additions and modifications are listed in this manifest",
+  "source_archive_role": "Historical base archive only; current additions and modifications are listed in this manifest",
   "original_frozen_source_file_count": 196,
-  "current_producer_sha256": "a204a6b9853c67ffc5263749852334f903b7bcfd70542fc7fb5f9857afe5c81f",
+  "current_producer_sha256": "88a070fcb45b4e1a17fca1476bf9ff52f1a0962c9957520a46397b3eb2b05ee2",
   "refinement_evidence": "release/refinement-evidence-v46.json",
   "v46_code_changes": {
     "added": [
@@ -254,5 +263,20 @@
     "version_json": "v46"
   },
   "historical_v46_producer_sha256": "9551c8fcef8ddbf379c71d08822ffcb2ef95bc11cea472865e5d2624fabe0ecc",
-  "mcp_evidence": "release/v48-mcp-evidence.json"
+  "mcp_evidence": "release/v48-mcp-evidence.json",
+  "curve_smoothing_evidence": "release/curve-smoothing-evidence-v48_1.json",
+  "v48_1_code_changes": {
+    "added": [
+      "curve_smoothing.py",
+      "curve_verification.py",
+      "curve_native_metrics.py",
+      "smooth_curve.py",
+      "verify_smoothed_curve.py",
+      "curve_native_fixture.py",
+      "test_curve_smoothing.py",
+      "test_curve_verification.py"
+    ],
+    "modified_existing_production_scripts": false,
+    "native_fixture_outputs_distributed": false
+  }
 }

@@ -1,7 +1,7 @@
 {
-  "version": "v48",
+  "version": "v48.1",
   "base_version": "v45a-local",
-  "status": "optional-durable-mcp-execution",
+  "status": "optional-bounded-curve-smoothing-and-native-readback",
   "target": "Reviewed saved MMD/MMR Eevee projects with explicit scene scope",
   "ui_automation": false,
   "features": [
@@ -15,7 +15,10 @@
     "optional persistent MCP job adapter",
     "idempotent resource-guarded stage execution",
     "cooperative batch-boundary cancellation",
-    "isolated dependency setup and health checks"
+    "isolated dependency setup and health checks",
+    "bounded animated cord smoothing with fixed endpoint and unit-weight channels",
+    "shared author/readback sampling budgets and original-knot coverage",
+    "independent integrated/native curve length verification and two-process fixture"
   ],
   "limits": [
     "no automatic aesthetic or naturalness acceptance",
@@ -24,6 +27,9 @@
     "do not replace producer during active renders",
     "client process-tree termination can interrupt workers; no automatic uncertain-job replay",
     "new physics adapter has mocked routing tests, not a new full bake acceptance",
-    "optional bridge installation and client registration need supported permission and connectivity"
-  ]
+    "optional bridge installation and client registration need supported permission and connectivity",
+    "curve route requires a plain open POLY coordinate Action with unit scale and weights",
+    "sampled curve verification does not certify physical contact or continuous visual acceptance"
+  ],
+  "previous_distribution_version": "v48"
 }
